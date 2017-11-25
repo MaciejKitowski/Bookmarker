@@ -3,6 +3,7 @@ package mvc.dao;
 import java.util.logging.Logger;
 
 import mvc.dao.mysql.MysqlDAOFactory;
+import mvc.dao.postgres.PostgresDAOFactory;
 import mvc.dao.sqlite.SqliteDAOFactory;
 
 public abstract class DAOFactory {
@@ -10,15 +11,20 @@ public abstract class DAOFactory {
 	
 	public static final int SQLITE = 1;
 	public static final int MYSQL = 2;
+	public static final int POSTGRES = 3;
 
 	public static DAOFactory get(int database) {
 		if(database == SQLITE) {
 			log.info("Get SQLite database factory");
 			return new SqliteDAOFactory();
 		}
-		else if(database == 2) {
+		else if(database == MYSQL) {
 			log.info("Get SQLite database factory");
 			return new MysqlDAOFactory();
+		}
+		else if(database == POSTGRES) {
+			log.info("Get PostgreSQL database factory");
+			return new PostgresDAOFactory();
 		}
 		else {
 			log.warning("Wrong database selection");
