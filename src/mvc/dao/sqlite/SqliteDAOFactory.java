@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import mvc.dao.DAOFactory;
 
-public class SqliteDAOFactory extends DAOFactory {
+public final class SqliteDAOFactory extends DAOFactory {
 	private static final Logger log = Logger.getLogger(SqliteDAOFactory.class.getName());
 	
 	private static final String DRIVER = "org.sqlite.JDBC";
