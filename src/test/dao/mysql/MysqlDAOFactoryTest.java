@@ -1,4 +1,4 @@
-package test.mvc.dao.mysql;
+package test.dao.mysql;
 
 import static org.junit.Assert.*;
 
