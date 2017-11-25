@@ -23,7 +23,6 @@ public final class SqliteDAOFactory extends DAOFactory {
     	}
     	catch(SQLException ex) {
     		log.warning(ex.getMessage());
-    		log.warning(ex.getSQLState());
     	} catch (ClassNotFoundException ex) {
 			log.warning(ex.getMessage());
 		}

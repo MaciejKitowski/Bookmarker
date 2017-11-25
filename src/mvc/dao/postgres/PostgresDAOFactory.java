@@ -12,7 +12,7 @@ public final class PostgresDAOFactory extends DAOFactory {
 	private static final Logger log = Logger.getLogger(SqliteDAOFactory.class.getName());
 	
 	private static final String DRIVER = "org.postgresql.Driver";
-    private static final String URL = "jdbc:postgresql://localhost:5432/bookmarker";
+    private static final String URL = "jdbc:postgresql://localhost/bookmarker";
     private static final String USERNAME = "bookmarker";
     private static final String USERPASSWORD = "admin1";
     
@@ -26,7 +26,6 @@ public final class PostgresDAOFactory extends DAOFactory {
     	}
     	catch(SQLException ex) {
     		log.warning(ex.getMessage());
-    		log.warning(ex.getSQLState());
     	} catch (ClassNotFoundException ex) {
 			log.warning(ex.getMessage());
 		}
