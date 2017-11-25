@@ -14,6 +14,7 @@ public class SqliteDAOFactory extends DAOFactory {
     private static final String URL = "jdbc:sqlite:sqlite.db";
     
     public static Connection getConnection() {
+    	log.info("Get connection");
     	Connection connection = null;
     	
     	try {
