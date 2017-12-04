@@ -3,7 +3,7 @@ package mvc.dao;
 import java.util.logging.Logger;
 
 import mvc.dao.mysql.MysqlDAOFactory;
-import mvc.dao.postgres.PostgresDAOFactory;
+import mvc.dao.postgres.PostgresFactory;
 import mvc.dao.sqlite.SqliteFactory;
 
 public abstract class DAOFactory {
@@ -24,7 +24,7 @@ public abstract class DAOFactory {
 		}
 		else if(database == POSTGRES) {
 			log.info("Get PostgreSQL database factory");
-			return new PostgresDAOFactory();
+			return new PostgresFactory();
 		}
 		else {
 			log.warning("Wrong database selection");
