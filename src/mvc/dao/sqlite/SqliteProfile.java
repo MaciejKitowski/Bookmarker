@@ -60,7 +60,7 @@ public final class SqliteProfile implements IProfileDAO {
 	}
 
 	@Override
-	public int create(Profile profile) {
+	public int insert(Profile profile) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

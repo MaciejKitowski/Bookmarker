@@ -6,7 +6,7 @@ import mvc.model.Profile;
 
 public interface IProfileDAO {
 	public void createTable();
-	public int create(Profile profile);
+	public int insert(Profile profile);
 	
 	public Profile get(int ID);
 	public List<Profile> getAll();
