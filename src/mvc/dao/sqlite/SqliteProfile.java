@@ -34,8 +34,6 @@ public final class SqliteProfile implements IProfileDAO {
 	
 	
 	/*
-    private static final String READALL_QUERY = 
-    		"SELECT id, imie, nazwisko, miasto, rok_urodzenia FROM klient";
     private static final String UPDATE_QUERY = 
     		"UPDATE klient SET imie=?, nazwisko=?, miasto=?,rok_urodzenia=?  WHERE id = ?";
     private static final String DELETE_QUERY = 
@@ -130,14 +128,14 @@ public final class SqliteProfile implements IProfileDAO {
 	public List<Profile> getAll() {
 		List<Profile> profiles = new ArrayList<>();
 		Connection connection = null;
-		PreparedStatement statement = null;
+		Statement statement = null;
 		ResultSet result = null;
 		
 		try {
 			connection = SqliteFactory.getConnection();
-			statement = connection.prepareStatement(GET_ALL);
+			statement = connection.createStatement();
 			
-			result = statement.getResultSet();
+			result = statement.executeQuery(GET_ALL);
 			if(result != null) {
 				while(result.next()) {
 					int foundID = result.getInt(1);
@@ -146,6 +144,10 @@ public final class SqliteProfile implements IProfileDAO {
 					profiles.add(new Profile(foundID, foundName));
 				}
 			}
+			
+			result.close();
+			statement.close();
+			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
