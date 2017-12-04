@@ -13,6 +13,7 @@ import org.junit.Test;
 import mvc.dao.model_interfaces.IProfileDAO;
 import mvc.dao.sqlite.SqliteFactory;
 import mvc.dao.sqlite.SqliteProfile;
+import mvc.model.Profile;
 
 public final class SqliteProfileTest {
 	
@@ -38,5 +39,30 @@ public final class SqliteProfileTest {
 		List<String> tables = getTableNames();
 		
 		assertTrue(tables.contains("profile"));
+	}
+	
+	@Test
+	public void insertTest() {
+		Profile profile = new Profile("singleInsertTest");
+		IProfileDAO profileDAO = new SqliteProfile();
+		
+		int result = profileDAO.insert(profile);
+		
+		assertNotEquals(result, SqliteProfile.INSERT_FAIL);
+	}
+	
+	@Test
+	public void insertMultipleTest() {
+		String namePatternt = "multipleInsertTest_%d";
+		int insertCount = 10;
+		IProfileDAO profileDAO = new SqliteProfile();
+		
+		for(int i = 0; i < insertCount; ++i) {
+			Profile profile = new Profile(String.format(namePatternt, i + 1));
+			
+			int result = profileDAO.insert(profile);
+			
+			assertNotEquals(result, SqliteProfile.INSERT_FAIL);
+		}
 	}
 }

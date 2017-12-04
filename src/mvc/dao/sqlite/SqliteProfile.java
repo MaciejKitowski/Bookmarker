@@ -3,14 +3,11 @@ package mvc.dao.sqlite;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Logger;
 
-import mvc.dao.SqliteDAOFactory;
 import mvc.dao.model_interfaces.IProfileDAO;
-import mvc.model.Klient;
 import mvc.model.Profile;
 
 public final class SqliteProfile implements IProfileDAO {
