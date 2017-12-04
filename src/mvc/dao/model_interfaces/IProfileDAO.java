@@ -5,7 +5,7 @@ import java.util.List;
 import mvc.model.Profile;
 
 public interface IProfileDAO {
-	public int createTable();
+	public void createTable();
 	public int create(Profile profile);
 	
 	public Profile get(int ID);
