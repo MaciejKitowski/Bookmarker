@@ -14,9 +14,12 @@ public final class SqliteProfile implements IProfileDAO {
 	
 	private static final String CREATE_TABLE = 
 	"CREATE TABLE profile( \n" +
-			"ID 	INTEGER 	PRIMARY KEY 	AUTOINCREMENT, \n" +
-			"name	VARCHaR(255)	NOT NULL, \n" + 
+			"ID 	INTEGER 	PRIMARY KEY AUTOINCREMENT, \n" +
+			"name	VARCHAR(255) NOT NULL \n" + 
 	")";
+	
+
+			
 	
 	
 	
@@ -48,8 +51,8 @@ public final class SqliteProfile implements IProfileDAO {
 			
 			statement.execute(CREATE_TABLE);
 			
-			connection.close();
 			statement.close();
+			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
