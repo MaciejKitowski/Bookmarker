@@ -102,4 +102,25 @@ public final class SqliteProfileTest {
 		
 		assertTrue((result != null && result.size() == getProfileCount()));
 	}
+	
+	@Test
+	public void updateTest() {
+		IProfileDAO profileDAO = new SqliteProfile();
+		Profile toUpdate = profileDAO.get(1);
+		toUpdate.setName(toUpdate.getName() + "-UPDATED");
+		
+		boolean result = profileDAO.update(toUpdate);
+		
+		assertTrue(result);
+	}
+	
+	@Test
+	public void deleteTest() {
+		int ID = 10;
+		IProfileDAO profileDAO = new SqliteProfile();
+		
+		boolean result = profileDAO.delete(ID);
+		
+		assertTrue(result);
+	}
 }
