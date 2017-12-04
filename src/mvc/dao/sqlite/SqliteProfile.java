@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,16 +24,16 @@ public final class SqliteProfile implements IProfileDAO {
 	
 	private static final String INSERT = "INSERT INTO profile(name) VALUES(?)";
 	
+	private static final String GET = "SELECT ID, name FROM profile WHERE id = ?";
+	
+	private static final String GET_ALL = "SELECT ID, name FROM profile";
+	
 
 			
 	
 	
 	
 	/*
-	private static final String CREATE_QUERY = 
-			"INSERT INTO klient(imie, nazwisko, miasto, rok_urodzenia)  VALUES (?,?,?,?)";
-    private static final String READ_QUERY = 
-    		"SELECT id, imie, nazwisko, miasto, rok_urodzenia FROM klient WHERE id = ?";
     private static final String READALL_QUERY = 
     		"SELECT id, imie, nazwisko, miasto, rok_urodzenia FROM klient";
     private static final String UPDATE_QUERY = 
@@ -91,17 +92,66 @@ public final class SqliteProfile implements IProfileDAO {
 		
 		return resultBuffer;
 	}
-
+	
 	@Override
 	public Profile get(int ID) {
-		// TODO Auto-generated method stub
-		return null;
+		Profile profile = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = SqliteFactory.getConnection();
+			statement = connection.prepareStatement(GET);
+			
+			statement.setInt(1, ID);
+			statement.execute();
+			
+			result = statement.getResultSet();
+			if(result != null && result.next()) {
+				int foundID = result.getInt(1);
+				String foundName = result.getString(2);
+				
+				profile = new Profile(foundID, foundName);
+			}
+			
+			result.close();
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return profile;
 	}
 
 	@Override
 	public List<Profile> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Profile> profiles = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = SqliteFactory.getConnection();
+			statement = connection.prepareStatement(GET_ALL);
+			
+			result = statement.getResultSet();
+			if(result != null) {
+				while(result.next()) {
+					int foundID = result.getInt(1);
+					String foundName = result.getString(2);
+					
+					profiles.add(new Profile(foundID, foundName));
+				}
+			}
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+
+		return profiles;
 	}
 
 	@Override
