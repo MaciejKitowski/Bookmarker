@@ -2,7 +2,7 @@ package mvc.dao;
 
 import java.util.logging.Logger;
 
-import mvc.dao.mysql.MysqlDAOFactory;
+import mvc.dao.mysql.MysqlFactory;
 import mvc.dao.postgres.PostgresFactory;
 import mvc.dao.sqlite.SqliteFactory;
 
@@ -20,7 +20,7 @@ public abstract class DAOFactory {
 		}
 		else if(database == MYSQL) {
 			log.info("Get SQLite database factory");
-			return new MysqlDAOFactory();
+			return new MysqlFactory();
 		}
 		else if(database == POSTGRES) {
 			log.info("Get PostgreSQL database factory");

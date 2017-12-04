@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 
 import mvc.dao.DAOFactory;
 
-public final class MysqlDAOFactory extends DAOFactory {
-	private static final Logger log = Logger.getLogger(MysqlDAOFactory.class.getName());
+public final class MysqlFactory extends DAOFactory {
+	private static final Logger log = Logger.getLogger(MysqlFactory.class.getName());
 	
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost/bookmarker?autoReconnect=true&useSSL=false";

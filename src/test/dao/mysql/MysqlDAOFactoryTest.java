@@ -7,13 +7,13 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import mvc.dao.mysql.MysqlDAOFactory;
+import mvc.dao.mysql.MysqlFactory;
 
 public class MysqlDAOFactoryTest {
 
 	@Test
 	public void getConnection() throws SQLException {
-		Connection connection = MysqlDAOFactory.getConnection();
+		Connection connection = MysqlFactory.getConnection();
 				
 		assertNotNull(connection);
 		connection.close();
