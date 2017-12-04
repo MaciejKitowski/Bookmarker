@@ -5,10 +5,10 @@ import java.util.logging.Logger;
 public final class Profile {
 	private static final Logger log = Logger.getLogger(Profile.class.getName());
 	
-	private long ID;
+	private int ID;
 	private String name;
 	
-	public Profile(long ID, String name) {
+	public Profile(int ID, String name) {
 		log.info(String.format("Create profile with ID= %d, name= %s", ID, name));
 		
 		this.ID = ID;
@@ -20,7 +20,7 @@ public final class Profile {
 		this.name = name;
 	}
 	
-	public void setID(long ID) {
+	public void setID(int ID) {
 		log.info(String.format("Set new ID for profile(name= %s): %d", name, ID));
 		this.ID = ID;
 	}
