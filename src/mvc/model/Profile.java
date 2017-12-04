@@ -35,7 +35,7 @@ public final class Profile {
 		return name;
 	}
 	
-	public long getID() {
+	public int getID() {
 		return ID;
 	}
 }

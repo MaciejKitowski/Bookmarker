@@ -28,18 +28,10 @@ public final class SqliteProfile implements IProfileDAO {
 	
 	private static final String GET_ALL = "SELECT ID, name FROM profile";
 	
-
+	private static final String UPDATE = "UPDATE profile SET name=? WHERE id = ?";
 			
-	
-	
-	
-	/*
-    private static final String UPDATE_QUERY = 
-    		"UPDATE klient SET imie=?, nazwisko=?, miasto=?,rok_urodzenia=?  WHERE id = ?";
-    private static final String DELETE_QUERY = 
-    		"DELETE FROM klient WHERE id = ?";
-	 */
-	
+	private static final String DELETE = "DELETE FROM profile WHERE id = ?";
+		
 	@Override
 	public void createTable() {
 		log.info("Create table");
@@ -155,17 +147,46 @@ public final class SqliteProfile implements IProfileDAO {
 
 		return profiles;
 	}
-
+	
 	@Override
 	public boolean update(Profile profile) {
-		// TODO Auto-generated method stub
-		return false;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		try {
+			connection = SqliteFactory.getConnection();
+			statement = connection.prepareStatement(UPDATE);
+			
+			statement.setString(1, profile.getName());
+			statement.setInt(2, profile.getID());
+			statement.execute();
+			
+			return true;
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+			return false;
+		}
 	}
 
 	@Override
 	public boolean delete(int ID) {
-		// TODO Auto-generated method stub
-		return false;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		try {
+			connection = SqliteFactory.getConnection();
+			statement = connection.prepareStatement(DELETE);
+			
+			statement.setInt(1, ID);
+			statement.execute();
+			
+			return true;
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+			return false;
+		}
 	}
 
 }
