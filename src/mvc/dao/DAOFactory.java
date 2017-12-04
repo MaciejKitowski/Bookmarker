@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import mvc.dao.mysql.MysqlDAOFactory;
 import mvc.dao.postgres.PostgresDAOFactory;
-import mvc.dao.sqlite.SqliteDAOFactory;
+import mvc.dao.sqlite.SqliteFactory;
 
 public abstract class DAOFactory {
 	private static final Logger log = Logger.getLogger(DAOFactory.class.getName());
@@ -16,7 +16,7 @@ public abstract class DAOFactory {
 	public static DAOFactory get(int database) {
 		if(database == SQLITE) {
 			log.info("Get SQLite database factory");
-			return new SqliteDAOFactory();
+			return new SqliteFactory();
 		}
 		else if(database == MYSQL) {
 			log.info("Get SQLite database factory");

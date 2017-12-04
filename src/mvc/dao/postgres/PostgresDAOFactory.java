@@ -6,10 +6,9 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.sqlite.SqliteDAOFactory;
 
 public final class PostgresDAOFactory extends DAOFactory {
-	private static final Logger log = Logger.getLogger(SqliteDAOFactory.class.getName());
+	private static final Logger log = Logger.getLogger(PostgresDAOFactory.class.getName());
 	
 	private static final String DRIVER = "org.postgresql.Driver";
     private static final String URL = "jdbc:postgresql://localhost/bookmarker";
