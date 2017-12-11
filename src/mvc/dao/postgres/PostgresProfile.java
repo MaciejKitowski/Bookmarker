@@ -24,7 +24,7 @@ public final class PostgresProfile implements IProfileDAO {
 	
 	private static final String INSERT = "INSERT INTO profile(name) VALUES(?)";
 	
-	private static final String GET = "";
+	private static final String GET = "SELECT ID, name FROM profile WHERE id = ?";
 	
 	private static final String GET_ALL = "";
 	
@@ -35,8 +35,6 @@ public final class PostgresProfile implements IProfileDAO {
 	
 	
 	/*
-
-	private static final String GET = "SELECT ID, name FROM profile WHERE id = ?";
 	
 	private static final String GET_ALL = "SELECT ID, name FROM profile";
 	
@@ -98,8 +96,35 @@ public final class PostgresProfile implements IProfileDAO {
 
 	@Override
 	public Profile get(int ID) {
-		// TODO Auto-generated method stub
-		return null;
+		Profile profile = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = SqliteFactory.getConnection();
+			statement = connection.prepareStatement(GET);
+			
+			statement.setInt(1, ID);
+			statement.execute();
+			
+			result = statement.getResultSet();
+			if(result != null && result.next()) {
+				int foundID = result.getInt(1);
+				String foundName = result.getString(2);
+				
+				profile = new Profile(foundID, foundName);
+			}
+			
+			result.close();
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return profile;
 	}
 
 	@Override

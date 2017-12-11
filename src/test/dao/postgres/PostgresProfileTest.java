@@ -85,4 +85,17 @@ public final class PostgresProfileTest {
 		}
 	}
 	
+	@Test
+	public void getSingleTest() {
+		int ID = 1;
+		IProfileDAO profileDAO = new PostgresProfile();
+		
+		Profile result = profileDAO.get(ID);
+		
+		assertTrue((result == null || result.getID() == ID)); 
+	}
+	
+	
+
+	
 }
