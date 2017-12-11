@@ -1,6 +1,8 @@
 package mvc.dao.postgres;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Logger;
@@ -12,6 +14,7 @@ import mvc.model.Profile;
 public final class PostgresProfile implements IProfileDAO {
 	private static final Logger log = Logger.getLogger(PostgresProfile.class.getName());
 	
+	public static int INSERT_FAIL = -1;
 	
 	private static final String CREATE_TABLE = 
 		"CREATE TABLE profile( \n" +
@@ -19,7 +22,7 @@ public final class PostgresProfile implements IProfileDAO {
 				"name 	VARCHAR(255) 	NOT NULL \n" +
 		")";
 	
-	private static final String INSERT = "";
+	private static final String INSERT = "INSERT INTO profile(name) VALUES(?)";
 	
 	private static final String GET = "";
 	
@@ -32,8 +35,7 @@ public final class PostgresProfile implements IProfileDAO {
 	
 	
 	/*
-	private static final String INSERT = "INSERT INTO profile(name) VALUES(?)";
-	
+
 	private static final String GET = "SELECT ID, name FROM profile WHERE id = ?";
 	
 	private static final String GET_ALL = "SELECT ID, name FROM profile";
@@ -63,11 +65,35 @@ public final class PostgresProfile implements IProfileDAO {
 			log.warning(ex.getMessage());
 		}
 	}
-
+	
 	@Override
 	public int insert(Profile profile) {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		int resultBuffer = 0;
+		
+		try {
+			connection = PostgresFactory.getConnection();
+			statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+			
+			statement.setString(1, profile.getName());
+			statement.execute();
+			
+			result = statement.getGeneratedKeys();
+			if(result != null && result.next()) resultBuffer = result.getInt(1);
+			else resultBuffer = INSERT_FAIL;
+			
+			result.close();
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+			resultBuffer = INSERT_FAIL;
+		}
+		
+		return resultBuffer;
 	}
 
 	@Override
