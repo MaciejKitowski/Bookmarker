@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -26,7 +27,7 @@ public final class PostgresProfile implements IProfileDAO {
 	
 	private static final String GET = "SELECT ID, name FROM profile WHERE id = ?";
 	
-	private static final String GET_ALL = "";
+	private static final String GET_ALL = "SELECT ID, name FROM profile";
 	
 	private static final String UPDATE = "";
 	
@@ -129,8 +130,34 @@ public final class PostgresProfile implements IProfileDAO {
 
 	@Override
 	public List<Profile> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Profile> profiles = new ArrayList<>();
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet result = null;
+
+		try {
+			connection = PostgresFactory.getConnection();
+			statement = connection.createStatement();
+			
+			result = statement.executeQuery(GET_ALL);
+			if(result != null) {
+				while(result.next()) {
+					int foundID = result.getInt(1);
+					String foundName = result.getString(2);
+					
+					profiles.add(new Profile(foundID, foundName));
+				}
+			}
+			
+			result.close();
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return profiles;
 	}
 
 	@Override

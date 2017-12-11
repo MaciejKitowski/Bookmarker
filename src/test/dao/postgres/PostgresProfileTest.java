@@ -95,6 +95,14 @@ public final class PostgresProfileTest {
 		assertTrue((result == null || result.getID() == ID)); 
 	}
 	
+	@Test
+	public void getAllTest() throws Exception {
+		IProfileDAO profileDAO = new PostgresProfile();
+		
+		List<Profile> result = profileDAO.getAll();
+		
+		assertTrue((result != null && result.size() == getProfileCount()));
+	}
 	
 
 	
