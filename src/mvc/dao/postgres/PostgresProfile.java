@@ -29,7 +29,7 @@ public final class PostgresProfile implements IProfileDAO {
 	
 	private static final String GET_ALL = "SELECT ID, name FROM profile";
 	
-	private static final String UPDATE = "";
+	private static final String UPDATE = "UPDATE profile SET name=? WHERE id = ?";
 	
 	private static final String DELETE = "";
 	
@@ -160,10 +160,53 @@ public final class PostgresProfile implements IProfileDAO {
 		return profiles;
 	}
 
+	/*
+public boolean update(Profile profile) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		try {
+			connection = SqliteFactory.getConnection();
+			statement = connection.prepareStatement(UPDATE);
+			
+			statement.setString(1, profile.getName());
+			statement.setInt(2, profile.getID());
+			statement.execute();
+			
+			return true;
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+			return false;
+		}
+	}
+	 */
+	
+	
+	
+	
 	@Override
 	public boolean update(Profile profile) {
-		// TODO Auto-generated method stub
-		return false;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		try {
+			connection = PostgresFactory.getConnection();
+			statement = connection.prepareStatement(UPDATE);
+			
+			statement.setString(1, profile.getName());
+			statement.setInt(2, profile.getID());
+			statement.execute();
+			
+			statement.close();
+			connection.close();
+			
+			return true;
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+			return false;
+		}
 	}
 
 	@Override

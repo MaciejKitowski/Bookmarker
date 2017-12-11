@@ -161,6 +161,9 @@ public final class SqliteProfile implements IProfileDAO {
 			statement.setInt(2, profile.getID());
 			statement.execute();
 			
+			statement.close();
+			connection.close();
+			
 			return true;
 		}
 		catch(Exception ex) {

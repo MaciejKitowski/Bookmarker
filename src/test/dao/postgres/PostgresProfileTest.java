@@ -104,6 +104,15 @@ public final class PostgresProfileTest {
 		assertTrue((result != null && result.size() == getProfileCount()));
 	}
 	
-
+	@Test
+	public void updateTest() {
+		IProfileDAO profileDAO = new PostgresProfile();
+		Profile toUpdate = profileDAO.get(1);
+		toUpdate.setName(toUpdate.getName() + "-UPDATED");
+		
+		boolean result = profileDAO.update(toUpdate);
+		
+		assertTrue(result);
+	}
 	
 }
