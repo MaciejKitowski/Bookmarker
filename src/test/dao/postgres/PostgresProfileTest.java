@@ -14,7 +14,6 @@ import org.junit.Test;
 import mvc.dao.model_interfaces.IProfileDAO;
 import mvc.dao.postgres.PostgresFactory;
 import mvc.dao.postgres.PostgresProfile;
-import mvc.dao.sqlite.SqliteFactory;
 import mvc.dao.sqlite.SqliteProfile;
 import mvc.model.Profile;
 
