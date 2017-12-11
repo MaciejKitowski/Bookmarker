@@ -1,4 +1,4 @@
-package test.dao.sqlite;
+package test.dao.mysql;
 
 import static org.junit.Assert.*;
 
@@ -7,15 +7,16 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import mvc.dao.sqlite.SqliteFactory;
+import mvc.dao.mysql.MysqlFactory;
 
-public class SqliteDAOFactoryTest {
+public class MysqlFactoryTest {
 
 	@Test
 	public void getConnection() throws SQLException {
-		Connection connection = SqliteFactory.getConnection();
-		
+		Connection connection = MysqlFactory.getConnection();
+				
 		assertNotNull(connection);
 		connection.close();
 	}
+
 }

@@ -15,6 +15,12 @@ public final class Profile {
 		this.name = name;
 	}
 	
+	public Profile(String name) {
+		log.info(String.format("Create profile with name= %s", name));
+		
+		this.name = name;
+	}
+	
 	public void setName(String name) {
 		log.info(String.format("Set new name for profile(ID= %d): %s", ID, name));
 		this.name = name;
@@ -29,7 +35,7 @@ public final class Profile {
 		return name;
 	}
 	
-	public long getID() {
+	public int getID() {
 		return ID;
 	}
 }
