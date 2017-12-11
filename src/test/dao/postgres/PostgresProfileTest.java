@@ -115,4 +115,13 @@ public final class PostgresProfileTest {
 		assertTrue(result);
 	}
 	
+	@Test
+	public void deleteTest() {
+		int ID = 10;
+		IProfileDAO profileDAO = new PostgresProfile();
+		
+		boolean result = profileDAO.delete(ID);
+		
+		assertTrue(result);
+	}
 }
