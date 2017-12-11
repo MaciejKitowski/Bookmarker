@@ -1,16 +1,23 @@
 package mvc.dao.postgres;
 
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Logger;
 
 import mvc.dao.model_interfaces.IProfileDAO;
+import mvc.dao.sqlite.SqliteFactory;
 import mvc.model.Profile;
 
 public final class PostgresProfile implements IProfileDAO {
 	private static final Logger log = Logger.getLogger(PostgresProfile.class.getName());
 	
 	
-	private static final String CREATE_TABLE = "";
+	private static final String CREATE_TABLE = 
+		"CREATE TABLE profile( \n" +
+				"ID 	SERIAL 	PRIMARY KEY," +
+				"name 	VARCHAR(255) 	NOT NULL \n" +
+		")";
 	
 	private static final String INSERT = "";
 	
@@ -25,12 +32,6 @@ public final class PostgresProfile implements IProfileDAO {
 	
 	
 	/*
-	 * private static final String CREATE_TABLE = 
-	"CREATE TABLE profile( \n" +
-			"ID 	INTEGER 	PRIMARY KEY AUTOINCREMENT, \n" +
-			"name	VARCHAR(255) NOT NULL \n" + 
-	")";
-	
 	private static final String INSERT = "INSERT INTO profile(name) VALUES(?)";
 	
 	private static final String GET = "SELECT ID, name FROM profile WHERE id = ?";
@@ -41,11 +42,26 @@ public final class PostgresProfile implements IProfileDAO {
 			
 	private static final String DELETE = "DELETE FROM profile WHERE id = ?";
 	 */
-
+	
 	@Override
 	public void createTable() {
-		// TODO Auto-generated method stub
+		log.info("Create table");
 		
+		Connection connection = null;
+		Statement statement = null;
+		
+		try {
+			connection = PostgresFactory.getConnection();
+			statement = connection.createStatement();
+			
+			statement.execute(CREATE_TABLE);
+			
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
 	}
 
 	@Override
