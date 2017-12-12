@@ -14,7 +14,6 @@ import org.junit.Test;
 import mvc.dao.SqliteFactory;
 import mvc.dao.MainCategory.IMainCategoryDAO;
 import mvc.dao.MainCategory.SqliteMainCategory;
-import mvc.model.Category;
 import mvc.model.MainCategory;
 
 public class SqliteMainCategoryTest {
