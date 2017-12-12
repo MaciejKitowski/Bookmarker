@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,22 @@ public class MysqlMainCategoryTest {
 		connection.close();
 		
 		return buffer;
+	}
+	
+	private int getProfileCount() throws Exception {
+		String sql = "SELECT COUNT(*) FROM MainCategory";
+		int count = 0;
+		Connection connection = MysqlFactory.getConnection();
+		Statement statement = connection.createStatement();
+		
+		ResultSet rs = statement.executeQuery(sql);
+		if(rs != null && rs.next()) count = rs.getInt(1);
+		
+		rs.close();
+		statement.close();
+		connection.close();
+		
+		return count;
 	}
 	
 	@Test
@@ -73,5 +90,14 @@ public class MysqlMainCategoryTest {
 		MainCategory result = catDAO.get(ID);
 		
 		assertTrue((result == null || result.getID() == ID)); 
+	}
+	
+	@Test
+	public void getAllTest() throws Exception {
+		IMainCategoryDAO catDAO = new MysqlMainCategory();
+		
+		List<MainCategory> result = catDAO.getAll();
+		
+		assertTrue((result != null && result.size() == getProfileCount()));
 	}
 }
