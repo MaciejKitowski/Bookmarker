@@ -101,4 +101,15 @@ public class PostgresMainCategoryTest {
 		
 		assertTrue((result != null && result.size() == getProfileCount()));
 	}
+	
+	@Test
+	public void updateTest() {
+		IMainCategoryDAO catDAO = new PostgresMainCategory();
+		MainCategory toUpdate = catDAO.get(1);
+		toUpdate.setName(toUpdate.getName() + "-UPDATED");
+		
+		boolean result = catDAO.update(toUpdate);
+		
+		assertTrue(result);
+	}
 }
