@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -123,9 +124,35 @@ public final class MysqlMainCategory implements IMainCategoryDAO {
 		@Override
 		public List<MainCategory> getAll() {
 			log.info("Get all categories");
-
 			
-			return null;
+			List<MainCategory> categories = new ArrayList<>();
+			Connection connection = null;
+			Statement statement = null;
+			ResultSet result = null;
+			
+			try {
+				connection = MysqlFactory.getConnection();
+				statement = connection.createStatement();
+				
+				result = statement.executeQuery(GET_ALL);
+				if(result != null) {
+					while(result.next()) {
+						int foundID = result.getInt(1);
+						String foundName = result.getString(2);
+						
+						categories.add(new MainCategory(foundID, foundName));
+					}
+				}
+				
+				result.close();
+				statement.close();
+				connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
+			
+			return categories;
 		}
 
 		@Override
