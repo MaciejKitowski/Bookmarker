@@ -1,6 +1,8 @@
 package mvc.dao.MainCategory;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Logger;
@@ -10,6 +12,8 @@ import mvc.model.MainCategory;
 
 public final class MysqlMainCategory implements IMainCategoryDAO {
 	private static final Logger log = Logger.getLogger(MysqlMainCategory.class.getName());
+	
+	public static int INSERT_FAIL = -1;
 	
 	private static final String CREATE_TABLE = 
 		"CREATE TABLE MainCategory( \n" +
@@ -52,10 +56,33 @@ public final class MysqlMainCategory implements IMainCategoryDAO {
 		@Override
 		public int insert(MainCategory category) {
 			log.info(String.format("Insert category: ID=%d, name=%s", category.getID(), category.getName()));
-
 			
+			Connection connection = null;
+			PreparedStatement statement = null;
+			ResultSet result = null;
+			int resultBuffer = 0;
 			
-			return 0;
+			try {
+				connection = MysqlFactory.getConnection();
+				statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+				
+				statement.setString(1, category.getName());
+				statement.execute();
+				
+				result = statement.getGeneratedKeys();
+				if(result != null && result.next()) resultBuffer = result.getInt(1);
+				else resultBuffer = INSERT_FAIL;
+				
+				result.close();
+				statement.close();
+				connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+				resultBuffer = INSERT_FAIL;
+			}
+			
+			return resultBuffer;
 		}
 
 		@Override
