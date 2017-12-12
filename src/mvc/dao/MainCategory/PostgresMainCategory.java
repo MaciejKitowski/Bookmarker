@@ -87,7 +87,35 @@ public final class PostgresMainCategory implements IMainCategoryDAO {
 	@Override
 	public MainCategory get(int ID) {
 		log.info(String.format("Get category: ID=%d", ID));
-		return null;
+		
+		MainCategory category = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = PostgresFactory.getConnection();
+			statement = connection.prepareStatement(GET);
+			
+			statement.setInt(1, ID);
+			statement.execute();
+			
+			result = statement.getResultSet();
+			if(result != null && result.next()) {
+				int foundID = result.getInt(1);
+				String foundName = result.getString(2);
+				category = new MainCategory(foundID, foundName);
+			}
+			
+			result.close();
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return category;
 	}
 
 	@Override
