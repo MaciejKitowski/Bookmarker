@@ -183,7 +183,22 @@ public final class SqliteMainCategory implements IMainCategoryDAO {
 	@Override
 	public boolean delete(int ID) {
 		log.info(String.format("Delete category: ID=%d", ID));
-
-		return false;
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		try {
+			connection = SqliteFactory.getConnection();
+			statement = connection.prepareStatement(DELETE);
+			
+			statement.setInt(1, ID);
+			statement.execute();
+			
+			return true;
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+			return false;
+		}
 	}
 }
