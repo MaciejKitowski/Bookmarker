@@ -13,6 +13,7 @@ import org.junit.Test;
 import mvc.dao.SqliteFactory;
 import mvc.dao.MainCategory.IMainCategoryDAO;
 import mvc.dao.MainCategory.SqliteMainCategory;
+import mvc.model.MainCategory;
 
 public class SqliteMainCategoryTest {
 	private List<String> getTableNames() throws Exception {
@@ -37,5 +38,15 @@ public class SqliteMainCategoryTest {
 		List<String> tables = getTableNames();
 		
 		assertTrue(tables.contains("MainCategory"));
+	}
+	
+	@Test
+	public void insertTest() {
+		MainCategory category = new MainCategory("SingleInsertTest");
+		IMainCategoryDAO catDAO = new SqliteMainCategory();
+		
+		int result = catDAO.insert(category);
+		
+		assertNotEquals(result, SqliteMainCategory.INSERT_FAIL);
 	}
 }
