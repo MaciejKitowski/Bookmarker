@@ -13,6 +13,7 @@ import org.junit.Test;
 import mvc.dao.PostgresFactory;
 import mvc.dao.MainCategory.IMainCategoryDAO;
 import mvc.dao.MainCategory.PostgresMainCategory;
+import mvc.model.MainCategory;
 
 public class PostgresMainCategoryTest {
 	private List<String> getTableNames() throws Exception {
@@ -38,5 +39,15 @@ public class PostgresMainCategoryTest {
 		List<String> tables = getTableNames();
 		
 		assertTrue(tables.contains("profile"));
+	}
+	
+	@Test
+	public void insertTest() {
+		MainCategory category = new MainCategory("SingleInsertTest");
+		IMainCategoryDAO catDAO = new PostgresMainCategory();
+		
+		int result = catDAO.insert(category);
+		
+		assertNotEquals(result, PostgresMainCategory.INSERT_FAIL);
 	}
 }
