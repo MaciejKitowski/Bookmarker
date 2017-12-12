@@ -22,7 +22,6 @@ public class PostgresMainCategoryTest {
 		DatabaseMetaData meta = connection.getMetaData();
 		List<String> buffer = new ArrayList<>();
 		
-		//ResultSet rs = meta.getTables(null, null, "%", new String[] { "TABLE" });
 		ResultSet rs = meta.getTables(null, null, "%", null);
 		while(rs.next()) buffer.add(rs.getString(3));
 		
@@ -33,7 +32,7 @@ public class PostgresMainCategoryTest {
 	}
 	
 	private int getProfileCount() throws Exception {
-		String sql = "SELECT COUNT(*) FROM profile";
+		String sql = "SELECT COUNT(*) FROM MainCategory";
 		int count = 0;
 		Connection connection = PostgresFactory.getConnection();
 		Statement statement = connection.createStatement();
@@ -98,7 +97,7 @@ public class PostgresMainCategoryTest {
 		IMainCategoryDAO catDAO = new PostgresMainCategory();
 		
 		List<MainCategory> result = catDAO.getAll();
-		
+
 		assertTrue((result != null && result.size() == getProfileCount()));
 	}
 	
