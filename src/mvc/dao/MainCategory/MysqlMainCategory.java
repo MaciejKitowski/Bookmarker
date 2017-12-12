@@ -166,8 +166,8 @@ public final class MysqlMainCategory implements IMainCategoryDAO {
 				connection = MysqlFactory.getConnection();
 				statement = connection.prepareStatement(UPDATE);
 				
-				statement.setString(1, profile.getName());
-				statement.setInt(2, profile.getID());
+				statement.setString(1, category.getName());
+				statement.setInt(2, category.getID());
 				statement.execute();
 				
 				statement.close();
@@ -184,6 +184,25 @@ public final class MysqlMainCategory implements IMainCategoryDAO {
 		@Override
 		public boolean delete(int ID) {
 			log.info(String.format("Delete category: ID=%d", ID));
-			return false;
+			
+			Connection connection = null;
+			PreparedStatement statement = null;
+			
+			try {
+				connection = MysqlFactory.getConnection();
+				statement = connection.prepareStatement(DELETE);
+				
+				statement.setInt(1, ID);
+				statement.execute();
+				
+				statement.close();
+				connection.close();
+				
+				return true;
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+				return false;
+			}
 		}
 }
