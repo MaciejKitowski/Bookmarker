@@ -13,6 +13,7 @@ import org.junit.Test;
 import mvc.dao.MysqlFactory;
 import mvc.dao.MainCategory.IMainCategoryDAO;
 import mvc.dao.MainCategory.MysqlMainCategory;
+import mvc.model.MainCategory;
 
 public class MysqlMainCategoryTest {
 	private List<String> getTableNames() throws Exception {
@@ -37,5 +38,15 @@ public class MysqlMainCategoryTest {
 		List<String> tables = getTableNames();
 		
 		assertTrue(tables.contains("MainCategory"));
+	}
+	
+	@Test
+	public void insertTest() {
+		MainCategory category = new MainCategory("SingleInsertTest");
+		IMainCategoryDAO catDAO = new MysqlMainCategory();
+		
+		int result = catDAO.insert(category);
+		
+		assertNotEquals(result, MysqlMainCategory.INSERT_FAIL);
 	}
 }
