@@ -17,20 +17,20 @@ public final class PostgresMainCategory implements IMainCategoryDAO {
 	public static int INSERT_FAIL = -1;
 	
 	private static final String CREATE_TABLE = 
-		"CREATE TABLE profile( \n" +
+		"CREATE TABLE MainCategory( \n" +
 				"ID 	SERIAL 	PRIMARY KEY," +
 				"name 	VARCHAR(255) 	NOT NULL \n" +
 		")";
 	
-	private static final String INSERT = "INSERT INTO profile(name) VALUES(?)";
+	private static final String INSERT = "INSERT INTO MainCategory(name) VALUES(?)";
 	
-	private static final String GET = "SELECT ID, name FROM profile WHERE id = ?";
+	private static final String GET = "SELECT ID, name FROM MainCategory WHERE id = ?";
 	
-	private static final String GET_ALL = "SELECT ID, name FROM profile";
+	private static final String GET_ALL = "SELECT ID, name FROM MainCategory";
 	
-	private static final String UPDATE = "UPDATE profile SET name=? WHERE id = ?";
+	private static final String UPDATE = "UPDATE MainCategory SET name=? WHERE id = ?";
 	
-	private static final String DELETE = "DELETE FROM profile WHERE id = ?";
+	private static final String DELETE = "DELETE FROM MainCategory WHERE id = ?";
 
 	@Override
 	public void createTable() {
