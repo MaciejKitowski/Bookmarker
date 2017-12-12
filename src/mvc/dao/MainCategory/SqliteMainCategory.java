@@ -194,6 +194,9 @@ public final class SqliteMainCategory implements IMainCategoryDAO {
 			statement.setInt(1, ID);
 			statement.execute();
 			
+			statement.close();
+			connection.close();
+			
 			return true;
 		}
 		catch(Exception ex) {
