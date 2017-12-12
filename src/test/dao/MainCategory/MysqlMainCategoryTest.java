@@ -111,4 +111,14 @@ public class MysqlMainCategoryTest {
 		
 		assertTrue(result);
 	}
+	
+	@Test
+	public void deleteTest() {
+		int ID = 10;
+		IMainCategoryDAO catDAO = new MysqlMainCategory();
+		
+		boolean result = catDAO.delete(ID);
+		
+		assertTrue(result);
+	}
 }
