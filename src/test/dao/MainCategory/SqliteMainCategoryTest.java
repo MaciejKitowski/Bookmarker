@@ -13,6 +13,7 @@ import org.junit.Test;
 import mvc.dao.SqliteFactory;
 import mvc.dao.MainCategory.IMainCategoryDAO;
 import mvc.dao.MainCategory.SqliteMainCategory;
+import mvc.model.Category;
 import mvc.model.MainCategory;
 
 public class SqliteMainCategoryTest {
@@ -63,5 +64,15 @@ public class SqliteMainCategoryTest {
 			
 			assertNotEquals(result, SqliteMainCategory.INSERT_FAIL);
 		}
+	}
+	
+	@Test
+	public void getSingleTest() {
+		int ID = 1;
+		IMainCategoryDAO catDAO = new SqliteMainCategory();
+		
+		MainCategory result = catDAO.get(ID);
+		
+		assertTrue((result == null || result.getID() == ID));
 	}
 }
