@@ -158,7 +158,27 @@ public final class MysqlMainCategory implements IMainCategoryDAO {
 		@Override
 		public boolean update(MainCategory category) {
 			log.info(String.format("Update category: ID=%d, name=%s", category.getID(), category.getName()));
-			return false;
+			
+			Connection connection = null;
+			PreparedStatement statement = null;
+			
+			try {
+				connection = MysqlFactory.getConnection();
+				statement = connection.prepareStatement(UPDATE);
+				
+				statement.setString(1, profile.getName());
+				statement.setInt(2, profile.getID());
+				statement.execute();
+				
+				statement.close();
+				connection.close();
+				
+				return true;
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+				return false;
+			}
 		}
 
 		@Override
