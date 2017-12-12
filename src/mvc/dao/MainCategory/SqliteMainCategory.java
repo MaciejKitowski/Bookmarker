@@ -32,7 +32,7 @@ public final class SqliteMainCategory implements IMainCategoryDAO {
 
 	@Override
 	public int insert(MainCategory category) {
-		log.info(String.format("Insert category: ID=%d, name=%s"));
+		log.info(String.format("Insert category: ID=%d, name=%s", category.getID(), category.getName()));
 
 		return 0;
 	}
@@ -53,7 +53,7 @@ public final class SqliteMainCategory implements IMainCategoryDAO {
 
 	@Override
 	public boolean update(MainCategory category) {
-		log.info(String.format("Update category(ID=%d, name=%s): ID=%d, name=%s"));
+		log.info(String.format("Update category: ID=%d, name=%s", category.getID(), category.getName()));
 
 		return false;
 	}
