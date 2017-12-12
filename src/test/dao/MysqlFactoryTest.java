@@ -1,4 +1,4 @@
-package test.dao.postgres;
+package test.dao;
 
 import static org.junit.Assert.*;
 
@@ -7,14 +7,14 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import mvc.dao.postgres.PostgresFactory;
+import mvc.dao.MysqlFactory;
 
-public class PostgresDAOFactoryTest {
+public class MysqlFactoryTest {
 
 	@Test
 	public void getConnection() throws SQLException {
-		Connection connection = PostgresFactory.getConnection();
-		
+		Connection connection = MysqlFactory.getConnection();
+				
 		assertNotNull(connection);
 		connection.close();
 	}

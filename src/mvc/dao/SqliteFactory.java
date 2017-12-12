@@ -1,11 +1,9 @@
-package mvc.dao.sqlite;
+package mvc.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
-
-import mvc.dao.DAOFactory;
 
 public final class SqliteFactory extends DAOFactory {
 	private static final Logger log = Logger.getLogger(SqliteFactory.class.getName());

@@ -2,10 +2,6 @@ package mvc.dao;
 
 import java.util.logging.Logger;
 
-import mvc.dao.mysql.MysqlFactory;
-import mvc.dao.postgres.PostgresFactory;
-import mvc.dao.sqlite.SqliteFactory;
-
 public abstract class DAOFactory {
 	private static final Logger log = Logger.getLogger(DAOFactory.class.getName());
 	

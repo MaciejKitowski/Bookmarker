@@ -1,17 +1,15 @@
-package mvc.dao.postgres;
+package mvc.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-import mvc.dao.DAOFactory;
-
-public final class PostgresFactory extends DAOFactory {
-	private static final Logger log = Logger.getLogger(PostgresFactory.class.getName());
+public final class MysqlFactory extends DAOFactory {
+	private static final Logger log = Logger.getLogger(MysqlFactory.class.getName());
 	
-	private static final String DRIVER = "org.postgresql.Driver";
-    private static final String URL = "jdbc:postgresql://localhost/bookmarker";
+	private static final String DRIVER = "com.mysql.jdbc.Driver";
+    private static final String URL = "jdbc:mysql://localhost/bookmarker?autoReconnect=true&useSSL=false";
     private static final String USERNAME = "bookmarker";
     private static final String USERPASSWORD = "admin1";
     
