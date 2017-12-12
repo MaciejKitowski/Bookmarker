@@ -65,4 +65,14 @@ public class PostgresMainCategoryTest {
 			assertNotEquals(result, PostgresMainCategory.INSERT_FAIL);
 		}
 	}
+	
+	@Test
+	public void getSingleTest() {
+		int ID = 1;
+		IMainCategoryDAO catDAO = new PostgresMainCategory();
+		
+		MainCategory result = catDAO.get(ID);
+		
+		assertTrue((result == null || result.getID() == ID)); 
+	}
 }
