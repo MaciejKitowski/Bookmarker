@@ -64,4 +64,14 @@ public class MysqlMainCategoryTest {
 			assertNotEquals(result, MysqlMainCategory.INSERT_FAIL);
 		}
 	}
+	
+	@Test
+	public void getSingleTest() {
+		int ID = 1;
+		IMainCategoryDAO catDAO = new MysqlMainCategory();
+		
+		MainCategory result = catDAO.get(ID);
+		
+		assertTrue((result == null || result.getID() == ID)); 
+	}
 }
