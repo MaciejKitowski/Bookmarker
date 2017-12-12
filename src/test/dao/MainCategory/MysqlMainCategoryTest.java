@@ -49,4 +49,19 @@ public class MysqlMainCategoryTest {
 		
 		assertNotEquals(result, MysqlMainCategory.INSERT_FAIL);
 	}
+	
+	@Test
+	public void insertMultipleTest() {
+		String pattern = "MultipleInsertTest_%d";
+		int insertCount = 10;
+		IMainCategoryDAO catDAO = new MysqlMainCategory();
+		
+		for(int i = 0; i < insertCount; ++i)  {
+			MainCategory category = new MainCategory(String.format(pattern, i + 1));
+			
+			int result = catDAO.insert(category);
+			
+			assertNotEquals(result, MysqlMainCategory.INSERT_FAIL);
+		}
+	}
 }
