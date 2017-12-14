@@ -1,8 +1,11 @@
 package mvc.dao.Category;
 
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Logger;
 
+import mvc.dao.SqliteFactory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 
@@ -35,6 +38,21 @@ public final class SqliteCategory implements ICategoryDAO {
 	public void createTable() {
 		log.info("Create new table");
 		
+		Connection connection = null;
+		Statement statement = null;
+		
+		try {
+			connection = SqliteFactory.getConnection();
+			statement = connection.createStatement();
+			
+			statement.execute(CREATE_TABLE);
+			
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
 	}
 
 	@Override
