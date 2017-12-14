@@ -108,4 +108,14 @@ public class SqliteCategoryTest {
 		
 		assertTrue((result != null && result.size() == getProfileCount()));
 	}
+	
+	@Test
+	public void getParentTest() {
+		MainCategory parent = new SqliteMainCategory().get(4);
+		ICategoryDAO dao = new SqliteCategory();
+		
+		List<Category> result = dao.getAllParent(parent);
+		
+		assertTrue(result != null);
+	}
 }
