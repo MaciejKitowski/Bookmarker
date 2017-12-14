@@ -55,4 +55,21 @@ public class SqliteCategoryTest {
 		
 		assertNotEquals(result, SqliteCategory.INSERT_FAIL);
 	}
+	
+	@Test
+	public void insertMultipleTest() {
+		String pattern = "MultipleInsertTest_(%d)%s_%d";
+		int insertCount = 10;
+		MainCategory parent = new SqliteMainCategory().get(4);
+		ICategoryDAO dao = new SqliteCategory();
+		
+		for(int i = 0; i < insertCount; ++i) {
+			Category category = new Category(String.format(pattern, parent.getID(), parent.getName(), i+1));
+			category.setParent(parent);
+			
+			int result = dao.insert(category);
+			
+			assertNotEquals(result, SqliteCategory.INSERT_FAIL);
+		}
+	}
 }
