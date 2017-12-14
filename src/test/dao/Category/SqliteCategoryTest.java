@@ -72,4 +72,14 @@ public class SqliteCategoryTest {
 			assertNotEquals(result, SqliteCategory.INSERT_FAIL);
 		}
 	}
+	
+	@Test
+	public void getSingleTest() {
+		int ID = 1;
+		ICategoryDAO dao = new SqliteCategory();
+		
+		Category result = dao.get(ID);
+		
+		assertTrue((result == null || result.getID() == ID));
+	}
 }
