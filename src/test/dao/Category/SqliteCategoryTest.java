@@ -118,4 +118,15 @@ public class SqliteCategoryTest {
 		
 		assertTrue(result != null);
 	}
+	
+	@Test
+	public void updateTest() {
+		ICategoryDAO dao = new SqliteCategory();
+		Category toUpdate = dao.get(1);
+		toUpdate.setName(toUpdate.getName() + "-UPDATED");
+		
+		boolean result = dao.update(toUpdate);
+		
+		assertTrue(result);
+	}
 }
