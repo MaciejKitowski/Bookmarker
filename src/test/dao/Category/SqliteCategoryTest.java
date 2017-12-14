@@ -1,5 +1,6 @@
 package test.dao.Category;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
@@ -13,6 +14,10 @@ import org.junit.Test;
 import mvc.dao.SqliteFactory;
 import mvc.dao.Category.ICategoryDAO;
 import mvc.dao.Category.SqliteCategory;
+import mvc.dao.MainCategory.IMainCategoryDAO;
+import mvc.dao.MainCategory.SqliteMainCategory;
+import mvc.model.Category;
+import mvc.model.MainCategory;
 
 public class SqliteCategoryTest {
 	private List<String> getTableNames() throws Exception {
@@ -37,5 +42,17 @@ public class SqliteCategoryTest {
 		List<String> tables = getTableNames();
 		
 		assertTrue(tables.contains("MainCategory"));
+	}
+	
+	@Test
+	public void insertTest() {
+		MainCategory parent = new SqliteMainCategory().get(3);
+		Category category = new Category("SingleInsertTest");
+		category.setParent(parent);
+		ICategoryDAO dao = new SqliteCategory();
+		
+		int result = dao.insert(category);
+		
+		assertNotEquals(result, SqliteCategory.INSERT_FAIL);
 	}
 }
