@@ -15,7 +15,6 @@ import org.junit.Test;
 import mvc.dao.SqliteFactory;
 import mvc.dao.Category.ICategoryDAO;
 import mvc.dao.Category.SqliteCategory;
-import mvc.dao.MainCategory.IMainCategoryDAO;
 import mvc.dao.MainCategory.SqliteMainCategory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
@@ -126,6 +125,16 @@ public class SqliteCategoryTest {
 		toUpdate.setName(toUpdate.getName() + "-UPDATED");
 		
 		boolean result = dao.update(toUpdate);
+		
+		assertTrue(result);
+	}
+	
+	@Test
+	public void deleteTest() {
+		int ID = 10;
+		ICategoryDAO dao = new SqliteCategory();
+		
+		boolean result = dao.delete(ID);
 		
 		assertTrue(result);
 	}
