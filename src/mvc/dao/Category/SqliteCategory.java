@@ -137,7 +137,33 @@ public final class SqliteCategory implements ICategoryDAO {
 	@Override
 	public List<Category> getAllParent(MainCategory mainCategory) {
 		log.info(String.format("Get all categories with parent: ID=%d, name=%s", mainCategory.getID(), mainCategory.getName()));
-		return null;
+		
+		List<Category> categories = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = SqliteFactory.getConnection();
+			statement = connection.prepareStatement(GET_PARENT);
+			
+			statement.setInt(1, mainCategory.getID());
+			
+			result = statement.executeQuery();
+			if(result != null) {
+				while(result.next()) {
+					int foundID = result.getInt(1);
+					String foundName = result.getString(2);
+					
+					categories.add(new Category(foundID, foundName, mainCategory));
+				}
+			}
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return categories;
 	}
 
 	@Override
