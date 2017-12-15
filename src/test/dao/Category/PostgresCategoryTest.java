@@ -12,12 +12,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import mvc.dao.MysqlFactory;
 import mvc.dao.PostgresFactory;
 import mvc.dao.Category.ICategoryDAO;
-import mvc.dao.Category.MysqlCategory;
 import mvc.dao.Category.PostgresCategory;
-import mvc.dao.MainCategory.MysqlMainCategory;
 import mvc.dao.MainCategory.PostgresMainCategory;
 import mvc.model.Category;
 import mvc.model.MainCategory;

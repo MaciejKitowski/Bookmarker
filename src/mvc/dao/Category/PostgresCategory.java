@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import mvc.dao.MysqlFactory;
 import mvc.dao.PostgresFactory;
-import mvc.dao.SqliteFactory;
 import mvc.dao.MainCategory.IMainCategoryDAO;
 import mvc.dao.MainCategory.SqliteMainCategory;
 import mvc.model.Category;

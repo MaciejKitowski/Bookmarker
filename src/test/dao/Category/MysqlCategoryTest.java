@@ -13,12 +13,9 @@ import java.util.List;
 import org.junit.Test;
 
 import mvc.dao.MysqlFactory;
-import mvc.dao.SqliteFactory;
 import mvc.dao.Category.ICategoryDAO;
 import mvc.dao.Category.MysqlCategory;
-import mvc.dao.Category.SqliteCategory;
 import mvc.dao.MainCategory.MysqlMainCategory;
-import mvc.dao.MainCategory.SqliteMainCategory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 

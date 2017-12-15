@@ -35,7 +35,7 @@ public final class SqliteCategory implements ICategoryDAO {
 	
 	private static final String GET_PARENT = "SELECT ID, name, parent_ID FROM Category WHERE parent_ID = ?";
 	
-	private static final String GET_ALL = "SELECT ID, name, parent_ID name FROM Category";
+	private static final String GET_ALL = "SELECT ID, name, parent_ID FROM Category";
 	
 	private static final String UPDATE = "UPDATE Category SET name=?, parent_ID=? WHERE id = ?";
 	
