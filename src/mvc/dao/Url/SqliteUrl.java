@@ -188,7 +188,7 @@ public final class SqliteUrl implements IUrlDAO {
 			connection = SqliteFactory.getConnection();
 			statement = connection.createStatement();
 			
-			result = statement.executeQuery(GET);
+			result = statement.executeQuery(GET_ALL);
 			if(result != null) {
 				while(result.next()) {
 					int foundID = result.getInt(1);
