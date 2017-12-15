@@ -110,4 +110,14 @@ public class PostgresUrlTest {
 		
 		assertTrue((result != null && result.size() == getProfileCount()));
 	}
+	
+	@Test
+	public void getCategoryTest() {
+		Category category = new PostgresCategory().get(4);
+		IUrlDAO dao = new PostgresUrl();
+		
+		List<Url> result = dao.getAllParent(category);
+		
+		assertTrue(result != null);
+	}
 }
