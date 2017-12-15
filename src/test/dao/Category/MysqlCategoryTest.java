@@ -55,6 +55,23 @@ public class MysqlCategoryTest {
 		
 		int result = dao.insert(category);
 		
-		assertNotEquals(result, SqliteCategory.INSERT_FAIL);
+		assertNotEquals(result, MysqlCategory.INSERT_FAIL);
+	}
+	
+	@Test
+	public void insertMultipleTest() {
+		String pattern = "MultipleInsertTest_(%d)%s_%d";
+		int insertCount = 10;
+		MainCategory parent = new MysqlMainCategory().get(4);
+		ICategoryDAO dao = new MysqlCategory();
+		
+		for(int i = 0; i < insertCount; ++i) {
+			Category category = new Category(String.format(pattern, parent.getID(), parent.getName(), i+1));
+			category.setParent(parent);
+			
+			int result = dao.insert(category);
+			
+			assertNotEquals(result, MysqlCategory.INSERT_FAIL);
+		}
 	}
 }
