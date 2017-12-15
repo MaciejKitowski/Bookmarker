@@ -101,4 +101,13 @@ public class PostgresCategoryTest {
 		
 		assertTrue((result == null || result.getID() == ID));
 	}
+	
+	@Test
+	public void getAllTest() throws Exception {
+		ICategoryDAO dao = new PostgresCategory();
+		
+		List<Category> result = dao.getAll();
+		
+		assertTrue((result != null && result.size() == getProfileCount()));
+	}
 }
