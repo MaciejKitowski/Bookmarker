@@ -67,10 +67,28 @@ public class SqliteUrlTest {
 	public void insertTest() {
 		Url url = new Url("http://test", "SingleinsertTest", "Single");
 		Category category = new SqliteCategory().get(3);
+		url.setCategory(category);
 		IUrlDAO dao = new SqliteUrl();
 		
 		int result = dao.insert(url);
 		
 		assertNotEquals(result, SqliteUrl.INSERT_FAIL);
+	}
+	
+	@Test
+	public void insertMultipleTest() {
+		String pattern = "MultipleInsertTest_(%d)%s_%d";
+		int insertCount = 10;
+		Category category = new SqliteCategory().get(4);
+		IUrlDAO dao = new SqliteUrl();
+		
+		for(int i = 0; i < insertCount; ++i) {
+			Url url = new Url("http://test", "SingleinsertTest", "Single");
+			url.setCategory(category);
+			
+			int result = dao.insert(url);
+			
+			assertNotEquals(result, SqliteUrl.INSERT_FAIL);
+		}
 	}
 }
