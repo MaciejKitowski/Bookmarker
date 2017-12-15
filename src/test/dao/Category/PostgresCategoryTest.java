@@ -91,4 +91,14 @@ public class PostgresCategoryTest {
 			assertNotEquals(result, PostgresCategory.INSERT_FAIL);
 		}
 	}
+	
+	@Test
+	public void getSingleTest() {
+		int ID = 1;
+		ICategoryDAO dao = new PostgresCategory();
+		
+		Category result = dao.get(ID);
+		
+		assertTrue((result == null || result.getID() == ID));
+	}
 }
