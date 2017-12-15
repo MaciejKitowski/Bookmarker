@@ -91,4 +91,14 @@ public class SqliteUrlTest {
 			assertNotEquals(result, SqliteUrl.INSERT_FAIL);
 		}
 	}
+	
+	@Test
+	public void getSingleTest() {
+		int ID = 1;
+		IUrlDAO dao = new SqliteUrl();
+		
+		Url result = dao.get(ID);
+		
+		assertTrue((result == null || result.getID() == ID));
+	}
 }
