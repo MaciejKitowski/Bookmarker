@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import mvc.dao.MysqlFactory;
+import mvc.dao.PostgresFactory;
 import mvc.dao.SqliteFactory;
 import mvc.dao.MainCategory.IMainCategoryDAO;
 import mvc.dao.MainCategory.SqliteMainCategory;
@@ -50,7 +51,7 @@ public final class PostgresCategory implements ICategoryDAO {
 		Statement statement = null;
 		
 		try {
-			connection = MysqlFactory.getConnection();
+			connection = PostgresFactory.getConnection();
 			statement = connection.createStatement();
 			
 			statement.execute(CREATE_TABLE);
@@ -73,7 +74,7 @@ public final class PostgresCategory implements ICategoryDAO {
 		int resultBuffer = 0;
 		
 		try {
-			connection = MysqlFactory.getConnection();
+			connection = PostgresFactory.getConnection();
 			statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			
 			statement.setString(1, category.getName());
@@ -106,7 +107,7 @@ public final class PostgresCategory implements ICategoryDAO {
 		ResultSet result = null;
 		
 		try {
-			connection = MysqlFactory.getConnection();
+			connection = PostgresFactory.getConnection();
 			statement = connection.prepareStatement(GET);
 			
 			statement.setInt(1, ID);
@@ -145,7 +146,7 @@ public final class PostgresCategory implements ICategoryDAO {
 		ResultSet result = null;
 		
 		try {
-			connection = MysqlFactory.getConnection();
+			connection = PostgresFactory.getConnection();
 			statement = connection.prepareStatement(GET_PARENT);
 			
 			statement.setInt(1, mainCategory.getID());
@@ -177,7 +178,7 @@ public final class PostgresCategory implements ICategoryDAO {
 		ResultSet result = null;
 		
 		try {
-			connection = MysqlFactory.getConnection();
+			connection = PostgresFactory.getConnection();
 			statement = connection.createStatement();
 			
 			result = statement.executeQuery(GET_ALL);
@@ -212,7 +213,7 @@ public final class PostgresCategory implements ICategoryDAO {
 		PreparedStatement statement = null;
 		
 		try {
-			connection = MysqlFactory.getConnection();
+			connection = PostgresFactory.getConnection();
 			statement = connection.prepareStatement(UPDATE);
 			
 			statement.setString(1, category.getName());
@@ -239,7 +240,7 @@ public final class PostgresCategory implements ICategoryDAO {
 		PreparedStatement statement = null;
 		
 		try {
-			connection = SqliteFactory.getConnection();
+			connection = PostgresFactory.getConnection();
 			statement = connection.prepareStatement(DELETE);
 			
 			statement.setInt(1, ID);
