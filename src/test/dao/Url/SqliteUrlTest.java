@@ -13,13 +13,10 @@ import java.util.List;
 import org.junit.Test;
 
 import mvc.dao.SqliteFactory;
-import mvc.dao.Category.ICategoryDAO;
 import mvc.dao.Category.SqliteCategory;
-import mvc.dao.MainCategory.SqliteMainCategory;
 import mvc.dao.Url.IUrlDAO;
 import mvc.dao.Url.SqliteUrl;
 import mvc.model.Category;
-import mvc.model.MainCategory;
 import mvc.model.Url;
 
 public class SqliteUrlTest {
@@ -77,13 +74,13 @@ public class SqliteUrlTest {
 	
 	@Test
 	public void insertMultipleTest() {
-		String pattern = "MultipleInsertTest_(%d)%s_%d";
+		String pattern = "MultipleInsertTest_%d";
 		int insertCount = 10;
 		Category category = new SqliteCategory().get(4);
 		IUrlDAO dao = new SqliteUrl();
 		
 		for(int i = 0; i < insertCount; ++i) {
-			Url url = new Url("http://test", "SingleinsertTest", "Single");
+			Url url = new Url("http://test", String.format(pattern, i + 1), "Single");
 			url.setCategory(category);
 			
 			int result = dao.insert(url);
@@ -128,6 +125,16 @@ public class SqliteUrlTest {
 		toUpdate.setTitle(toUpdate.getTitle() + "-UPDATED");
 		
 		boolean result = dao.update(toUpdate);
+		
+		assertTrue(result);
+	}
+	
+	@Test
+	public void deleteTest() {
+		int ID = 10;
+		IUrlDAO dao = new SqliteUrl();
+		
+		boolean result = dao.delete(ID);
 		
 		assertTrue(result);
 	}
