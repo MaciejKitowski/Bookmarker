@@ -1,5 +1,6 @@
 package test.dao.Url;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
@@ -13,9 +14,13 @@ import org.junit.Test;
 
 import mvc.dao.PostgresFactory;
 import mvc.dao.SqliteFactory;
+import mvc.dao.Category.PostgresCategory;
+import mvc.dao.Category.SqliteCategory;
 import mvc.dao.Url.IUrlDAO;
 import mvc.dao.Url.PostgresUrl;
 import mvc.dao.Url.SqliteUrl;
+import mvc.model.Category;
+import mvc.model.Url;
 
 public class PostgresUrlTest {
 	private List<String> getTableNames() throws Exception {
@@ -57,4 +62,18 @@ public class PostgresUrlTest {
 		
 		assertTrue(tables.contains("url"));
 	}
+	
+	@Test
+	public void insertTest() {
+		Url url = new Url("http://test", "SingleinsertTest", "Single");
+		Category category = new PostgresCategory().get(3);
+		url.setCategory(category);
+		IUrlDAO dao = new PostgresUrl();
+		
+		int result = dao.insert(url);
+		
+		assertNotEquals(result, PostgresUrl.INSERT_FAIL);
+	}
+	
+	
 }
