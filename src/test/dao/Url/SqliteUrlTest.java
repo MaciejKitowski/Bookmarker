@@ -110,4 +110,14 @@ public class SqliteUrlTest {
 		
 		assertTrue((result != null && result.size() == getProfileCount()));
 	}
+	
+	@Test
+	public void getCategoryTest() {
+		Category category = new SqliteCategory().get(4);
+		IUrlDAO dao = new SqliteUrl();
+		
+		List<Url> result = dao.getAllParent(category);
+		
+		assertTrue(result != null);
+	}
 }
