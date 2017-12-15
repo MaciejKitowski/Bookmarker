@@ -40,7 +40,7 @@ public class MysqlCategoryTest {
 	private int getProfileCount() throws Exception {
 		String sql = "SELECT COUNT(*) FROM Category";
 		int count = 0;
-		Connection connection = SqliteFactory.getConnection();
+		Connection connection = MysqlFactory.getConnection();
 		Statement statement = connection.createStatement();
 		
 		ResultSet rs = statement.executeQuery(sql);
