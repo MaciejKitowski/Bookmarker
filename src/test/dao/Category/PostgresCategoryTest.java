@@ -110,4 +110,14 @@ public class PostgresCategoryTest {
 		
 		assertTrue((result != null && result.size() == getProfileCount()));
 	}
+	
+	@Test
+	public void getParentTest() {
+		MainCategory parent = new PostgresMainCategory().get(4);
+		ICategoryDAO dao = new PostgresCategory();
+		
+		List<Category> result = dao.getAllParent(parent);
+		
+		assertTrue(result != null);
+	}
 }
