@@ -1,5 +1,6 @@
 package test.dao.Url;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
@@ -13,9 +14,13 @@ import org.junit.Test;
 
 import mvc.dao.MysqlFactory;
 import mvc.dao.SqliteFactory;
+import mvc.dao.Category.MysqlCategory;
+import mvc.dao.Category.SqliteCategory;
 import mvc.dao.Url.IUrlDAO;
 import mvc.dao.Url.MysqlUrl;
 import mvc.dao.Url.SqliteUrl;
+import mvc.model.Category;
+import mvc.model.Url;
 
 public class MysqlUrlTest {
 	private List<String> getTableNames() throws Exception {
@@ -56,5 +61,17 @@ public class MysqlUrlTest {
 		List<String> tables = getTableNames();
 		
 		assertTrue(tables.contains("Url"));
+	}
+	
+	@Test
+	public void insertTest() {
+		Url url = new Url("http://test", "SingleinsertTest", "Single");
+		Category category = new MysqlCategory().get(3);
+		url.setCategory(category);
+		IUrlDAO dao = new MysqlUrl();
+		
+		int result = dao.insert(url);
+		
+		assertNotEquals(result, MysqlUrl.INSERT_FAIL);
 	}
 }
