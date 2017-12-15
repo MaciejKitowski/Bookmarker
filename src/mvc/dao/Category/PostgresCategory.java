@@ -170,7 +170,37 @@ public final class PostgresCategory implements ICategoryDAO {
 	public List<Category> getAll() {
 		log.info("Get all categories");
 		
-		return null;
+		List<Category> categories = new ArrayList<>();
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = MysqlFactory.getConnection();
+			statement = connection.createStatement();
+			
+			result = statement.executeQuery(GET_ALL);
+			if(result != null) {
+				while(result.next()) {
+					int foundID = result.getInt(1);
+					String foundName = result.getString(2);
+					int foundParentID = result.getInt(3);
+					
+					IMainCategoryDAO mainCategory = new SqliteMainCategory();
+					
+					categories.add(new Category(foundID, foundName, mainCategory.get(foundParentID)));
+				}
+			}
+			
+			result.close();
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return categories;
 	}
 
 	@Override
