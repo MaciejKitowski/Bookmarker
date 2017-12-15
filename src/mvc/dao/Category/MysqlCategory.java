@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -139,7 +140,32 @@ public final class MysqlCategory implements ICategoryDAO {
 	public List<Category> getAllParent(MainCategory mainCategory) {
 		log.info(String.format("Get all categories with parent: ID=%d, name=%s", mainCategory.getID(), mainCategory.getName()));
 		
-		return null;
+		List<Category> categories = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = MysqlFactory.getConnection();
+			statement = connection.prepareStatement(GET_PARENT);
+			
+			statement.setInt(1, mainCategory.getID());
+			
+			result = statement.executeQuery();
+			if(result != null) {
+				while(result.next()) {
+					int foundID = result.getInt(1);
+					String foundName = result.getString(2);
+					
+					categories.add(new Category(foundID, foundName, mainCategory));
+				}
+			}
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return categories;
 	}
 
 	@Override
