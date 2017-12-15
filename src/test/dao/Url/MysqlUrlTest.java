@@ -74,4 +74,21 @@ public class MysqlUrlTest {
 		
 		assertNotEquals(result, MysqlUrl.INSERT_FAIL);
 	}
+	
+	@Test
+	public void insertMultipleTest() {
+		String pattern = "MultipleInsertTest_%d";
+		int insertCount = 10;
+		Category category = new MysqlCategory().get(4);
+		IUrlDAO dao = new MysqlUrl();
+		
+		for(int i = 0; i < insertCount; ++i) {
+			Url url = new Url("http://test", String.format(pattern, i + 1), "Single");
+			url.setCategory(category);
+			
+			int result = dao.insert(url);
+			
+			assertNotEquals(result, SqliteUrl.INSERT_FAIL);
+		}
+	}
 }
