@@ -120,4 +120,25 @@ public class PostgresUrlTest {
 		
 		assertTrue(result != null);
 	}
+	
+	@Test
+	public void updateTest() {
+		IUrlDAO dao = new PostgresUrl();
+		Url toUpdate = dao.get(1);
+		toUpdate.setTitle(toUpdate.getTitle() + "-UPDATED");
+		
+		boolean result = dao.update(toUpdate);
+		
+		assertTrue(result);
+	}
+	
+	@Test
+	public void deleteTest() {
+		int ID = 10;
+		IUrlDAO dao = new PostgresUrl();
+		
+		boolean result = dao.delete(ID);
+		
+		assertTrue(result);
+	}
 }
