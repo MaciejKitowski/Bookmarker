@@ -131,4 +131,14 @@ public class MysqlUrlTest {
 		
 		assertTrue(result);
 	}
+	
+	@Test
+	public void deleteTest() {
+		int ID = 10;
+		IUrlDAO dao = new MysqlUrl();
+		
+		boolean result = dao.delete(ID);
+		
+		assertTrue(result);
+	}
 }
