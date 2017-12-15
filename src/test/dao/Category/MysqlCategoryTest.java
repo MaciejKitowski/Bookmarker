@@ -110,4 +110,14 @@ public class MysqlCategoryTest {
 		
 		assertTrue((result != null && result.size() == getProfileCount()));
 	}
+	
+	@Test
+	public void getParentTest() {
+		MainCategory parent = new MysqlMainCategory().get(4);
+		ICategoryDAO dao = new MysqlCategory();
+		
+		List<Category> result = dao.getAllParent(parent);
+		
+		assertTrue(result != null);
+	}
 }
