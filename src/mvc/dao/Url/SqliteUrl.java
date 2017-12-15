@@ -41,7 +41,7 @@ public final class SqliteUrl implements IUrlDAO {
 	
 	private static final String GET_ALL = "SELECT ID, title, url, description, cat_ID FROM Url";
 	
-	private static final String UPDATE = "UPDATE Url SET title=?, url=?, title=?, description=?, cat_ID=? WHERE ID = ?";
+	private static final String UPDATE = "UPDATE Url SET title=?, url=?, description=?, cat_ID=? WHERE ID = ?";
 	
 	private static final String DELETE = "DELETE FROM Url WHERE id = ?";
 
@@ -217,7 +217,29 @@ public final class SqliteUrl implements IUrlDAO {
 	public boolean update(Url url) {
 		log.info(String.format("Update url: ID=%d, url=%s", url.getID(), url.getUrl()));
 		
-		return false;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		try {
+			connection = SqliteFactory.getConnection();
+			statement = connection.prepareStatement(UPDATE);
+			
+			statement.setString(1, url.getTitle());
+			statement.setString(2, url.getUrl());
+			statement.setString(3, url.getDescription());
+			statement.setInt(4, url.getCategory().getID());
+			statement.setInt(5, url.getID());
+			statement.execute();
+			
+			statement.close();
+			connection.close();
+			
+			return true;
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+			return false;
+		}
 	}
 
 	@Override
