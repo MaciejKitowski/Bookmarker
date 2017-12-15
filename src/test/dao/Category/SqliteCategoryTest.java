@@ -57,7 +57,7 @@ public class SqliteCategoryTest {
 		
 		List<String> tables = getTableNames();
 		
-		assertTrue(tables.contains("MainCategory"));
+		assertTrue(tables.contains("Category"));
 	}
 	
 	@Test
