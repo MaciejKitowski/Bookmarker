@@ -12,16 +12,19 @@ import java.util.List;
 
 import org.junit.Test;
 
+import mvc.dao.MysqlFactory;
 import mvc.dao.SqliteFactory;
 import mvc.dao.Category.ICategoryDAO;
+import mvc.dao.Category.MysqlCategory;
 import mvc.dao.Category.SqliteCategory;
+import mvc.dao.MainCategory.MysqlMainCategory;
 import mvc.dao.MainCategory.SqliteMainCategory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 
-public class SqliteCategoryTest {
+public class MysqlCategoryTest {
 	private List<String> getTableNames() throws Exception {
-		Connection connection = SqliteFactory.getConnection();
+		Connection connection = MysqlFactory.getConnection();
 		DatabaseMetaData meta = connection.getMetaData();
 		List<String> buffer = new ArrayList<>();
 		
@@ -37,7 +40,7 @@ public class SqliteCategoryTest {
 	private int getProfileCount() throws Exception {
 		String sql = "SELECT COUNT(*) FROM Category";
 		int count = 0;
-		Connection connection = SqliteFactory.getConnection();
+		Connection connection = MysqlFactory.getConnection();
 		Statement statement = connection.createStatement();
 		
 		ResultSet rs = statement.executeQuery(sql);
@@ -52,7 +55,7 @@ public class SqliteCategoryTest {
 	
 	@Test
 	public void createTableTest() throws Exception {
-		ICategoryDAO dao = new SqliteCategory();
+		ICategoryDAO dao = new MysqlCategory();
 		dao.createTable();
 		
 		List<String> tables = getTableNames();
@@ -62,22 +65,22 @@ public class SqliteCategoryTest {
 	
 	@Test
 	public void insertTest() {
-		MainCategory parent = new SqliteMainCategory().get(3);
+		MainCategory parent = new MysqlMainCategory().get(3);
 		Category category = new Category("SingleInsertTest");
 		category.setParent(parent);
-		ICategoryDAO dao = new SqliteCategory();
+		ICategoryDAO dao = new MysqlCategory();
 		
 		int result = dao.insert(category);
 		
-		assertNotEquals(result, SqliteCategory.INSERT_FAIL);
+		assertNotEquals(result, MysqlCategory.INSERT_FAIL);
 	}
 	
 	@Test
 	public void insertMultipleTest() {
 		String pattern = "MultipleInsertTest_(%d)%s_%d";
 		int insertCount = 10;
-		MainCategory parent = new SqliteMainCategory().get(4);
-		ICategoryDAO dao = new SqliteCategory();
+		MainCategory parent = new MysqlMainCategory().get(4);
+		ICategoryDAO dao = new MysqlCategory();
 		
 		for(int i = 0; i < insertCount; ++i) {
 			Category category = new Category(String.format(pattern, parent.getID(), parent.getName(), i+1));
@@ -85,14 +88,14 @@ public class SqliteCategoryTest {
 			
 			int result = dao.insert(category);
 			
-			assertNotEquals(result, SqliteCategory.INSERT_FAIL);
+			assertNotEquals(result, MysqlCategory.INSERT_FAIL);
 		}
 	}
 	
 	@Test
 	public void getSingleTest() {
 		int ID = 1;
-		ICategoryDAO dao = new SqliteCategory();
+		ICategoryDAO dao = new MysqlCategory();
 		
 		Category result = dao.get(ID);
 		
@@ -101,7 +104,7 @@ public class SqliteCategoryTest {
 	
 	@Test
 	public void getAllTest() throws Exception {
-		ICategoryDAO dao = new SqliteCategory();
+		ICategoryDAO dao = new MysqlCategory();
 		
 		List<Category> result = dao.getAll();
 		
@@ -110,8 +113,8 @@ public class SqliteCategoryTest {
 	
 	@Test
 	public void getParentTest() {
-		MainCategory parent = new SqliteMainCategory().get(4);
-		ICategoryDAO dao = new SqliteCategory();
+		MainCategory parent = new MysqlMainCategory().get(4);
+		ICategoryDAO dao = new MysqlCategory();
 		
 		List<Category> result = dao.getAllParent(parent);
 		
@@ -120,7 +123,7 @@ public class SqliteCategoryTest {
 	
 	@Test
 	public void updateTest() {
-		ICategoryDAO dao = new SqliteCategory();
+		ICategoryDAO dao = new MysqlCategory();
 		Category toUpdate = dao.get(1);
 		toUpdate.setName(toUpdate.getName() + "-UPDATED");
 		
@@ -132,7 +135,7 @@ public class SqliteCategoryTest {
 	@Test
 	public void deleteTest() {
 		int ID = 10;
-		ICategoryDAO dao = new SqliteCategory();
+		ICategoryDAO dao = new MysqlCategory();
 		
 		boolean result = dao.delete(ID);
 		

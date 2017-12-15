@@ -21,7 +21,7 @@ public final class MysqlCategory implements ICategoryDAO {
 	public static int INSERT_FAIL = -1;
 	
 	private static final String CREATE_TABLE = 
-		"CREATE TABLE MainCategory( \n" +
+		"CREATE TABLE Category( \n" +
 				"ID 	int 	NOT NULL	AUTO_INCREMENT, \n" +
 				"parent_ID 	int, \n" +
 				"name 	VARCHAR(255) 	NOT NULL \n," +
