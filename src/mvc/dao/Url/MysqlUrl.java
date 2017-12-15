@@ -1,13 +1,16 @@
 package mvc.dao.Url;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.logging.Logger;
 
 import mvc.dao.MysqlFactory;
 import mvc.dao.SqliteFactory;
+import mvc.model.Url;
 
-public final class MysqlUrl {
+public final class MysqlUrl implements IUrlDAO {
 	private static final Logger log = Logger.getLogger(MysqlUrl.class.getName());
 	
 	public static int INSERT_FAIL = -1;
@@ -56,5 +59,40 @@ public final class MysqlUrl {
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
 		}
+	}
+	
+	@Override
+	public int insert(Url url) {
+		log.info(String.format("Insert url: ID=%d, title=%s, url=%s", url.getID(), url.getTitle(), url.getTitle()));
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		int resultBuffer = 0;
+			
+		try {
+			connection = MysqlFactory.getConnection();
+			statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+			
+			statement.setString(1, url.getTitle());
+			statement.setString(2, url.getUrl());
+			statement.setString(3, url.getDescription());
+			statement.setInt(4, url.getCategory().getID());
+			statement.execute();
+			
+			result = statement.getGeneratedKeys();
+			if(result != null && result.next()) resultBuffer = result.getInt(1);
+			else resultBuffer = INSERT_FAIL;
+			
+			result.close();
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+			resultBuffer = INSERT_FAIL;
+		}
+
+		return resultBuffer;
 	}
 }
