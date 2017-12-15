@@ -1,8 +1,13 @@
 package mvc.dao.Url;
 
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.logging.Logger;
 
-public final class PostgresUrl {
+import mvc.dao.PostgresFactory;
+import mvc.dao.SqliteFactory;
+
+public final class PostgresUrl implements IUrlDAO {
 	private static final Logger log = Logger.getLogger(PostgresUrl.class.getName());
 	
 	public static int INSERT_FAIL = -1;
@@ -30,4 +35,25 @@ public final class PostgresUrl {
 		private static final String UPDATE = "UPDATE Url SET title=?, url=?, description=?, cat_ID=? WHERE ID = ?";
 		
 		private static final String DELETE = "DELETE FROM Url WHERE id = ?";
+		
+		@Override
+		public void createTable() {
+			log.info("Create new table");
+			
+			Connection connection = null;
+			Statement statement = null;
+			
+			try {
+				connection = PostgresFactory.getConnection();
+				statement = connection.createStatement();
+				
+				statement.execute(CREATE_TABLE);
+				
+				statement.close();
+				connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
+		}
 }
