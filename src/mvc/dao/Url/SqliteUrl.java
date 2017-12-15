@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -142,7 +143,34 @@ public final class SqliteUrl implements IUrlDAO {
 	public List<Url> getAllParent(Category category) {
 		log.info(String.format("Get all urls with category: ID=%d, name=%s", category.getID(), category.getName()));
 		
-		return null;
+		List<Url> urls = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = SqliteFactory.getConnection();
+			statement = connection.prepareStatement(GET_CATEGORY);
+			
+			statement.setInt(1, category.getID());
+			
+			result = statement.executeQuery();
+			if(result != null) {
+				while(result.next()) {
+					int foundID = result.getInt(1);
+					String foundTitle = result.getString(2);
+					String foundUrl = result.getString(3);
+					String foundDescription = result.getString(4);
+					
+					urls.add(new Url(foundID, foundUrl, foundTitle, foundDescription, category));
+				}
+			}
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return urls;
 	}
 
 	@Override
