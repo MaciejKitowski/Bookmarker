@@ -110,4 +110,14 @@ public class MysqlUrlTest {
 		
 		assertTrue((result != null && result.size() == getProfileCount()));
 	}
+	
+	@Test
+	public void getCategoryTest() {
+		Category category = new MysqlCategory().get(4);
+		IUrlDAO dao = new MysqlUrl();
+		
+		List<Url> result = dao.getAllParent(category);
+		
+		assertTrue(result != null);
+	}
 }
