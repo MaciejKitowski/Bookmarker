@@ -91,4 +91,23 @@ public class PostgresUrlTest {
 			assertNotEquals(result, PostgresUrl.INSERT_FAIL);
 		}
 	}
+	
+	@Test
+	public void getSingleTest() {
+		int ID = 1;
+		IUrlDAO dao = new PostgresUrl();
+		
+		Url result = dao.get(ID);
+		
+		assertTrue((result == null || result.getID() == ID));
+	}
+	
+	@Test
+	public void getAllTest() throws Exception {
+		IUrlDAO dao = new PostgresUrl();
+		
+		List<Url> result = dao.getAll();
+		
+		assertTrue((result != null && result.size() == getProfileCount()));
+	}
 }
