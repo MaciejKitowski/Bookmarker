@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 
 import mvc.dao.MysqlFactory;
 import mvc.dao.SqliteFactory;
+import mvc.dao.MainCategory.IMainCategoryDAO;
+import mvc.dao.MainCategory.SqliteMainCategory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 
@@ -98,7 +100,39 @@ public final class MysqlCategory implements ICategoryDAO {
 	public Category get(int ID) {
 		log.info(String.format("Get category: ID=%d", ID));
 		
-		return null;
+		Category category = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = MysqlFactory.getConnection();
+			statement = connection.prepareStatement(GET);
+			
+			statement.setInt(1, ID);
+			statement.execute();
+			
+			result = statement.getResultSet();
+			
+			if(result != null && result.next()) {
+				int foundID = result.getInt(1);
+				String foundName = result.getString(2);
+				int foundParentID = result.getInt(3);
+				
+				IMainCategoryDAO mainCategory = new SqliteMainCategory();
+								
+				category = new Category(foundID, foundName, mainCategory.get(foundParentID));
+			}
+			
+			result.close();
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return category;
 	}
 
 	@Override
