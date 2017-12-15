@@ -1,6 +1,11 @@
 package mvc.dao.Url;
 
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.logging.Logger;
+
+import mvc.dao.MysqlFactory;
+import mvc.dao.SqliteFactory;
 
 public final class MysqlUrl {
 	private static final Logger log = Logger.getLogger(MysqlUrl.class.getName());
@@ -31,4 +36,25 @@ public final class MysqlUrl {
 	private static final String UPDATE = "UPDATE Url SET title=?, url=?, description=?, cat_ID=? WHERE ID = ?";
 	
 	private static final String DELETE = "DELETE FROM Url WHERE id = ?";
+	
+	@Override
+	public void createTable() {
+		log.info("Create new table");
+		
+		Connection connection = null;
+		Statement statement = null;
+		
+		try {
+			connection = MysqlFactory.getConnection();
+			statement = connection.createStatement();
+			
+			statement.execute(CREATE_TABLE);
+			
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+	}
 }
