@@ -241,4 +241,29 @@ public final class MysqlUrl implements IUrlDAO {
 			return false;
 		}
 	}
+	
+	@Override
+	public boolean delete(int ID) {
+		log.info(String.format("Delete url: ID=%d", ID));
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		try {
+			connection = MysqlFactory.getConnection();
+			statement = connection.prepareStatement(DELETE);
+			
+			statement.setInt(1, ID);
+			statement.execute();
+			
+			statement.close();
+			connection.close();
+			
+			return true;
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+			return false;
+		}
+	}
 }
