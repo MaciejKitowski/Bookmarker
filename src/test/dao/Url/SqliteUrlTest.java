@@ -1,5 +1,6 @@
 package test.dao.Url;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
@@ -14,8 +15,12 @@ import org.junit.Test;
 import mvc.dao.SqliteFactory;
 import mvc.dao.Category.ICategoryDAO;
 import mvc.dao.Category.SqliteCategory;
+import mvc.dao.MainCategory.SqliteMainCategory;
 import mvc.dao.Url.IUrlDAO;
 import mvc.dao.Url.SqliteUrl;
+import mvc.model.Category;
+import mvc.model.MainCategory;
+import mvc.model.Url;
 
 public class SqliteUrlTest {
 	private List<String> getTableNames() throws Exception {
@@ -56,5 +61,16 @@ public class SqliteUrlTest {
 		List<String> tables = getTableNames();
 		
 		assertTrue(tables.contains("Url"));
+	}
+	
+	@Test
+	public void insertTest() {
+		Url url = new Url("http://test", "SingleinsertTest", "Single");
+		Category category = new SqliteCategory().get(3);
+		IUrlDAO dao = new SqliteUrl();
+		
+		int result = dao.insert(url);
+		
+		assertNotEquals(result, SqliteUrl.INSERT_FAIL);
 	}
 }
