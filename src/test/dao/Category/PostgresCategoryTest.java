@@ -1,5 +1,6 @@
 package test.dao.Category;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
@@ -16,6 +17,10 @@ import mvc.dao.PostgresFactory;
 import mvc.dao.Category.ICategoryDAO;
 import mvc.dao.Category.MysqlCategory;
 import mvc.dao.Category.PostgresCategory;
+import mvc.dao.MainCategory.MysqlMainCategory;
+import mvc.dao.MainCategory.PostgresMainCategory;
+import mvc.model.Category;
+import mvc.model.MainCategory;
 
 public class PostgresCategoryTest {
 	private List<String> getTableNames() throws Exception {
@@ -56,5 +61,17 @@ public class PostgresCategoryTest {
 		List<String> tables = getTableNames();
 		
 		assertTrue(tables.contains("category"));
+	}
+	
+	@Test
+	public void insertTest() {
+		MainCategory parent = new PostgresMainCategory().get(3);
+		Category category = new Category("SingleInsertTest");
+		category.setParent(parent);
+		ICategoryDAO dao = new PostgresCategory();
+		
+		int result = dao.insert(category);
+		
+		assertNotEquals(result, PostgresCategory.INSERT_FAIL);
 	}
 }
