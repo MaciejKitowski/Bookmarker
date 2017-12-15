@@ -75,5 +75,20 @@ public class PostgresUrlTest {
 		assertNotEquals(result, PostgresUrl.INSERT_FAIL);
 	}
 	
-	
+	@Test
+	public void insertMultipleTest() {
+		String pattern = "MultipleInsertTest_%d";
+		int insertCount = 10;
+		Category category = new PostgresCategory().get(4);
+		IUrlDAO dao = new PostgresUrl();
+		
+		for(int i = 0; i < insertCount; ++i) {
+			Url url = new Url("http://test", String.format(pattern, i + 1), "Single");
+			url.setCategory(category);
+			
+			int result = dao.insert(url);
+			
+			assertNotEquals(result, PostgresUrl.INSERT_FAIL);
+		}
+	}
 }
