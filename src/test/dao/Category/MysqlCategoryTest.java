@@ -131,4 +131,14 @@ public class MysqlCategoryTest {
 		
 		assertTrue(result);
 	}
+	
+	@Test
+	public void deleteTest() {
+		int ID = 10;
+		ICategoryDAO dao = new MysqlCategory();
+		
+		boolean result = dao.delete(ID);
+		
+		assertTrue(result);
+	}
 }
