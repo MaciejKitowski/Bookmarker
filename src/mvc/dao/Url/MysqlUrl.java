@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 import mvc.dao.MysqlFactory;
 import mvc.dao.Category.ICategoryDAO;
-import mvc.dao.Category.SqliteCategory;
+import mvc.dao.Category.MysqlCategory;
 import mvc.model.Category;
 import mvc.model.Url;
 
@@ -125,7 +125,7 @@ public final class MysqlUrl implements IUrlDAO {
 				String foundDescription = result.getString(4);
 				int foundCatID = result.getInt(5);
 				
-				ICategoryDAO category = new SqliteCategory();
+				ICategoryDAO category = new MysqlCategory();
 				url = new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID));
 			}
 			
@@ -196,7 +196,7 @@ public final class MysqlUrl implements IUrlDAO {
 					String foundDescription = result.getString(4);
 					int foundCatID = result.getInt(5);
 					
-					ICategoryDAO category = new SqliteCategory();
+					ICategoryDAO category = new MysqlCategory();
 					urls.add(new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID)));
 				}
 			}

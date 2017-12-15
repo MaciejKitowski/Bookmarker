@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import mvc.dao.MysqlFactory;
-import mvc.dao.SqliteFactory;
 import mvc.dao.MainCategory.IMainCategoryDAO;
-import mvc.dao.MainCategory.SqliteMainCategory;
+import mvc.dao.MainCategory.MysqlMainCategory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 
@@ -120,7 +119,7 @@ public final class MysqlCategory implements ICategoryDAO {
 				String foundName = result.getString(2);
 				int foundParentID = result.getInt(3);
 				
-				IMainCategoryDAO mainCategory = new SqliteMainCategory();
+				IMainCategoryDAO mainCategory = new MysqlMainCategory();
 								
 				category = new Category(foundID, foundName, mainCategory.get(foundParentID));
 			}
@@ -188,7 +187,7 @@ public final class MysqlCategory implements ICategoryDAO {
 					String foundName = result.getString(2);
 					int foundParentID = result.getInt(3);
 					
-					IMainCategoryDAO mainCategory = new SqliteMainCategory();
+					IMainCategoryDAO mainCategory = new MysqlMainCategory();
 					
 					categories.add(new Category(foundID, foundName, mainCategory.get(foundParentID)));
 				}
@@ -240,7 +239,7 @@ public final class MysqlCategory implements ICategoryDAO {
 		PreparedStatement statement = null;
 		
 		try {
-			connection = SqliteFactory.getConnection();
+			connection = MysqlFactory.getConnection();
 			statement = connection.prepareStatement(DELETE);
 			
 			statement.setInt(1, ID);

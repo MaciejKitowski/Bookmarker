@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 import mvc.dao.PostgresFactory;
 import mvc.dao.MainCategory.IMainCategoryDAO;
-import mvc.dao.MainCategory.SqliteMainCategory;
+import mvc.dao.MainCategory.PostgresMainCategory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 
@@ -118,7 +118,7 @@ public final class PostgresCategory implements ICategoryDAO {
 				String foundName = result.getString(2);
 				int foundParentID = result.getInt(3);
 				
-				IMainCategoryDAO mainCategory = new SqliteMainCategory();
+				IMainCategoryDAO mainCategory = new PostgresMainCategory();
 								
 				category = new Category(foundID, foundName, mainCategory.get(foundParentID));
 			}
@@ -186,7 +186,7 @@ public final class PostgresCategory implements ICategoryDAO {
 					String foundName = result.getString(2);
 					int foundParentID = result.getInt(3);
 					
-					IMainCategoryDAO mainCategory = new SqliteMainCategory();
+					IMainCategoryDAO mainCategory = new PostgresMainCategory();
 					
 					categories.add(new Category(foundID, foundName, mainCategory.get(foundParentID)));
 				}

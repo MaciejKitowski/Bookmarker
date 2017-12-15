@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 import mvc.dao.PostgresFactory;
 import mvc.dao.Category.ICategoryDAO;
-import mvc.dao.Category.SqliteCategory;
+import mvc.dao.Category.PostgresCategory;
 import mvc.model.Category;
 import mvc.model.Url;
 
@@ -124,7 +124,7 @@ public final class PostgresUrl implements IUrlDAO {
 				String foundDescription = result.getString(4);
 				int foundCatID = result.getInt(5);
 				
-				ICategoryDAO category = new SqliteCategory();
+				ICategoryDAO category = new PostgresCategory();
 				url = new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID));
 			}
 			
@@ -195,7 +195,7 @@ public final class PostgresUrl implements IUrlDAO {
 					String foundDescription = result.getString(4);
 					int foundCatID = result.getInt(5);
 					
-					ICategoryDAO category = new SqliteCategory();
+					ICategoryDAO category = new PostgresCategory();
 					urls.add(new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID)));
 				}
 			}
