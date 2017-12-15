@@ -101,4 +101,13 @@ public class SqliteUrlTest {
 		
 		assertTrue((result == null || result.getID() == ID));
 	}
+	
+	@Test
+	public void getAllTest() throws Exception {
+		IUrlDAO dao = new SqliteUrl();
+		
+		List<Url> result = dao.getAll();
+		
+		assertTrue((result != null && result.size() == getProfileCount()));
+	}
 }
