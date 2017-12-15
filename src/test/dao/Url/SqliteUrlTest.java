@@ -120,4 +120,15 @@ public class SqliteUrlTest {
 		
 		assertTrue(result != null);
 	}
+	
+	@Test
+	public void updateTest() {
+		IUrlDAO dao = new SqliteUrl();
+		Url toUpdate = dao.get(1);
+		toUpdate.setTitle(toUpdate.getTitle() + "-UPDATED");
+		
+		boolean result = dao.update(toUpdate);
+		
+		assertTrue(result);
+	}
 }
