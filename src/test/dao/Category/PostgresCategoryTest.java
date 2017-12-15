@@ -131,4 +131,14 @@ public class PostgresCategoryTest {
 		
 		assertTrue(result);
 	}
+	
+	@Test
+	public void deleteTest() {
+		int ID = 10;
+		ICategoryDAO dao = new PostgresCategory();
+		
+		boolean result = dao.delete(ID);
+		
+		assertTrue(result);
+	}
 }
