@@ -13,12 +13,9 @@ import java.util.List;
 import org.junit.Test;
 
 import mvc.dao.PostgresFactory;
-import mvc.dao.SqliteFactory;
 import mvc.dao.Category.PostgresCategory;
-import mvc.dao.Category.SqliteCategory;
 import mvc.dao.Url.IUrlDAO;
 import mvc.dao.Url.PostgresUrl;
-import mvc.dao.Url.SqliteUrl;
 import mvc.model.Category;
 import mvc.model.Url;
 

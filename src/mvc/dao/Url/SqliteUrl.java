@@ -11,8 +11,6 @@ import java.util.logging.Logger;
 import mvc.dao.SqliteFactory;
 import mvc.dao.Category.ICategoryDAO;
 import mvc.dao.Category.SqliteCategory;
-import mvc.dao.MainCategory.IMainCategoryDAO;
-import mvc.dao.MainCategory.SqliteMainCategory;
 import mvc.model.Category;
 import mvc.model.Url;
 

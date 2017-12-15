@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import mvc.dao.MysqlFactory;
-import mvc.dao.SqliteFactory;
 import mvc.dao.Category.ICategoryDAO;
 import mvc.dao.Category.SqliteCategory;
 import mvc.model.Category;
