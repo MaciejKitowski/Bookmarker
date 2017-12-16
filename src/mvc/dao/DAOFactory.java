@@ -8,6 +8,8 @@ public abstract class DAOFactory {
 	public static final int SQLITE = 1;
 	public static final int MYSQL = 2;
 	public static final int POSTGRES = 3;
+	
+	abstract public String getName();
 
 	public static DAOFactory get(int database) {
 		if(database == SQLITE) {
