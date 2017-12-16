@@ -32,4 +32,9 @@ public final class SqliteFactory extends DAOFactory {
 	public String getName() {
 		return "SQLITE";
 	}
+
+	@Override
+	public Connection createConnection() {
+		return SqliteFactory.getConnection();
+	}
 }

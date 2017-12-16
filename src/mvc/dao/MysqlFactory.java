@@ -34,4 +34,9 @@ public final class MysqlFactory extends DAOFactory {
 	public String getName() {
 		return "MYSQL";
 	}
+
+	@Override
+	public Connection createConnection() {
+		return MysqlFactory.getConnection();
+	}
 }
