@@ -2,19 +2,11 @@ package mvc.dao.MainCategory;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StreamCorruptedException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.SqliteFactory;
 import mvc.model.MainCategory;
 
 public final class MainCategoryDAO {
