@@ -49,9 +49,11 @@ public final class MainCategoryDAO {
 			JSONObject obj = new JSONObject(rawJson).getJSONObject(database.getName());
 			
 			CREATE_TABLE = getCreateTable(obj.getJSONArray("CREATE_TABLE"));
-			
-			
-			
+			INSERT = obj.getString("INSERT");
+			GET = obj.getString("GET");
+			GET_ALL = obj.getString("GET_ALL");
+			UPDATE = obj.getString("UPDATE");
+			DELETE = obj.getString("DELETE");
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
