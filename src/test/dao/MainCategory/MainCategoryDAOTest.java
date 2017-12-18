@@ -80,4 +80,15 @@ public class MainCategoryDAOTest {
 			fail(ex.getMessage());
 		}
 	}
+	
+	@Test
+	public void updateTest() {
+		int ID = 1;
+		MainCategory toUpdate = dao.get(ID);
+
+		toUpdate.setName(toUpdate.getName() + "-UPDATE");
+		boolean result = dao.update(toUpdate);
+		
+		assertTrue(result);
+	}
 }
