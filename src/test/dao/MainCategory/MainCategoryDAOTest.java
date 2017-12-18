@@ -69,4 +69,15 @@ public class MainCategoryDAOTest {
 		
 		assertTrue(result != null && result.getID() == ID);
 	}
+	
+	public void getAllTest() {
+		try {
+			List<MainCategory> result = dao.getAll();
+			
+			assertTrue(result != null && result.size() == DAOutils.count("MainCategory", DAOFactory.SQLITE));
+		}
+		catch(Exception ex) {
+			fail(ex.getMessage());
+		}
+	}
 }
