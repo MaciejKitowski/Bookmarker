@@ -46,4 +46,18 @@ public class MainCategoryDAOTest {
 		
 		assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
 	}
+	
+	@Test
+	public void insertMultipleTest() {
+		String pattern = "MultipleInsertTest_%d";
+		int insertCount = 100;
+		
+		for(int i = 0; i < insertCount; ++i) {
+			MainCategory category = new MainCategory(String.format(pattern, i + 1));
+			
+			int result = dao.insert(category);
+			
+			assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
+		}
+	}
 }
