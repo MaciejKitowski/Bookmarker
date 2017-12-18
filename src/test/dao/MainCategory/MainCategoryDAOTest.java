@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.MainCategory.IMainCategoryDAO;
@@ -59,5 +60,13 @@ public class MainCategoryDAOTest {
 			
 			assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
 		}
+	}
+	
+	public void getSingleTest() {
+		int ID = 1;
+		
+		MainCategory result = dao.get(ID);
+		
+		assertTrue(result != null && result.getID() == ID);
 	}
 }
