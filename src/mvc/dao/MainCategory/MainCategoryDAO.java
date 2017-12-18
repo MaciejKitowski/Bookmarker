@@ -2,6 +2,7 @@ package mvc.dao.MainCategory;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StreamCorruptedException;
 import java.nio.file.Files;
@@ -41,11 +42,11 @@ public final class MainCategoryDAO {
 	private void loadQueriesFromFile() {
 		log.info("Load SQL queries from: " + queryFilename);
 		
+		FileInputStream jsonFile = null;
+		
 		try {
-			FileInputStream jsonFile = new FileInputStream(new File(queryFilename));
+			jsonFile = new FileInputStream(new File(queryFilename));
 			String rawJson = IOUtils.toString(jsonFile);
-			jsonFile.close();
-			
 			JSONObject obj = new JSONObject(rawJson).getJSONObject(database.getName());
 			
 			CREATE_TABLE = getCreateTable(obj.getJSONArray("CREATE_TABLE"));
@@ -57,6 +58,13 @@ public final class MainCategoryDAO {
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
+		}
+		finally {
+			try {
+				jsonFile.close();
+			} catch (Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 	}
 	
