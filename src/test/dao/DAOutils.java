@@ -8,7 +8,7 @@ import java.util.List;
 
 import mvc.dao.DAOFactory;
 
-class DAOutils {
+public class DAOutils {
 	private DAOutils() {}
 	
 	public static List<String> getTableNames(int database) throws Exception {
