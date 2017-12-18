@@ -2,6 +2,7 @@ package test.dao.model;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,6 +36,25 @@ public class MainCategoryDAOTest {
 	@Before
 	public void initialize() {
 		dao = new MainCategoryDAO(databaseType);
+	}
+	
+	@Test
+	public void loadQueriesTest() {
+		String[] fieldNames = {"CREATE_TABLE", "INSERT", "GET", "GET_ALL", "UPDATE", "DELETE"};
+		
+		try {
+			Class<?> cls = dao.getClass();
+			
+			for(String name : fieldNames) {
+				Field field = cls.getDeclaredField(name);
+				field.setAccessible(true);
+				
+				System.out.println(field.get(dao));
+			}
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	@Test
