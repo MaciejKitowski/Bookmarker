@@ -1,5 +1,7 @@
 package test.dao;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -7,8 +9,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import mvc.dao.DAOFactory;
-import mvc.dao.SqliteFactory;
 
 public class DAOutils {
 	private DAOutils() {}
@@ -41,5 +46,26 @@ public class DAOutils {
 		connection.close();
 		
 		return result;
+	}
+	
+	public static JSONObject getJsonQuery(String filename, int database) {
+		FileInputStream jsonFile = null;
+		JSONObject object = null;
+		
+		try {
+			jsonFile = new FileInputStream(new File(filename));
+			String rawJson = IOUtils.toString(jsonFile);
+			object = new JSONObject(rawJson).getJSONObject(DAOFactory.get(database).getName());
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return object;
+	}
+	
+	public static String getCreateTable(JSONArray array) {
+		String[] raw = array.toList().toArray(new String[array.length()]);
+		return String.join("\n", raw);
 	}
 }

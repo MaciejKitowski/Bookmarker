@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,17 +44,23 @@ public class MainCategoryDAOTest {
 		String[] fieldNames = {"CREATE_TABLE", "INSERT", "GET", "GET_ALL", "UPDATE", "DELETE"};
 		
 		try {
+			JSONObject json = DAOutils.getJsonQuery("MainCategory.json", databaseType);
 			Class<?> cls = dao.getClass();
 			
 			for(String name : fieldNames) {
+				String sql = null;
 				Field field = cls.getDeclaredField(name);
 				field.setAccessible(true);
 				
-				System.out.println(field.get(dao));
+				if(name == "CREATE_TABLE") sql = DAOutils.getCreateTable(json.getJSONArray(name));
+				else sql = json.getString(name);
+				
+				assertNotNull(field.get(dao));
+				assertEquals(field.get(dao), sql);
 			}
 		}
 		catch(Exception ex) {
-			ex.printStackTrace();
+			fail(ex.getMessage());
 		}
 	}
 	
