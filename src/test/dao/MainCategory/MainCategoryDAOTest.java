@@ -51,7 +51,7 @@ public class MainCategoryDAOTest {
 	@Test
 	public void insertMultipleTest() {
 		String pattern = "MultipleInsertTest_%d";
-		int insertCount = 100;
+		int insertCount = 20;
 		
 		for(int i = 0; i < insertCount; ++i) {
 			MainCategory category = new MainCategory(String.format(pattern, i + 1));
@@ -88,6 +88,15 @@ public class MainCategoryDAOTest {
 
 		toUpdate.setName(toUpdate.getName() + "-UPDATE");
 		boolean result = dao.update(toUpdate);
+		
+		assertTrue(result);
+	}
+	
+	@Test
+	public void deleteTest() {
+		int ID = 10;
+		
+		boolean result = dao.delete(ID);
 		
 		assertTrue(result);
 	}
