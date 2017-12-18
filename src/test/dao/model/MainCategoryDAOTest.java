@@ -1,4 +1,4 @@
-package test.dao.MainCategory;
+package test.dao.model;
 
 import static org.junit.Assert.*;
 
