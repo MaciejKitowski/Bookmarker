@@ -2,37 +2,51 @@ package test.dao.MainCategory;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.omg.CORBA.PUBLIC_MEMBER;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.MainCategory.IMainCategoryDAO;
 import mvc.dao.MainCategory.MainCategoryDAO;
-import mvc.dao.MainCategory.SqliteMainCategory;
 import mvc.model.MainCategory;
 import test.dao.DAOutils;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@RunWith(Parameterized.class)
 public class MainCategoryDAOTest {
-	MainCategoryDAO dao = null;
+	private MainCategoryDAO dao = null;
+	private int databaseType;
+	
+	@Parameters
+    public static List<Object> data() {
+        return Arrays.asList(new Object[] {     
+                 DAOFactory.SQLITE, DAOFactory.MYSQL, DAOFactory.POSTGRES  
+           });
+    }
+	
+	public MainCategoryDAOTest(int database) {
+		databaseType = database;
+	}
 	
 	@Before
 	public void initialize() {
-		dao = new MainCategoryDAO(DAOFactory.SQLITE);
+		dao = new MainCategoryDAO(databaseType);
 	}
 	
 	@Test
 	public void createTableTest() {
 		try {
 			dao.createTable();
-			List<String> tableList = DAOutils.getTableNames(DAOFactory.SQLITE);
+			List<String> tableList = DAOutils.getTableNames(databaseType);
 			
-			assertTrue(tableList.contains("MainCategory"));
+			assertTrue(tableList.contains("MainCategory") || tableList.contains("maincategory"));
 		}
 		catch(Exception ex) {
 			fail(ex.getMessage());
@@ -74,7 +88,7 @@ public class MainCategoryDAOTest {
 		try {
 			List<MainCategory> result = dao.getAll();
 			
-			assertTrue(result != null && result.size() == DAOutils.count("MainCategory", DAOFactory.SQLITE));
+			assertTrue(result != null && result.size() == DAOutils.count("MainCategory", databaseType));
 		}
 		catch(Exception ex) {
 			fail(ex.getMessage());
