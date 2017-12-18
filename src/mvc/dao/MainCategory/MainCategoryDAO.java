@@ -43,16 +43,12 @@ public final class MainCategoryDAO {
 		try {
 			FileInputStream jsonFile = new FileInputStream(new File(queryFilename));
 			String rawJson = IOUtils.toString(jsonFile);
-			
-			JSONObject parent = new JSONObject(rawJson);
-			JSONObject target = parent.getJSONObject(database.getName());
-			
-			JSONArray createTableArray = target.getJSONArray("CREATE_TABLE");
-			System.out.println(createTableArray);
-			
-			CREATE_TABLE = String.join("\n", Arrays.copyOf(createTableArray.toList().toArray(), createTableArray.length(), String[].class));
-			
 			jsonFile.close();
+			
+			JSONObject obj = new JSONObject(rawJson).getJSONObject(database.getName());
+			
+			JSONArray createTableRaw = obj.getJSONArray("CREATE_TABLE");
+			CREATE_TABLE = String.join("\n", createTableRaw.toList().toArray(new String[createTableRaw.length()]));
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());

@@ -11,8 +11,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import mvc.dao.DAOFactory;
 import mvc.dao.SqliteFactory;
 import mvc.dao.MainCategory.IMainCategoryDAO;
+import mvc.dao.MainCategory.MainCategoryDAO;
 import mvc.dao.MainCategory.SqliteMainCategory;
 import mvc.model.MainCategory;
 
@@ -45,6 +47,11 @@ public class SqliteMainCategoryTest {
 		connection.close();
 		
 		return count;
+	}
+	
+	@Test
+	public void loadSqlTest() {
+		MainCategoryDAO dao = new MainCategoryDAO(DAOFactory.SQLITE);
 	}
 	
 	@Test
