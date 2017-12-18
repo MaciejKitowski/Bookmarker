@@ -17,7 +17,7 @@ import org.json.JSONObject;
 import mvc.dao.DAOFactory;
 import mvc.model.MainCategory;
 
-public final class MainCategoryDAO {
+public final class MainCategoryDAO implements IMainCategoryDAO {
 	private static final Logger log = Logger.getLogger(MainCategoryDAO.class.getName());
 	private static final String queryFilename = "MainCategory.json";
 	
@@ -37,6 +37,7 @@ public final class MainCategoryDAO {
 		loadQueriesFromFile();
 	}
 	
+	@Override
 	public void createTable() {
 		log.info("Create new table");
 		
@@ -57,6 +58,7 @@ public final class MainCategoryDAO {
 		}
 	}
 	
+	@Override
 	public int insert(MainCategory category) {
 		log.info(String.format("Insert category: ID=%d, name=%s", category.getID(), category.getName()));
 		
@@ -88,6 +90,7 @@ public final class MainCategoryDAO {
 		return resultBuffer;
 	}
 	
+	@Override
 	public MainCategory get(int ID) {
 		log.info(String.format("Get category: ID=%d", ID));
 		
@@ -122,6 +125,7 @@ public final class MainCategoryDAO {
 		return category;
 	}
 	
+	@Override
 	public List<MainCategory> getAll() {
 		log.info("Get all categories");
 		
@@ -155,6 +159,7 @@ public final class MainCategoryDAO {
 		return categories;
 	}
 	
+	@Override
 	public boolean update(MainCategory category) {
 		log.info(String.format("Update category: ID=%d, name=%s", category.getID(), category.getName()));
 		
@@ -180,6 +185,7 @@ public final class MainCategoryDAO {
 		}
 	}
 	
+	@Override
 	public boolean delete(int ID) {
 		log.info(String.format("Delete category: ID=%d", ID));
 		
