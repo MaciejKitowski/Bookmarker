@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import mvc.dao.MysqlFactory;
 import mvc.model.MainCategory;
 
+@Deprecated
 public final class MysqlMainCategory implements IMainCategoryDAO {
 	private static final Logger log = Logger.getLogger(MysqlMainCategory.class.getName());
 	
