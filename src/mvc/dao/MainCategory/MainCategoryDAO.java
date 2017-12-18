@@ -229,16 +229,11 @@ public final class MainCategoryDAO {
 			GET_ALL = obj.getString("GET_ALL");
 			UPDATE = obj.getString("UPDATE");
 			DELETE = obj.getString("DELETE");
+			
+			jsonFile.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
-		}
-		finally {
-			try {
-				jsonFile.close();
-			} catch (Exception ex) {
-				log.warning(ex.getMessage());
-			}
 		}
 	}
 	
