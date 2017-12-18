@@ -9,6 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -21,6 +23,7 @@ import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.SqliteFactory;
+import mvc.model.MainCategory;
 
 public final class MainCategoryDAO {
 	private static final Logger log = Logger.getLogger(MainCategoryDAO.class.getName());
@@ -61,6 +64,39 @@ public final class MainCategoryDAO {
 			log.warning(ex.getMessage());
 		}
 	}
+	
+	public int insert(MainCategory category) {
+		log.info(String.format("Insert category: ID=%d, name=%s", category.getID(), category.getName()));
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		int resultBuffer = 0;
+		
+		try {
+			connection = database.createConnection();
+			statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+			
+			statement.setString(1, category.getName());
+			statement.execute();
+			
+			result = statement.getGeneratedKeys();
+			if(result != null && result.next()) resultBuffer = result.getInt(1);
+			else resultBuffer = INSERT_FAIL;
+			
+			result.close();
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+			resultBuffer = INSERT_FAIL;
+		}
+
+		return resultBuffer;
+	}
+	
+	
 	
 	private void loadQueriesFromFile() {
 		log.info("Load SQL queries from: " + queryFilename);
