@@ -164,6 +164,31 @@ public final class MainCategoryDAO {
 		return categories;
 	}
 	
+	public boolean update(MainCategory category) {
+		log.info(String.format("Update category: ID=%d, name=%s", category.getID(), category.getName()));
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		try {
+			connection = database.createConnection();
+			statement = connection.prepareStatement(UPDATE);
+			
+			statement.setString(1, category.getName());
+			statement.setInt(2, category.getID());
+			statement.execute();
+			
+			statement.close();
+			connection.close();
+			
+			return true;
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+			return false;
+		}
+	}
+	
 	private void loadQueriesFromFile() {
 		log.info("Load SQL queries from: " + queryFilename);
 		
