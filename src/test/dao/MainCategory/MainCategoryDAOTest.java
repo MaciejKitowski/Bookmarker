@@ -3,14 +3,11 @@ package test.dao.MainCategory;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
