@@ -3,6 +3,7 @@ package mvc.dao.MainCategory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.StreamCorruptedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,16 +48,18 @@ public final class MainCategoryDAO {
 			
 			JSONObject obj = new JSONObject(rawJson).getJSONObject(database.getName());
 			
-			JSONArray createTableRaw = obj.getJSONArray("CREATE_TABLE");
-			CREATE_TABLE = String.join("\n", createTableRaw.toList().toArray(new String[createTableRaw.length()]));
+			CREATE_TABLE = getCreateTable(obj.getJSONArray("CREATE_TABLE"));
+			
+			
+			
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
 		}
-		
-		/*JSONObject parent = new JSONObject();
-		
-		System.out.println("XX");
-		System.out.println(parent.toString());*/
+	}
+	
+	private String getCreateTable(JSONArray array) {
+		String[] raw = array.toList().toArray(new String[array.length()]);
+		return String.join("\n", raw);
 	}
 }
