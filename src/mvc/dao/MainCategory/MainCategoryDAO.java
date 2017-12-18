@@ -8,6 +8,8 @@ import java.io.StreamCorruptedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
+import mvc.dao.SqliteFactory;
 
 public final class MainCategoryDAO {
 	private static final Logger log = Logger.getLogger(MainCategoryDAO.class.getName());
@@ -37,6 +40,26 @@ public final class MainCategoryDAO {
 		database = DAOFactory.get(databaseType);
 		
 		loadQueriesFromFile();
+	}
+	
+	public void createTable() {
+		log.info("Create new table");
+		
+		Connection connection = null;
+		Statement statement = null;
+		
+		try {
+			connection = database.createConnection();
+			statement = connection.createStatement();
+			
+			statement.execute(CREATE_TABLE);
+			
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
 	}
 	
 	private void loadQueriesFromFile() {
