@@ -6,9 +6,13 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
@@ -40,7 +44,15 @@ public final class MainCategoryDAO {
 			FileInputStream jsonFile = new FileInputStream(new File(queryFilename));
 			String rawJson = IOUtils.toString(jsonFile);
 			
-			System.out.println(rawJson);
+			JSONObject parent = new JSONObject(rawJson);
+			JSONObject target = parent.getJSONObject(database.getName());
+			
+			JSONArray createTableArray = target.getJSONArray("CREATE_TABLE");
+			System.out.println(createTableArray);
+			
+			CREATE_TABLE = String.join("\n", Arrays.copyOf(createTableArray.toList().toArray(), createTableArray.length(), String[].class));
+			
+			jsonFile.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
