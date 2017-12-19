@@ -213,7 +213,30 @@ public final class UrlDAO implements IUrlDAO {
 	@Override
 	public boolean update(Url url) {
 		log.info(String.format("Update url: ID=%d, url=%s", url.getID(), url.getUrl()));
-		return false;
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		try {
+			connection = database.createConnection();
+			statement = connection.prepareStatement(UPDATE);
+			
+			statement.setString(1, url.getTitle());
+			statement.setString(2, url.getUrl());
+			statement.setString(3, url.getDescription());
+			statement.setInt(4, url.getCategory().getID());
+			statement.setInt(5, url.getID());
+			statement.execute();
+			
+			statement.close();
+			connection.close();
+			
+			return true;
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+			return false;
+		}
 	}
 
 	@Override
