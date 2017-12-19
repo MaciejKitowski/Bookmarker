@@ -254,4 +254,10 @@ public final class PostgresCategory implements ICategoryDAO {
 			return false;
 		}
 	}
+
+	@Override
+	public List<Category> getWithMainCategory(MainCategory category) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
