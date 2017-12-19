@@ -142,4 +142,13 @@ public class CategoryDAOTest {
 		
 		assertTrue(result);
 	}
+	
+	@Test
+	public void deleteTest() {
+		int ID = 10;
+		
+		boolean result = dao.delete(ID);
+		
+		assertTrue(result);
+	}
 }
