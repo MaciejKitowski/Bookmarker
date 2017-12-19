@@ -14,6 +14,7 @@ import mvc.dao.MainCategory.SqliteMainCategory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 
+@Deprecated
 public final class SqliteCategory implements ICategoryDAO {
 	private static final Logger log = Logger.getLogger(SqliteCategory.class.getName());
 	
@@ -253,5 +254,11 @@ public final class SqliteCategory implements ICategoryDAO {
 			log.warning(ex.getMessage());
 			return false;
 		}
+	}
+
+	@Override
+	public List<Category> getWithMainCategory(MainCategory category) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

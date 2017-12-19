@@ -14,6 +14,7 @@ import mvc.dao.MainCategory.MysqlMainCategory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 
+@Deprecated
 public final class MysqlCategory implements ICategoryDAO {
 	private static final Logger log = Logger.getLogger(MysqlCategory.class.getName());
 	
@@ -254,5 +255,11 @@ public final class MysqlCategory implements ICategoryDAO {
 			log.warning(ex.getMessage());
 			return false;
 		}
+	}
+
+	@Override
+	public List<Category> getWithMainCategory(MainCategory category) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import mvc.dao.MainCategory.IMainCategoryDAO;
+import mvc.dao.MainCategory.MainCategoryDAO;
+
 public final class MysqlFactory extends DAOFactory {
 	private static final Logger log = Logger.getLogger(MysqlFactory.class.getName());
 	
@@ -13,6 +16,7 @@ public final class MysqlFactory extends DAOFactory {
     private static final String USERNAME = "bookmarker";
     private static final String USERPASSWORD = "admin1";
     
+    @Deprecated
     public static Connection getConnection() {
     	log.info("Get connection");
     	Connection connection = null;
@@ -29,6 +33,11 @@ public final class MysqlFactory extends DAOFactory {
     	
     	return connection;
     }
+    
+    @Override
+	public IMainCategoryDAO getMainCategory() {
+		return new MainCategoryDAO(MYSQL);
+	}
 
 	@Override
 	public String getName() {
