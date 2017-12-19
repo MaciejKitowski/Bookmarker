@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -145,8 +146,36 @@ public final class CategoryDAO implements ICategoryDAO {
 	public List<Category> getWithMainCategory(MainCategory category) {
 		log.info(String.format("Get all categories with main category: ID=%d, name=%s", category.getID(), category.getName()));
 
+		List<Category> categories = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
 		
-		return null;
+		try {
+			connection = database.createConnection();
+			statement = connection.prepareStatement(GET_MAINCAT);
+			
+			statement.setInt(1, category.getID());
+			
+			result = statement.executeQuery();
+			if(result != null) {
+				while(result.next()) {
+					int foundID = result.getInt(1);
+					String foundName = result.getString(2);
+					
+					categories.add(new Category(foundID, foundName, category));
+				}
+			}
+			
+			result.close();
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return categories;
 	}
 	
 	@Override
