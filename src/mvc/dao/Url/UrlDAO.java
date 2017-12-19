@@ -15,6 +15,8 @@ import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.SqliteFactory;
+import mvc.dao.Category.ICategoryDAO;
+import mvc.dao.Category.SqliteCategory;
 import mvc.model.Category;
 import mvc.model.Url;
 
@@ -99,7 +101,40 @@ public final class UrlDAO implements IUrlDAO {
 	public Url get(int ID) {
 		log.info(String.format("Get url: ID=%d", ID));
 		
-		return null;
+		Url url = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = database.createConnection();
+			statement = connection.prepareStatement(GET);
+			
+			statement.setInt(1, ID);
+			statement.execute();
+			
+			result = statement.getResultSet();
+			
+			if(result != null && result.next()) {
+				int foundID = result.getInt(1);
+				String foundTitle = result.getString(2);
+				String foundUrl = result.getString(3);
+				String foundDescription = result.getString(4);
+				int foundCatID = result.getInt(5);
+				
+				ICategoryDAO category = database.getCategory();
+				url = new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID));
+			}
+			
+			result.close();
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return url;
 	}
 
 	@Override
