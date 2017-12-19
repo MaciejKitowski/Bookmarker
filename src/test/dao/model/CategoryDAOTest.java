@@ -105,4 +105,12 @@ public class CategoryDAOTest {
 			assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
 		}
 	}
+	
+	public void getSingleTest() {
+		int ID = 1;
+		
+		Category result = dao.get(ID);
+		
+		assertTrue(result != null && result.getID() == ID);
+	}
 }
