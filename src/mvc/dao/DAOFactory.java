@@ -12,10 +12,10 @@ public abstract class DAOFactory {
 	public static final int MYSQL = 2;
 	public static final int POSTGRES = 3;
 	
-	abstract IMainCategoryDAO getMainCategory();
+	public abstract IMainCategoryDAO getMainCategory();
 	
-	abstract public String getName();
-	abstract public Connection createConnection(); //TODO Replace with static class getConnection()
+	public abstract String getName();
+	public abstract Connection createConnection(); //TODO Replace with static class getConnection()
 
 	public static DAOFactory get(int database) {
 		if(database == SQLITE) {
