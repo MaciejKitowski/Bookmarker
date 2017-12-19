@@ -2,6 +2,8 @@ package mvc.dao.Url;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -38,6 +40,21 @@ public final class UrlDAO implements IUrlDAO {
 	public void createTable() {
 		log.info("Create new table");
 		
+		Connection connection = null;
+		Statement statement = null;
+		
+		try {
+			connection = database.createConnection();
+			statement = connection.createStatement();
+			
+			statement.execute(CREATE_TABLE);
+			
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.info(ex.getMessage());
+		}
 	}
 
 	@Override
