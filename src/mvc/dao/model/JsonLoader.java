@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 class JsonLoader {
@@ -24,5 +25,10 @@ class JsonLoader {
 		file.close();
 		
 		return obj;
+	}
+	
+	public static String joinStringArray(JSONArray array) {
+		String[] str = array.toList().toArray(new String[array.length()]);
+		return String.join("\n", str);
 	}
 }
