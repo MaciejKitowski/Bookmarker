@@ -175,7 +175,39 @@ public final class UrlDAO implements IUrlDAO {
 	@Override
 	public List<Url> getAll() {
 		log.info("Get all urls");
-		return null;
+		
+		List<Url> urls = new ArrayList<>();
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = database.createConnection();
+			statement = connection.createStatement();
+			
+			result = statement.executeQuery(GET_ALL);
+			if(result != null) {
+				while(result.next()) {
+					int foundID = result.getInt(1);
+					String foundTitle = result.getString(2);
+					String foundUrl = result.getString(3);
+					String foundDescription = result.getString(4);
+					int foundCatID = result.getInt(5);
+					
+					ICategoryDAO category = database.getCategory();
+					urls.add(new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID)));
+				}
+			}
+			
+			result.close();
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return urls;
 	}
 
 	@Override
