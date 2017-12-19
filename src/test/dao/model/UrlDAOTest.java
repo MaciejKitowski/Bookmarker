@@ -97,4 +97,21 @@ public class UrlDAOTest {
 		
 		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
 	}
+	
+	@Test
+	public void insertMultipleTest() {
+		String pattern = "MultipleInsertTest_%d";
+		int insertCount = 10;
+		int ID = 4;
+		Category category = DAOFactory.get(databaseType).getCategory().get(ID);
+		
+		for(int i = 0; i < insertCount; ++i) {
+			Url url = new Url("http://test", String.format(pattern, i + 1), "Single");
+			url.setCategory(category);
+			
+			int result = dao.insert(url);
+			
+			assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+		}
+	}
 }
