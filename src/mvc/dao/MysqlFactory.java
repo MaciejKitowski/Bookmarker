@@ -13,6 +13,7 @@ public final class MysqlFactory extends DAOFactory {
     private static final String USERNAME = "bookmarker";
     private static final String USERPASSWORD = "admin1";
     
+    @Deprecated
     public static Connection getConnection() {
     	log.info("Get connection");
     	Connection connection = null;

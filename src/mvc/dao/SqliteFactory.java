@@ -11,6 +11,7 @@ public final class SqliteFactory extends DAOFactory {
 	private static final String DRIVER = "org.sqlite.JDBC";
     private static final String URL = "jdbc:sqlite:sqlite.db";
     
+    @Deprecated
     public static Connection getConnection() {
     	log.info("Get connection");
     	Connection connection = null;
