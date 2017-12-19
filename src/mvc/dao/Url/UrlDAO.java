@@ -15,9 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.SqliteFactory;
 import mvc.dao.Category.ICategoryDAO;
-import mvc.dao.Category.SqliteCategory;
 import mvc.model.Category;
 import mvc.model.Url;
 
