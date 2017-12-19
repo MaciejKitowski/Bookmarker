@@ -1,7 +1,5 @@
 package mvc.dao.model;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.apache.commons.io.IOUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
@@ -36,7 +32,20 @@ public final class UrlDAO implements IUrlDAO {
 	public UrlDAO(int databaseType) {
 		database = DAOFactory.get(databaseType);
 		
-		loadQueriesFromFile();
+		try {
+			JSONObject obj = JsonLoader.getJson(queryFilename, database.getName());
+			
+			CREATE_TABLE = JsonLoader.joinStringArray(obj.getJSONArray("CREATE_TABLE"));
+			INSERT = obj.getString("INSERT");
+			GET = obj.getString("GET");
+			GET_ALL = obj.getString("GET_ALL");
+			GET_CATEGORY = obj.getString("GET_CATEGORY");
+			UPDATE = obj.getString("UPDATE");
+			DELETE = obj.getString("DELETE");
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
 	}
 
 	@Override
@@ -259,35 +268,5 @@ public final class UrlDAO implements IUrlDAO {
 			log.warning(ex.getMessage());
 			return false;
 		}
-	}
-	
-	private void loadQueriesFromFile() {
-		log.info("Load SQL queries from: " + queryFilename);
-		
-		FileInputStream jsonFile = null;
-		
-		try {
-			jsonFile = new FileInputStream(new File(queryFilename));
-			String rawJson = IOUtils.toString(jsonFile);
-			JSONObject obj = new JSONObject(rawJson).getJSONObject(database.getName());
-			
-			CREATE_TABLE = getCreateTable(obj.getJSONArray("CREATE_TABLE"));
-			INSERT = obj.getString("INSERT");
-			GET = obj.getString("GET");
-			GET_ALL = obj.getString("GET_ALL");
-			GET_CATEGORY = obj.getString("GET_CATEGORY");
-			UPDATE = obj.getString("UPDATE");
-			DELETE = obj.getString("DELETE");
-			
-			jsonFile.close();
-		}
-		catch(Exception ex) {
-			log.warning(ex.getMessage());
-		}
-	}
-	
-	private String getCreateTable(JSONArray array) {
-		String[] raw = array.toList().toArray(new String[array.length()]);
-		return String.join("\n", raw);
 	}
 }
