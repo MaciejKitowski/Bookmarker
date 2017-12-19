@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import mvc.dao.Category.CategoryDAO;
+import mvc.dao.Category.ICategoryDAO;
 import mvc.dao.MainCategory.IMainCategoryDAO;
 import mvc.dao.MainCategory.MainCategoryDAO;
 
@@ -35,6 +37,11 @@ public final class SqliteFactory extends DAOFactory {
     @Override
 	public IMainCategoryDAO getMainCategory() {
 		return new MainCategoryDAO(SQLITE);
+	}
+    
+    @Override
+	public ICategoryDAO getCategory() {
+		return new CategoryDAO(SQLITE);
 	}
 
 	@Override

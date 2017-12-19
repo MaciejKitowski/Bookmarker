@@ -3,6 +3,7 @@ package mvc.dao;
 import java.sql.Connection;
 import java.util.logging.Logger;
 
+import mvc.dao.Category.ICategoryDAO;
 import mvc.dao.MainCategory.IMainCategoryDAO;
 
 public abstract class DAOFactory {
@@ -13,6 +14,7 @@ public abstract class DAOFactory {
 	public static final int POSTGRES = 3;
 	
 	public abstract IMainCategoryDAO getMainCategory();
+	public abstract ICategoryDAO getCategory();
 	
 	public abstract String getName();
 	public abstract Connection createConnection(); //TODO Replace with static class getConnection()

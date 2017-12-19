@@ -14,6 +14,7 @@ import mvc.dao.Category.PostgresCategory;
 import mvc.model.Category;
 import mvc.model.Url;
 
+@Deprecated
 public final class PostgresUrl implements IUrlDAO {
 	private static final Logger log = Logger.getLogger(PostgresUrl.class.getName());
 	
@@ -140,7 +141,7 @@ public final class PostgresUrl implements IUrlDAO {
 	}
 	
 	@Override
-	public List<Url> getAllParent(Category category) {
+	public List<Url> getAllWithCategory(Category category) {
 		log.info(String.format("Get all urls with category: ID=%d, name=%s", category.getID(), category.getName()));
 		
 		List<Url> urls = new ArrayList<>();

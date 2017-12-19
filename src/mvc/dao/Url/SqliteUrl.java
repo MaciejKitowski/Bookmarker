@@ -14,6 +14,7 @@ import mvc.dao.Category.SqliteCategory;
 import mvc.model.Category;
 import mvc.model.Url;
 
+@Deprecated
 public final class SqliteUrl implements IUrlDAO {
 	private static final Logger log = Logger.getLogger(SqliteUrl.class.getName());
 	
@@ -140,7 +141,7 @@ public final class SqliteUrl implements IUrlDAO {
 	}
 
 	@Override
-	public List<Url> getAllParent(Category category) {
+	public List<Url> getAllWithCategory(Category category) {
 		log.info(String.format("Get all urls with category: ID=%d, name=%s", category.getID(), category.getName()));
 		
 		List<Url> urls = new ArrayList<>();
