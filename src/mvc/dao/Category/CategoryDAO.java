@@ -63,7 +63,7 @@ public final class CategoryDAO implements ICategoryDAO {
 	
 	@Override
 	public int insert(Category category) {
-		log.info(String.format("Insert category: ID=%d, name=%s, parent: ID=%d, name=%s", category.getID(), category.getName(), category.getParent().getID(), category.getParent().getName()));
+		log.info(String.format("Insert category: ID=%d, name=%s", category.getID(), category.getName()));
 
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -75,7 +75,8 @@ public final class CategoryDAO implements ICategoryDAO {
 			statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			
 			statement.setString(1, category.getName());
-			statement.setInt(2, category.getParent().getID());
+			if(category.getParent() != null) statement.setInt(2, category.getParent().getID());
+			else statement.setNull(2, 2);
 			statement.execute();
 			
 			result = statement.getGeneratedKeys();
@@ -195,10 +196,14 @@ public final class CategoryDAO implements ICategoryDAO {
 					int foundID = result.getInt(1);
 					String foundName = result.getString(2);
 					int foundParentID = result.getInt(3);
+					Category category = new Category(foundID, foundName);
 					
-					IMainCategoryDAO mainCategory = database.getMainCategory();
+					if(foundParentID != 0) {
+						IMainCategoryDAO mainCategory = database.getMainCategory();
+						category.setParent(mainCategory.get(foundParentID));
+					}
 					
-					categories.add(new Category(foundID, foundName, mainCategory.get(foundParentID)));
+					categories.add(category);
 				}
 			}
 			

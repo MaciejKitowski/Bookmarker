@@ -18,6 +18,13 @@ public final class Category {
 		updateLogger();
 	}
 	
+	public Category(int ID, String name) {
+		log.info(String.format("Create new category: ID=%d, name=%s", ID, name));
+		this.ID = ID;
+		this.name = name;
+		updateLogger();
+	}
+	
 	public Category(String name) {
 		log.info("Create category without ID: " + name);
 		this.name = name;

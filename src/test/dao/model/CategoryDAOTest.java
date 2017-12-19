@@ -96,9 +96,12 @@ public class CategoryDAOTest {
 	public void insertMultipleTest() {
 		String pattern = "MultipleInsertTest_%d";
 		int insertCount = 20;
+		int mainCategoryID = 4;
+		MainCategory main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
 		
 		for(int i = 0; i < insertCount; ++i) {
 			Category category = new Category(String.format(pattern, i + 1));
+			category.setParent(main);
 			
 			int result = dao.insert(category);
 			
@@ -117,7 +120,12 @@ public class CategoryDAOTest {
 	
 	@Test
 	public void getWithParentTest() {
+		int mainCategoryID = 4;
+		MainCategory main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
 		
+		List<Category> result = dao.getWithMainCategory(main);
+		
+		assertTrue(result != null);
 	}
 	
 	@Test
