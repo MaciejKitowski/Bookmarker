@@ -3,6 +3,7 @@ package mvc.dao.Url;
 import java.util.List;
 import java.util.logging.Logger;
 
+import mvc.dao.DAOFactory;
 import mvc.model.Category;
 import mvc.model.Url;
 
@@ -10,6 +11,15 @@ public final class UrlDAO implements IUrlDAO {
 	private static final Logger log = Logger.getLogger(UrlDAO.class.getName());
 	
 	public static int INSERT_FAIL = -1;
+	
+	private DAOFactory database = null;
+	private String CREATE_TABLE = null;
+	private String INSERT = null;
+	private String GET = null;
+	private String GET_CATEGORY = null;
+	private String GET_ALL = null;
+	private String UPDATE = null;
+	private String DELETE = null;
 
 	@Override
 	public void createTable() {

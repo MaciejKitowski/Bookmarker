@@ -14,6 +14,7 @@ import mvc.dao.Category.MysqlCategory;
 import mvc.model.Category;
 import mvc.model.Url;
 
+@Deprecated
 public final class MysqlUrl implements IUrlDAO {
 	private static final Logger log = Logger.getLogger(MysqlUrl.class.getName());
 	

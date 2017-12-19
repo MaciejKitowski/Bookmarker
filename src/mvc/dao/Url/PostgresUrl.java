@@ -14,6 +14,7 @@ import mvc.dao.Category.PostgresCategory;
 import mvc.model.Category;
 import mvc.model.Url;
 
+@Deprecated
 public final class PostgresUrl implements IUrlDAO {
 	private static final Logger log = Logger.getLogger(PostgresUrl.class.getName());
 	

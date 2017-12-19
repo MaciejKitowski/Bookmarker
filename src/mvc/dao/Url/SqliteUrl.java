@@ -14,6 +14,7 @@ import mvc.dao.Category.SqliteCategory;
 import mvc.model.Category;
 import mvc.model.Url;
 
+@Deprecated
 public final class SqliteUrl implements IUrlDAO {
 	private static final Logger log = Logger.getLogger(SqliteUrl.class.getName());
 	
