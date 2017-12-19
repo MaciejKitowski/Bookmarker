@@ -124,5 +124,13 @@ public class UrlDAOTest {
 		assertTrue(result != null && result.getID() == ID);
 	}
 	
-	
+	@Test
+	public void getWithCategoryTest() {
+		int ID = 4;
+		Category category = DAOFactory.get(databaseType).getCategory().get(ID);
+		
+		List<Url> result = dao.getAllWithCategory(category);
+		
+		assertTrue(result != null);
+	}
 }
