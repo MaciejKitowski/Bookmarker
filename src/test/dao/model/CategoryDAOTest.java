@@ -1,6 +1,7 @@
 package test.dao.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -19,6 +20,8 @@ import org.junit.runners.Parameterized.Parameters;
 import mvc.dao.DAOFactory;
 import mvc.dao.Category.CategoryDAO;
 import mvc.dao.MainCategory.MainCategoryDAO;
+import mvc.model.Category;
+import mvc.model.MainCategory;
 import test.dao.DAOutils;
 
 @RunWith(Parameterized.class)
@@ -78,5 +81,14 @@ public class CategoryDAOTest {
 		catch(Exception ex) {
 			fail(ex.getMessage());
 		}
+	}
+	
+	@Test
+	public void insertTest() {
+		Category category = new Category("SingleInsertTest");
+		
+		int result = dao.insert(category);
+		
+		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
 	}
 }
