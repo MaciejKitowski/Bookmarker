@@ -2,6 +2,7 @@ package test.dao.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.lang.reflect.Field;
@@ -60,6 +61,19 @@ public class UrlDAOTest {
 				assertNotNull(field.get(dao));
 				assertEquals(field.get(dao), sql);
 			}
+		}
+		catch(Exception ex) {
+			fail(ex.getMessage());
+		}
+	}
+	
+	@Test
+	public void createTableTest() {
+		try {
+			dao.createTable();
+			List<String> tableList = DAOutils.getTableNames(databaseType);
+			
+			assertTrue(tableList.contains("Url") || tableList.contains("url"));
 		}
 		catch(Exception ex) {
 			fail(ex.getMessage());
