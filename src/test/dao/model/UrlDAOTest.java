@@ -133,4 +133,11 @@ public class UrlDAOTest {
 		
 		assertTrue(result != null);
 	}
+	
+	@Test
+	public void getAllTest() throws Exception {
+		List<Url> result = dao.getAll();
+		
+		assertTrue(result != null && result.size() == DAOutils.count("Url", databaseType));
+	}
 }
