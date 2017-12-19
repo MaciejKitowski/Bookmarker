@@ -29,4 +29,14 @@ public final class PostgresFactory extends DAOFactory {
     	
     	return connection;
     }
+
+	@Override
+	public String getName() {
+		return "POSTGRES";
+	}
+
+	@Override
+	public Connection createConnection() {
+		return PostgresFactory.getConnection();
+	}
 }

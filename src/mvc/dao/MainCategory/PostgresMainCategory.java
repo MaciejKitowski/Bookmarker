@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import mvc.dao.PostgresFactory;
 import mvc.model.MainCategory;
 
+@Deprecated
 public final class PostgresMainCategory implements IMainCategoryDAO {
 	private static final Logger log = Logger.getLogger(PostgresMainCategory.class.getName());
 	
