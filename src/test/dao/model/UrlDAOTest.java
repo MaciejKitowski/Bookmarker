@@ -140,4 +140,14 @@ public class UrlDAOTest {
 		
 		assertTrue(result != null && result.size() == DAOutils.count("Url", databaseType));
 	}
+	
+	@Test
+	public void updateTest() {
+		Url toUpdate = dao.get(1);
+		toUpdate.setTitle(toUpdate.getTitle() + "-UPDATED");
+		
+		boolean result = dao.update(toUpdate);
+		
+		assertTrue(result);
+	}
 }
