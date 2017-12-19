@@ -106,11 +106,29 @@ public class CategoryDAOTest {
 		}
 	}
 	
+	@Test
 	public void getSingleTest() {
 		int ID = 1;
 		
 		Category result = dao.get(ID);
 		
 		assertTrue(result != null && result.getID() == ID);
+	}
+	
+	@Test
+	public void getWithParentTest() {
+		
+	}
+	
+	@Test
+	public void getAllTest() {
+		try {
+			List<Category> result = dao.getAll();
+			
+			assertTrue(result != null && result.size() == DAOutils.count("Category", databaseType));
+		}
+		catch(Exception ex) {
+			fail(ex.getMessage());
+		}
 	}
 }

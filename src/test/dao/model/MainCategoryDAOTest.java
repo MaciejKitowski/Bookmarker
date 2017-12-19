@@ -100,6 +100,7 @@ public class MainCategoryDAOTest {
 		}
 	}
 	
+	@Test
 	public void getSingleTest() {
 		int ID = 1;
 		
@@ -108,6 +109,7 @@ public class MainCategoryDAOTest {
 		assertTrue(result != null && result.getID() == ID);
 	}
 	
+	@Test
 	public void getAllTest() {
 		try {
 			List<MainCategory> result = dao.getAll();
