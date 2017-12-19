@@ -113,7 +113,7 @@ public class SqliteUrlTest {
 		Category category = new SqliteCategory().get(4);
 		IUrlDAO dao = new SqliteUrl();
 		
-		List<Url> result = dao.getAllParent(category);
+		List<Url> result = dao.getAllWithCategory(category);
 		
 		assertTrue(result != null);
 	}

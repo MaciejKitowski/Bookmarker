@@ -113,7 +113,7 @@ public class PostgresUrlTest {
 		Category category = new PostgresCategory().get(4);
 		IUrlDAO dao = new PostgresUrl();
 		
-		List<Url> result = dao.getAllParent(category);
+		List<Url> result = dao.getAllWithCategory(category);
 		
 		assertTrue(result != null);
 	}

@@ -140,7 +140,7 @@ public final class PostgresUrl implements IUrlDAO {
 	}
 	
 	@Override
-	public List<Url> getAllParent(Category category) {
+	public List<Url> getAllWithCategory(Category category) {
 		log.info(String.format("Get all urls with category: ID=%d, name=%s", category.getID(), category.getName()));
 		
 		List<Url> urls = new ArrayList<>();

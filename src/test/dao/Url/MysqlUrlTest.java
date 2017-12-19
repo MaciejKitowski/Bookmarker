@@ -114,7 +114,7 @@ public class MysqlUrlTest {
 		Category category = new MysqlCategory().get(4);
 		IUrlDAO dao = new MysqlUrl();
 		
-		List<Url> result = dao.getAllParent(category);
+		List<Url> result = dao.getAllWithCategory(category);
 		
 		assertTrue(result != null);
 	}
