@@ -114,4 +114,15 @@ public class UrlDAOTest {
 			assertNotEquals(CategoryDAO.INSERT_FAIL, result);
 		}
 	}
+	
+	@Test
+	public void getSingleTest() {
+		int ID = 1;
+		
+		Url result = dao.get(ID);
+		
+		assertTrue(result != null && result.getID() == ID);
+	}
+	
+	
 }
