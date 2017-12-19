@@ -1,10 +1,6 @@
 package test.dao.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -19,9 +15,6 @@ import org.junit.runners.Parameterized.Parameters;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.Category.CategoryDAO;
-import mvc.dao.Category.SqliteCategory;
-import mvc.dao.Url.IUrlDAO;
-import mvc.dao.Url.SqliteUrl;
 import mvc.dao.Url.UrlDAO;
 import mvc.model.Category;
 import mvc.model.Url;
