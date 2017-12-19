@@ -2,6 +2,8 @@ package mvc.dao.Category;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -10,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
+import mvc.dao.SqliteFactory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 
@@ -38,6 +41,21 @@ public final class CategoryDAO implements ICategoryDAO {
 	public void createTable() {
 		log.info("Create new table");
 		
+		Connection connection = null;
+		Statement statement = null;
+		
+		try {
+			connection = database.createConnection();
+			statement = connection.createStatement();
+			
+			statement.execute(CREATE_TABLE);
+			
+			statement.close();
+			connection.close();
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
 	}
 	
 	@Override
@@ -106,14 +124,6 @@ public final class CategoryDAO implements ICategoryDAO {
 			GET_MAINCAT = obj.getString("GET_MAINCAT");
 			UPDATE = obj.getString("UPDATE");
 			DELETE = obj.getString("DELETE");
-			
-			System.out.println(CREATE_TABLE);
-			System.out.println(INSERT);
-			System.out.println(GET);
-			System.out.println(GET_ALL);
-			System.out.println(GET_MAINCAT);
-			System.out.println(UPDATE);
-			System.out.println(DELETE);
 			
 			jsonFile.close();
 		}
