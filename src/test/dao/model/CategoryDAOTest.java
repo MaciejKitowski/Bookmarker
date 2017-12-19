@@ -91,4 +91,18 @@ public class CategoryDAOTest {
 		
 		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
 	}
+	
+	@Test
+	public void insertMultipleTest() {
+		String pattern = "MultipleInsertTest_%d";
+		int insertCount = 20;
+		
+		for(int i = 0; i < insertCount; ++i) {
+			Category category = new Category(String.format(pattern, i + 1));
+			
+			int result = dao.insert(category);
+			
+			assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
+		}
+	}
 }
