@@ -35,7 +35,7 @@ public final class MysqlFactory extends DAOFactory {
     }
     
     @Override
-	IMainCategoryDAO getMainCategory() {
+	public IMainCategoryDAO getMainCategory() {
 		return new MainCategoryDAO(MYSQL);
 	}
 

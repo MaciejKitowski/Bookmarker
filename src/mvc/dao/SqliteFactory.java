@@ -33,7 +33,7 @@ public final class SqliteFactory extends DAOFactory {
     }
     
     @Override
-	IMainCategoryDAO getMainCategory() {
+	public IMainCategoryDAO getMainCategory() {
 		return new MainCategoryDAO(SQLITE);
 	}
 

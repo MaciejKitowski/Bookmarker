@@ -35,7 +35,7 @@ public final class PostgresFactory extends DAOFactory {
     }
     
     @Override
-	IMainCategoryDAO getMainCategory() {
+	public IMainCategoryDAO getMainCategory() {
 		return new MainCategoryDAO(POSTGRES);
 	}
 
