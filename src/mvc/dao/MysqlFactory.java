@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import mvc.dao.MainCategory.IMainCategoryDAO;
+import mvc.dao.MainCategory.MainCategoryDAO;
+
 public final class MysqlFactory extends DAOFactory {
 	private static final Logger log = Logger.getLogger(MysqlFactory.class.getName());
 	
@@ -30,6 +33,11 @@ public final class MysqlFactory extends DAOFactory {
     	
     	return connection;
     }
+    
+    @Override
+	IMainCategoryDAO getMainCategory() {
+		return new MainCategoryDAO(MYSQL);
+	}
 
 	@Override
 	public String getName() {

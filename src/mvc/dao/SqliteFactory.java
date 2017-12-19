@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import mvc.dao.MainCategory.IMainCategoryDAO;
+import mvc.dao.MainCategory.MainCategoryDAO;
+
 public final class SqliteFactory extends DAOFactory {
 	private static final Logger log = Logger.getLogger(SqliteFactory.class.getName());
 	
@@ -28,6 +31,11 @@ public final class SqliteFactory extends DAOFactory {
     	
     	return connection;
     }
+    
+    @Override
+	IMainCategoryDAO getMainCategory() {
+		return new MainCategoryDAO(SQLITE);
+	}
 
 	@Override
 	public String getName() {
