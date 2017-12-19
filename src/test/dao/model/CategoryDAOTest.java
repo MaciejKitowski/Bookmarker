@@ -131,4 +131,15 @@ public class CategoryDAOTest {
 			fail(ex.getMessage());
 		}
 	}
+	
+	@Test
+	public void updateTest() {
+		int ID = 1;
+		Category toUpdate = dao.get(ID);
+
+		toUpdate.setName(toUpdate.getName() + "-UPDATE");
+		boolean result = dao.update(toUpdate);
+		
+		assertTrue(result);
+	}
 }
