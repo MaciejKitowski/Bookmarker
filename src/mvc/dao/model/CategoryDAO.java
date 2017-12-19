@@ -1,4 +1,4 @@
-package mvc.dao.Category;
+package mvc.dao.model;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.MainCategory.IMainCategoryDAO;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 

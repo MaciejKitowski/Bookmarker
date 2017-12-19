@@ -5,10 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-import mvc.dao.Category.CategoryDAO;
-import mvc.dao.Category.ICategoryDAO;
-import mvc.dao.MainCategory.IMainCategoryDAO;
-import mvc.dao.MainCategory.MainCategoryDAO;
+import mvc.dao.model.CategoryDAO;
+import mvc.dao.model.ICategoryDAO;
+import mvc.dao.model.IMainCategoryDAO;
+import mvc.dao.model.MainCategoryDAO;
 
 public final class MysqlFactory extends DAOFactory {
 	private static final Logger log = Logger.getLogger(MysqlFactory.class.getName());

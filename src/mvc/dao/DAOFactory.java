@@ -3,8 +3,8 @@ package mvc.dao;
 import java.sql.Connection;
 import java.util.logging.Logger;
 
-import mvc.dao.Category.ICategoryDAO;
-import mvc.dao.MainCategory.IMainCategoryDAO;
+import mvc.dao.model.ICategoryDAO;
+import mvc.dao.model.IMainCategoryDAO;
 
 public abstract class DAOFactory {
 	private static final Logger log = Logger.getLogger(DAOFactory.class.getName());

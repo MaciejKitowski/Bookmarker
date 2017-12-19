@@ -14,8 +14,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.Category.CategoryDAO;
-import mvc.dao.Url.UrlDAO;
+import mvc.dao.model.CategoryDAO;
+import mvc.dao.model.UrlDAO;
 import mvc.model.Category;
 import mvc.model.Url;
 import test.dao.DAOutils;

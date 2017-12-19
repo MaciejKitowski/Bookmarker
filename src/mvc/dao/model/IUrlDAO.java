@@ -1,4 +1,4 @@
-package mvc.dao.Url;
+package mvc.dao.model;
 
 import java.util.List;
 

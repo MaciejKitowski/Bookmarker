@@ -1,4 +1,4 @@
-package mvc.dao.MainCategory;
+package mvc.dao.model;
 
 import java.util.List;
 

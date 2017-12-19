@@ -1,4 +1,4 @@
-package mvc.dao.MainCategory;
+package mvc.dao.model;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,11 +15,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
-import mvc.model.MainCategory;
+import mvc.model.Category;
+import mvc.model.Url;
 
-public final class MainCategoryDAO implements IMainCategoryDAO {
-	private static final Logger log = Logger.getLogger(MainCategoryDAO.class.getName());
-	private static final String queryFilename = "MainCategory.json";
+public final class UrlDAO implements IUrlDAO {
+	private static final Logger log = Logger.getLogger(UrlDAO.class.getName());
+	private static final String queryFilename = "Url.json";
 	
 	public static int INSERT_FAIL = -1;
 	
@@ -27,16 +28,17 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	private String CREATE_TABLE = null;
 	private String INSERT = null;
 	private String GET = null;
+	private String GET_CATEGORY = null;
 	private String GET_ALL = null;
 	private String UPDATE = null;
 	private String DELETE = null;
 	
-	public MainCategoryDAO(int databaseType) {
+	public UrlDAO(int databaseType) {
 		database = DAOFactory.get(databaseType);
 		
 		loadQueriesFromFile();
 	}
-	
+
 	@Override
 	public void createTable() {
 		log.info("Create new table");
@@ -54,24 +56,27 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			connection.close();
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.info(ex.getMessage());
 		}
 	}
-	
+
 	@Override
-	public int insert(MainCategory category) {
-		log.info(String.format("Insert category: ID=%d, name=%s", category.getID(), category.getName()));
+	public int insert(Url url) {
+		log.info(String.format("Insert url: ID=%d, title=%s, url=%s", url.getID(), url.getTitle(), url.getTitle()));
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		int resultBuffer = 0;
-		
+			
 		try {
 			connection = database.createConnection();
 			statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			
-			statement.setString(1, category.getName());
+			statement.setString(1, url.getTitle());
+			statement.setString(2, url.getUrl());
+			statement.setString(3, url.getDescription());
+			statement.setInt(4, url.getCategory().getID());
 			statement.execute();
 			
 			result = statement.getGeneratedKeys();
@@ -89,12 +94,12 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 
 		return resultBuffer;
 	}
-	
+
 	@Override
-	public MainCategory get(int ID) {
-		log.info(String.format("Get category: ID=%d", ID));
+	public Url get(int ID) {
+		log.info(String.format("Get url: ID=%d", ID));
 		
-		MainCategory category = null;
+		Url url = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -107,11 +112,16 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			statement.execute();
 			
 			result = statement.getResultSet();
+			
 			if(result != null && result.next()) {
 				int foundID = result.getInt(1);
-				String foundName = result.getString(2);
+				String foundTitle = result.getString(2);
+				String foundUrl = result.getString(3);
+				String foundDescription = result.getString(4);
+				int foundCatID = result.getInt(5);
 				
-				category = new MainCategory(foundID, foundName);
+				ICategoryDAO category = database.getCategory();
+				url = new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID));
 			}
 			
 			result.close();
@@ -121,15 +131,49 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
 		}
-
-		return category;
-	}
-	
-	@Override
-	public List<MainCategory> getAll() {
-		log.info("Get all categories");
 		
-		List<MainCategory> categories = new ArrayList<>();
+		return url;
+	}
+
+	@Override
+	public List<Url> getAllWithCategory(Category category) {
+		log.info(String.format("Get all urls with category: ID=%d, name=%s", category.getID(), category.getName()));
+		
+		List<Url> urls = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = database.createConnection();
+			statement = connection.prepareStatement(GET_CATEGORY);
+			
+			statement.setInt(1, category.getID());
+			
+			result = statement.executeQuery();
+			if(result != null) {
+				while(result.next()) {
+					int foundID = result.getInt(1);
+					String foundTitle = result.getString(2);
+					String foundUrl = result.getString(3);
+					String foundDescription = result.getString(4);
+					
+					urls.add(new Url(foundID, foundUrl, foundTitle, foundDescription, category));
+				}
+			}
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return urls;
+	}
+
+	@Override
+	public List<Url> getAll() {
+		log.info("Get all urls");
+		
+		List<Url> urls = new ArrayList<>();
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet result = null;
@@ -142,9 +186,13 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			if(result != null) {
 				while(result.next()) {
 					int foundID = result.getInt(1);
-					String foundName = result.getString(2);
+					String foundTitle = result.getString(2);
+					String foundUrl = result.getString(3);
+					String foundDescription = result.getString(4);
+					int foundCatID = result.getInt(5);
 					
-					categories.add(new MainCategory(foundID, foundName));
+					ICategoryDAO category = database.getCategory();
+					urls.add(new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID)));
 				}
 			}
 			
@@ -156,12 +204,12 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			log.warning(ex.getMessage());
 		}
 		
-		return categories;
+		return urls;
 	}
-	
+
 	@Override
-	public boolean update(MainCategory category) {
-		log.info(String.format("Update category: ID=%d, name=%s", category.getID(), category.getName()));
+	public boolean update(Url url) {
+		log.info(String.format("Update url: ID=%d, url=%s", url.getID(), url.getUrl()));
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -170,8 +218,11 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			connection = database.createConnection();
 			statement = connection.prepareStatement(UPDATE);
 			
-			statement.setString(1, category.getName());
-			statement.setInt(2, category.getID());
+			statement.setString(1, url.getTitle());
+			statement.setString(2, url.getUrl());
+			statement.setString(3, url.getDescription());
+			statement.setInt(4, url.getCategory().getID());
+			statement.setInt(5, url.getID());
 			statement.execute();
 			
 			statement.close();
@@ -184,10 +235,10 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean delete(int ID) {
-		log.info(String.format("Delete category: ID=%d", ID));
+		log.info(String.format("Delete url: ID=%d", ID));
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -224,6 +275,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			INSERT = obj.getString("INSERT");
 			GET = obj.getString("GET");
 			GET_ALL = obj.getString("GET_ALL");
+			GET_CATEGORY = obj.getString("GET_CATEGORY");
 			UPDATE = obj.getString("UPDATE");
 			DELETE = obj.getString("DELETE");
 			
