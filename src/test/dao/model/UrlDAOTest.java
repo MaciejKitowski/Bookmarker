@@ -1,6 +1,7 @@
 package test.dao.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -18,7 +19,12 @@ import org.junit.runners.Parameterized.Parameters;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.Category.CategoryDAO;
+import mvc.dao.Category.SqliteCategory;
+import mvc.dao.Url.IUrlDAO;
+import mvc.dao.Url.SqliteUrl;
 import mvc.dao.Url.UrlDAO;
+import mvc.model.Category;
+import mvc.model.Url;
 import test.dao.DAOutils;
 
 @RunWith(Parameterized.class)
@@ -78,5 +84,17 @@ public class UrlDAOTest {
 		catch(Exception ex) {
 			fail(ex.getMessage());
 		}
+	}
+	
+	@Test
+	public void insertTest() {
+		int ID = 3;
+		Url url = new Url("http://test", "SingleinsertTest", "Single");
+		Category category = DAOFactory.get(databaseType).getCategory().get(ID);
+		url.setCategory(category);
+		
+		int result = dao.insert(url);
+		
+		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
 	}
 }
