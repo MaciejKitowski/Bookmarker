@@ -42,10 +42,10 @@
         "ID   SERIAL  NOT NULL,",
         "parent_ID  int,",
         "name   VARCHAR(255)  NOT NULL,",
-        "CONSTRAINT cat_pk PRIMARY KEY(ID),"
+        "CONSTRAINT cat_pk PRIMARY KEY(ID),",
         "CONSTRAINT mCat_fk FOREIGN KEY(parent_ID) REFERENCES MainCategory(ID)",
           "ON UPDATE CASCADE",
-          "ON DELETE SET NULL"
+          "ON DELETE SET NULL",
       ")"
     ],
     "INSERT": "INSERT INTO Category(name, parent_ID) VALUES(?, ?)",
