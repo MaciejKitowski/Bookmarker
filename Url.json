@@ -27,7 +27,7 @@
         "title  VARCHAR(255)  NOT NULL,",
         "url  VARCHAR(255)  NOT NULL,",
         "description  VARCHAR(255),",
-        "PRIMARY KEY(ID),"
+        "PRIMARY KEY(ID),",
         "FOREIGN KEY(cat_ID) REFERENCES Category(ID)",
           "ON UPDATE CASCADE",
           "ON DELETE SET NULL",
