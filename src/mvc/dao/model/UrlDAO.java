@@ -7,16 +7,18 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
 import mvc.model.Category;
 import mvc.model.Url;
 
 public final class UrlDAO implements IUrlDAO {
-	private static final Logger log = Logger.getLogger(UrlDAO.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(UrlDAO.class);
+	
 	private static final String queryFilename = "Url.json";
 	
 	private DAOFactory database = null;
@@ -30,6 +32,7 @@ public final class UrlDAO implements IUrlDAO {
 	
 	public UrlDAO(int databaseType) {
 		database = DAOFactory.get(databaseType);
+		log.debug("Create UrlDAO with database: {}", database.getName());
 		
 		try {
 			JSONObject obj = JsonLoader.getJson(queryFilename, database.getName());
@@ -41,15 +44,23 @@ public final class UrlDAO implements IUrlDAO {
 			GET_CATEGORY = obj.getString("GET_CATEGORY");
 			UPDATE = obj.getString("UPDATE");
 			DELETE = obj.getString("DELETE");
+			
+			log.debug("CREATE_TABLE: {}", CREATE_TABLE);
+			log.debug("INSERT: {}", INSERT);
+			log.debug("GET: {}", GET);
+			log.debug("GET_ALL: {}", GET_ALL);
+			log.debug("GET_CATEGORY: {}", GET_CATEGORY);
+			log.debug("UPDATE: {}", UPDATE);
+			log.debug("DELETE: {}", DELETE);
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Load JSON file failed", ex);
 		}
 	}
 
 	@Override
 	public void createTable() {
-		log.info("Create new table");
+		log.debug("Create table");
 		
 		Connection connection = null;
 		Statement statement = null;
@@ -61,7 +72,7 @@ public final class UrlDAO implements IUrlDAO {
 			statement.execute(CREATE_TABLE);
 		}
 		catch(Exception ex) {
-			log.info(ex.getMessage());
+			log.error("Create new table failed", ex);
 		}
 		finally {
 			try {
@@ -69,14 +80,14 @@ public final class UrlDAO implements IUrlDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 	}
 
 	@Override
 	public int insert(Url url) {
-		log.info(String.format("Insert url: ID=%d, title=%s, url=%s", url.getID(), url.getTitle(), url.getTitle()));
+		log.debug("Insert url: ID={} url={} title={}", url.getID(), url.getUrl(), url.getTitle());
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -100,7 +111,7 @@ public final class UrlDAO implements IUrlDAO {
 			else resultBuffer = INSERT_FAIL;
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Insert failed", ex);
 			resultBuffer = INSERT_FAIL;
 		}
 		finally {
@@ -110,7 +121,7 @@ public final class UrlDAO implements IUrlDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 
@@ -119,7 +130,7 @@ public final class UrlDAO implements IUrlDAO {
 
 	@Override
 	public Url get(int ID) {
-		log.info(String.format("Get url: ID=%d", ID));
+		log.debug("Get url: ID={}", ID);
 		
 		Url url = null;
 		Connection connection = null;
@@ -151,7 +162,7 @@ public final class UrlDAO implements IUrlDAO {
 			}
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Get failed", ex);
 		}
 		finally {
 			try {
@@ -160,7 +171,7 @@ public final class UrlDAO implements IUrlDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		
@@ -169,7 +180,7 @@ public final class UrlDAO implements IUrlDAO {
 
 	@Override
 	public List<Url> getAllWithCategory(Category category) {
-		log.info(String.format("Get all urls with category: ID=%d, name=%s", category.getID(), category.getName()));
+		log.debug("Get all urls with category: ID={} name={}", category.getID(), category.getName());
 		
 		List<Url> urls = new ArrayList<>();
 		Connection connection = null;
@@ -199,7 +210,7 @@ public final class UrlDAO implements IUrlDAO {
 			}
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Get all with category failed", ex);
 		}
 		finally {
 			try {
@@ -208,7 +219,7 @@ public final class UrlDAO implements IUrlDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		
@@ -217,7 +228,7 @@ public final class UrlDAO implements IUrlDAO {
 
 	@Override
 	public List<Url> getAll() {
-		log.info("Get all urls");
+		log.debug("Get all urls");
 		
 		List<Url> urls = new ArrayList<>();
 		Connection connection = null;
@@ -250,7 +261,7 @@ public final class UrlDAO implements IUrlDAO {
 			}
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Get all urls failed", ex);
 			ex.printStackTrace();
 		}
 		finally {
@@ -260,7 +271,7 @@ public final class UrlDAO implements IUrlDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		
@@ -269,7 +280,7 @@ public final class UrlDAO implements IUrlDAO {
 
 	@Override
 	public boolean update(Url url) {
-		log.info(String.format("Update url: ID=%d, url=%s", url.getID(), url.getUrl()));
+		log.debug("Update category: ID={} url={} title={}", url.getID(), url.getUrl(), url.getTitle());
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -289,7 +300,7 @@ public final class UrlDAO implements IUrlDAO {
 			result = true;
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Update failed", ex);
 			result = false;
 		}
 		finally {
@@ -298,7 +309,7 @@ public final class UrlDAO implements IUrlDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		
@@ -307,7 +318,7 @@ public final class UrlDAO implements IUrlDAO {
 
 	@Override
 	public boolean delete(int ID) {
-		log.info(String.format("Delete url: ID=%d", ID));
+		log.debug("Delete url: ID={}", ID);
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -323,7 +334,7 @@ public final class UrlDAO implements IUrlDAO {
 			result = true;
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Delete failed", ex);
 			result = false;
 		}
 		finally {
@@ -332,7 +343,7 @@ public final class UrlDAO implements IUrlDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		

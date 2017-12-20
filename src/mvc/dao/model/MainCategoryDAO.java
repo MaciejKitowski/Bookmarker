@@ -6,15 +6,17 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
 import mvc.model.MainCategory;
 
 public final class MainCategoryDAO implements IMainCategoryDAO {
-	private static final Logger log = Logger.getLogger(MainCategoryDAO.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(MainCategoryDAO.class);
+	
 	private static final String queryFilename = "MainCategory.json";
 		
 	private DAOFactory database = null;
@@ -27,6 +29,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	
 	public MainCategoryDAO(int databaseType) {
 		database = DAOFactory.get(databaseType);
+		log.debug("Create MainCategoryDAO with database: {}", database.getName());
 		
 		try {
 			JSONObject obj = JsonLoader.getJson(queryFilename, database.getName());
@@ -37,15 +40,22 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			GET_ALL = obj.getString("GET_ALL");
 			UPDATE = obj.getString("UPDATE");
 			DELETE = obj.getString("DELETE");
+			
+			log.debug("CREATE_TABLE: {}", CREATE_TABLE);
+			log.debug("INSERT: {}", INSERT);
+			log.debug("GET: {}", GET);
+			log.debug("GET_ALL: {}", GET_ALL);
+			log.debug("UPDATE: {}", UPDATE);
+			log.debug("DELETE: {}", DELETE);
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Load JSON file failed", ex);
 		}
 	}
 	
 	@Override
 	public void createTable() {
-		log.info("Create new table");
+		log.debug("Create table");
 		
 		Connection connection = null;
 		Statement statement = null;
@@ -57,7 +67,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			statement.execute(CREATE_TABLE);
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Create new table failed", ex);
 		}
 		finally {
 			try {
@@ -65,14 +75,14 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 	}
 	
 	@Override
 	public int insert(MainCategory category) {
-		log.info(String.format("Insert category: ID=%d, name=%s", category.getID(), category.getName()));
+		log.debug("Insert category: ID={} name={}", category.getID(), category.getName());
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -91,7 +101,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			else resultBuffer = INSERT_FAIL;
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Insert failed", ex);
 			resultBuffer = INSERT_FAIL;
 		}
 		finally {
@@ -101,7 +111,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 
@@ -110,7 +120,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	
 	@Override
 	public MainCategory get(int ID) {
-		log.info(String.format("Get category: ID=%d", ID));
+		log.debug("Get category: ID={}", ID);
 		
 		MainCategory category = null;
 		Connection connection = null;
@@ -133,7 +143,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			}
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Get failed", ex);
 		}
 		finally {
 			try {
@@ -142,7 +152,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 
@@ -151,7 +161,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	
 	@Override
 	public List<MainCategory> getAll() {
-		log.info("Get all categories");
+		log.debug("Get all categories");
 		
 		List<MainCategory> categories = new ArrayList<>();
 		Connection connection = null;
@@ -173,7 +183,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			}
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Get all categories failed", ex);
 		}
 		finally {
 			try {
@@ -182,7 +192,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		
@@ -191,7 +201,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	
 	@Override
 	public boolean update(MainCategory category) {
-		log.info(String.format("Update category: ID=%d, name=%s", category.getID(), category.getName()));
+		log.debug("Update category: ID={} name={}", category.getID(), category.getName());
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -208,7 +218,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			result = true;
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Update failed", ex);
 			result = false;
 		}
 		finally {
@@ -217,7 +227,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		
@@ -226,7 +236,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	
 	@Override
 	public boolean delete(int ID) {
-		log.info(String.format("Delete category: ID=%d", ID));
+		log.debug("Delete category: ID={}", ID);
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -242,7 +252,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			result = true;
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Delete failed", ex);
 			result = false;
 		}
 		finally {
@@ -251,7 +261,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		

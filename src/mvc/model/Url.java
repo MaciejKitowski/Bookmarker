@@ -1,9 +1,10 @@
 package mvc.model;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class Url {
-	private Logger log = Logger.getLogger(Url.class.getName());
+	private Logger log = LoggerFactory.getLogger(Url.class);
 	
 	private int ID = 0;
 	private String url = null;
@@ -12,8 +13,8 @@ public final class Url {
 	Category category = null;
 	
 	public Url(int ID, String url, String title, String description, Category category) {
-		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", ID, url, title, description, category.getID(), category.getName()));
-
+		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", ID, url, title, description, category.getID(), category.getName());
+		
 		this.ID = ID;
 		this.url = url;
 		this.title = title;
@@ -22,8 +23,8 @@ public final class Url {
 	}
 	
 	public Url(String url, String title, String description, Category category) {
-		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, url, title, description, category.getID(), category.getName()));
-
+		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", null, url, title, description, category.getID(), category.getName());
+		
 		this.url = url;
 		this.title = title;
 		this.description = description;
@@ -31,8 +32,8 @@ public final class Url {
 	}
 	
 	public Url(int ID, String url, String title, Category category) {
-		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", ID, url, title, null, category.getID(), category.getName()));
-
+		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", ID, url, title, null, category.getID(), category.getName());
+		
 		this.ID = ID;
 		this.url = url;
 		this.title = title;
@@ -40,15 +41,15 @@ public final class Url {
 	}
 	
 	public Url(int ID, String url, String title) {
-		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", ID, url, title, null, null, null));
-
+		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", ID, url, title, null, null, null);
+		
 		this.ID = ID;
 		this.url = url;
 		this.title = title;
 	}
 	
 	public Url(String url, String title, String description) {
-		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, url, title, description, null, null));
+		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", null, url, title, description, null, null);
 		
 		this.url = url;
 		this.title = title;
@@ -56,7 +57,7 @@ public final class Url {
 	}
 	
 	public Url(String url, String title, Category category) {
-		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, url, title, null, category.getID(), category.getName()));
+		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", null, url, title, null, category.getID(), category.getName());
 		
 		this.url = url;
 		this.title = title;
@@ -64,14 +65,14 @@ public final class Url {
 	}
 	
 	public Url(String url, String title) {
-		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, url, title, null, null, null));
+		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", null, url, title, null, null, null);
 		
 		this.url = url;
 		this.title = title;
 	}
 	
 	public Url() {
-		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, null, null, null, null, null));
+		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", null, null, null, null, null, null);
 		
 		ID = 0;
 		url = "http://localhost";
@@ -79,49 +80,54 @@ public final class Url {
 		description = "EMPTY";
 		category = new Category();
 	}
-
-	public int getID() {
-		return ID;
-	}
 	
-	public String getUrl() {
-		return url;
-	}
-	
-	public String getTitle() {
-		return title;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public Category getCategory() {
-		return category;
-	}
-
 	public void setID(int ID) {
-		log.info("Set new ID: " + ID);
+		log.debug("Set ID: {}", ID);
 		this.ID = ID;
 	}
 
 	public void setUrl(String url) {
-		log.info("Set new url: " + url);
+		log.debug("Set url: {}", url);
 		this.url = url;
 	}
 
 	public void setTitle(String title) {
-		log.info("Set new title: " + title);
+		log.debug("Set title: {}", title);
 		this.title = title;
 	}
 
 	public void setDescription(String description) {
-		log.info("Set new description: " + description);
+		log.debug("Set description: {}", description);
 		this.description = description;
 	}
 
 	public void setCategory(Category category) {
-		log.info(String.format("Set new category: ID=%d name=%s", category.getID(), category.getName()));
+		log.debug("Set category: ID={} name={}", category.getID(), category.getName());
 		this.category = category;
+	}
+
+	public int getID() {
+		log.trace("Get ID: {}", ID);
+		return ID;
+	}
+	
+	public String getUrl() {
+		log.trace("Get url: {}", url);
+		return url;
+	}
+	
+	public String getTitle() {
+		log.trace("Get title: {}", title);
+		return title;
+	}
+	
+	public String getDescription() {
+		log.trace("Get description: {}", description);
+		return description;
+	}
+	
+	public Category getCategory() {
+		if(category != null) log.trace("Get category: ID={} name={}", category.getID(), category.getName());
+		return category;
 	}
 }
