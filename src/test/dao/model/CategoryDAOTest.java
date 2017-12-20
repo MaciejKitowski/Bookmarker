@@ -102,8 +102,7 @@ public class CategoryDAOTest {
 		MainCategory main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
 		
 		for(int i = 0; i < insertCount; ++i) {
-			Category category = new Category(String.format(pattern, i + 1));
-			category.setParent(main);
+			Category category = new Category(String.format(pattern, i + 1), main);
 			
 			int result = dao.insert(category);
 			
