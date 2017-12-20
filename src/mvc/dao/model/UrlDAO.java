@@ -18,8 +18,6 @@ public final class UrlDAO implements IUrlDAO {
 	private static final Logger log = Logger.getLogger(UrlDAO.class.getName());
 	private static final String queryFilename = "Url.json";
 	
-	public static int INSERT_FAIL = -1;
-	
 	private DAOFactory database = null;
 	private String CREATE_TABLE = null;
 	private String INSERT = null;

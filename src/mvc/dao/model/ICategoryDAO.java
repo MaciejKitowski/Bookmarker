@@ -6,6 +6,8 @@ import mvc.model.Category;
 import mvc.model.MainCategory;
 
 public interface ICategoryDAO {
+	public int INSERT_FAIL = -1;
+	
 	public void createTable();
 	public int insert(Category category);
 	

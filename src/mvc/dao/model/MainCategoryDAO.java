@@ -16,9 +16,7 @@ import mvc.model.MainCategory;
 public final class MainCategoryDAO implements IMainCategoryDAO {
 	private static final Logger log = Logger.getLogger(MainCategoryDAO.class.getName());
 	private static final String queryFilename = "MainCategory.json";
-	
-	public static int INSERT_FAIL = -1;
-	
+		
 	private DAOFactory database = null;
 	private String CREATE_TABLE = null;
 	private String INSERT = null;

@@ -18,8 +18,6 @@ public final class CategoryDAO implements ICategoryDAO {
 	private static final Logger log = Logger.getLogger(CategoryDAO.class.getName());
 	private static final String queryFilename = "Category.json";
 	
-	public static int INSERT_FAIL = -1;
-	
 	private DAOFactory database = null;
 	private String CREATE_TABLE = null;
 	private String INSERT = null;

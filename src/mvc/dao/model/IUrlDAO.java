@@ -6,6 +6,8 @@ import mvc.model.Category;
 import mvc.model.Url;
 
 public interface IUrlDAO {
+	public int INSERT_FAIL = -1;
+	
 	public void createTable();
 	public int insert(Url url);
 	
