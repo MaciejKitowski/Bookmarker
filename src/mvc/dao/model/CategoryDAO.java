@@ -7,16 +7,18 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 
 public final class CategoryDAO implements ICategoryDAO {
-	private static final Logger log = Logger.getLogger(CategoryDAO.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(CategoryDAO.class);
+	
 	private static final String queryFilename = "Category.json";
 	
 	private DAOFactory database = null;
@@ -30,6 +32,7 @@ public final class CategoryDAO implements ICategoryDAO {
 	
 	public CategoryDAO(int databaseType) {
 		database = DAOFactory.get(databaseType);
+		log.debug("Create CategoryDAO with database: {}", database.getName());
 		
 		try {
 			JSONObject obj = JsonLoader.getJson(queryFilename, database.getName());
@@ -41,15 +44,23 @@ public final class CategoryDAO implements ICategoryDAO {
 			GET_MAINCAT = obj.getString("GET_MAINCAT");
 			UPDATE = obj.getString("UPDATE");
 			DELETE = obj.getString("DELETE");
+			
+			log.debug("CREATE_TABLE", CREATE_TABLE);
+			log.debug("INSERT", INSERT);
+			log.debug("GET", GET);
+			log.debug("GET_ALL", GET_ALL);
+			log.debug("GET_MAINCAT", GET_MAINCAT);
+			log.debug("UPDATE", UPDATE);
+			log.debug("DELETE", DELETE);
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Load JSON file failed", ex);
 		}
 	}
 	
 	@Override
 	public void createTable() {
-		log.info("Create new table");
+		log.debug("Create table");
 		
 		Connection connection = null;
 		Statement statement = null;
@@ -61,7 +72,7 @@ public final class CategoryDAO implements ICategoryDAO {
 			statement.execute(CREATE_TABLE);
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Create new table failed", ex);
 		}
 		finally {
 			try {
@@ -69,14 +80,14 @@ public final class CategoryDAO implements ICategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 	}
 	
 	@Override
 	public int insert(Category category) {
-		log.info(String.format("Insert category: ID=%d, name=%s", category.getID(), category.getName()));
+		log.debug("Insert category: ID={} name={}", category.getID(), category.getName());
 
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -97,7 +108,7 @@ public final class CategoryDAO implements ICategoryDAO {
 			else resultBuffer = INSERT_FAIL;
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Insert failed", ex);
 			resultBuffer = INSERT_FAIL;
 		}
 		finally {
@@ -107,7 +118,7 @@ public final class CategoryDAO implements ICategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		
@@ -116,7 +127,7 @@ public final class CategoryDAO implements ICategoryDAO {
 	
 	@Override
 	public Category get(int ID) {
-		log.info(String.format("Get category: ID=%d", ID));
+		log.debug("Get category: ID={}", ID);
 		
 		Category category = null;
 		Connection connection = null;
@@ -145,7 +156,7 @@ public final class CategoryDAO implements ICategoryDAO {
 			}
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Get failed", ex);
 		}
 		finally {
 			try {
@@ -154,7 +165,7 @@ public final class CategoryDAO implements ICategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		
@@ -163,7 +174,7 @@ public final class CategoryDAO implements ICategoryDAO {
 	
 	@Override
 	public List<Category> getWithMainCategory(MainCategory category) {
-		log.info(String.format("Get all categories with main category: ID=%d, name=%s", category.getID(), category.getName()));
+		log.debug("Get all categories with parent: ID={} name={}", category.getID(), category.getName());
 
 		List<Category> categories = new ArrayList<>();
 		Connection connection = null;
@@ -187,7 +198,7 @@ public final class CategoryDAO implements ICategoryDAO {
 			}
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Get all with parent category failed", ex);
 		}
 		finally {
 			try {
@@ -196,7 +207,7 @@ public final class CategoryDAO implements ICategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		
@@ -205,7 +216,7 @@ public final class CategoryDAO implements ICategoryDAO {
 	
 	@Override
 	public List<Category> getAll() {
-		log.info("Get all categories");
+		log.debug("Get all categories");
 		
 		List<Category> categories = new ArrayList<>();
 		Connection connection = null;
@@ -234,7 +245,7 @@ public final class CategoryDAO implements ICategoryDAO {
 			}
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Get all categories failed", ex);
 		}
 		finally {
 			try {
@@ -243,7 +254,7 @@ public final class CategoryDAO implements ICategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		
@@ -252,7 +263,7 @@ public final class CategoryDAO implements ICategoryDAO {
 	
 	@Override
 	public boolean update(Category category) {
-		log.info(String.format("Update category: ID=%d, name=%s", category.getID(), category.getName()));
+		log.debug("Update category: ID={} name={}", category.getID(), category.getName());
 
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -270,7 +281,7 @@ public final class CategoryDAO implements ICategoryDAO {
 			result = true;
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Update failed", ex);
 			result = false;
 		}
 		finally {
@@ -279,7 +290,7 @@ public final class CategoryDAO implements ICategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		
@@ -288,7 +299,7 @@ public final class CategoryDAO implements ICategoryDAO {
 	
 	@Override
 	public boolean delete(int ID) {
-		log.info(String.format("Delete category: ID=%d", ID));
+		log.debug("Delete category: ID={}", ID);
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -304,7 +315,7 @@ public final class CategoryDAO implements ICategoryDAO {
 			result = true;
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Delete failed", ex);
 			result = false;
 		}
 		finally {
@@ -313,7 +324,7 @@ public final class CategoryDAO implements ICategoryDAO {
 				if(connection != null && !connection.isClosed()) connection.close();
 			}
 			catch(Exception ex) {
-				log.warning(ex.getMessage());
+				log.error("Close connection failed", ex);
 			}
 		}
 		
