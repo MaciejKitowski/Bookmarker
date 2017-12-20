@@ -5,6 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import mvc.dao.model.CategoryDAO;
+import mvc.dao.model.ICategoryDAO;
+import mvc.dao.model.IMainCategoryDAO;
+import mvc.dao.model.MainCategoryDAO;
+
 public final class PostgresFactory extends DAOFactory {
 	private static final Logger log = Logger.getLogger(PostgresFactory.class.getName());
 	
@@ -13,6 +18,7 @@ public final class PostgresFactory extends DAOFactory {
     private static final String USERNAME = "bookmarker";
     private static final String USERPASSWORD = "admin1";
     
+    @Deprecated
     public static Connection getConnection() {
     	log.info("Get connection");
     	Connection connection = null;
@@ -29,4 +35,24 @@ public final class PostgresFactory extends DAOFactory {
     	
     	return connection;
     }
+    
+    @Override
+	public IMainCategoryDAO getMainCategory() {
+		return new MainCategoryDAO(POSTGRES);
+	}
+    
+    @Override
+	public ICategoryDAO getCategory() {
+		return new CategoryDAO(POSTGRES);
+	}
+
+	@Override
+	public String getName() {
+		return "POSTGRES";
+	}
+
+	@Override
+	public Connection createConnection() {
+		return PostgresFactory.getConnection();
+	}
 }

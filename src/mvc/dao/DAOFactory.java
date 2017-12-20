@@ -1,6 +1,10 @@
 package mvc.dao;
 
+import java.sql.Connection;
 import java.util.logging.Logger;
+
+import mvc.dao.model.ICategoryDAO;
+import mvc.dao.model.IMainCategoryDAO;
 
 public abstract class DAOFactory {
 	private static final Logger log = Logger.getLogger(DAOFactory.class.getName());
@@ -8,6 +12,12 @@ public abstract class DAOFactory {
 	public static final int SQLITE = 1;
 	public static final int MYSQL = 2;
 	public static final int POSTGRES = 3;
+	
+	public abstract IMainCategoryDAO getMainCategory();
+	public abstract ICategoryDAO getCategory();
+	
+	public abstract String getName();
+	public abstract Connection createConnection(); //TODO Replace with static class getConnection()
 
 	public static DAOFactory get(int database) {
 		if(database == SQLITE) {
