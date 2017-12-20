@@ -127,7 +127,7 @@ public final class Url {
 	}
 	
 	public Category getCategory() {
-		log.trace("Get category: ID={} name={}", category.getID(), category.getName());
+		if(category != null) log.trace("Get category: ID={} name={}", category.getID(), category.getName());
 		return category;
 	}
 }
