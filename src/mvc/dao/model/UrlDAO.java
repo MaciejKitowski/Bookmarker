@@ -186,7 +186,11 @@ public final class UrlDAO implements IUrlDAO {
 					String foundUrl = result.getString(3);
 					String foundDescription = result.getString(4);
 					
-					urls.add(new Url(foundID, foundUrl, foundTitle, foundDescription, category));
+					Url url = new Url(foundID, foundUrl, foundTitle, category);
+					
+					if(foundDescription != null) url.setDescription(foundDescription);
+					
+					urls.add(url);
 				}
 			}
 		}
