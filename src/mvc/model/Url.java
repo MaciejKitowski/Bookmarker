@@ -21,6 +21,15 @@ public final class Url {
 		this.category = category;
 	}
 	
+	public Url(String url, String title, String description, Category category) {
+		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, url, title, description, category.getID(), category.getName()));
+
+		this.url = url;
+		this.title = title;
+		this.description = description;
+		this.category = category;
+	}
+	
 	public Url(String url, String title, String description) {
 		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, url, title, description, null, null));
 		

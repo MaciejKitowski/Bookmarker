@@ -82,9 +82,8 @@ public class UrlDAOTest {
 	@Test
 	public void insertTest() {
 		int ID = 3;
-		Url url = new Url("http://test", "SingleinsertTest", "Single");
 		Category category = DAOFactory.get(databaseType).getCategory().get(ID);
-		url.setCategory(category);
+		Url url = new Url("http://test", "SingleinsertTest", "Single", category);
 		
 		int result = dao.insert(url);
 		
@@ -99,8 +98,7 @@ public class UrlDAOTest {
 		Category category = DAOFactory.get(databaseType).getCategory().get(ID);
 		
 		for(int i = 0; i < insertCount; ++i) {
-			Url url = new Url("http://test", String.format(pattern, i + 1), "Single");
-			url.setCategory(category);
+			Url url = new Url("http://test", String.format(pattern, i + 1), "Single", category);
 			
 			int result = dao.insert(url);
 			
