@@ -72,7 +72,7 @@ public final class Category {
 	}
 	
 	public MainCategory getParent() {
-		log.trace("Get parent: ID={} name={}", parent.getID(), parent.getName());
+		if(parent != null) log.trace("Get parent: ID={} name={}", parent.getID(), parent.getName());
 		return parent;
 	}
 }
