@@ -228,14 +228,22 @@ public final class UrlDAO implements IUrlDAO {
 					String foundUrl = result.getString(3);
 					String foundDescription = result.getString(4);
 					int foundCatID = result.getInt(5);
+					Url url = new Url(foundID, foundUrl, foundTitle);
 					
-					ICategoryDAO category = database.getCategory();
-					urls.add(new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID)));
+					if(foundDescription != null) url.setDescription(foundDescription);
+					if(foundCatID != 0) {
+						ICategoryDAO category = database.getCategory();
+						url.setCategory(category.get(foundCatID));
+					}
+					
+					
+					urls.add(url);
 				}
 			}
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
+			ex.printStackTrace();
 		}
 		finally {
 			try {

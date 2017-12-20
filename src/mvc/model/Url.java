@@ -30,6 +30,14 @@ public final class Url {
 		this.category = category;
 	}
 	
+	public Url(int ID, String url, String title) {
+		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", ID, url, title, null, null, null));
+
+		this.ID = ID;
+		this.url = url;
+		this.title = title;
+	}
+	
 	public Url(String url, String title, String description) {
 		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, url, title, description, null, null));
 		
