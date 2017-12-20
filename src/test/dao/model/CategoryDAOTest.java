@@ -85,7 +85,9 @@ public class CategoryDAOTest {
 	
 	@Test
 	public void insertTest() {
-		Category category = new Category("SingleInsertTest");
+		int mainCategoryID = 4;
+		MainCategory main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
+		Category category = new Category("SingleInsertTest", main);
 		
 		int result = dao.insert(category);
 		
