@@ -45,13 +45,13 @@ public final class CategoryDAO implements ICategoryDAO {
 			UPDATE = obj.getString("UPDATE");
 			DELETE = obj.getString("DELETE");
 			
-			log.debug("CREATE_TABLE", CREATE_TABLE);
-			log.debug("INSERT", INSERT);
-			log.debug("GET", GET);
-			log.debug("GET_ALL", GET_ALL);
-			log.debug("GET_MAINCAT", GET_MAINCAT);
-			log.debug("UPDATE", UPDATE);
-			log.debug("DELETE", DELETE);
+			log.debug("CREATE_TABLE: {}", CREATE_TABLE);
+			log.debug("INSERT: {}", INSERT);
+			log.debug("GET: {}", GET);
+			log.debug("GET_ALL: {}", GET_ALL);
+			log.debug("GET_MAINCAT: {}", GET_MAINCAT);
+			log.debug("UPDATE: {}", UPDATE);
+			log.debug("DELETE: {}", DELETE);
 		}
 		catch(Exception ex) {
 			log.error("Load JSON file failed", ex);
