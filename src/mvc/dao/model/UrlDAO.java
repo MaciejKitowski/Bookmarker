@@ -141,9 +141,13 @@ public final class UrlDAO implements IUrlDAO {
 				String foundUrl = result.getString(3);
 				String foundDescription = result.getString(4);
 				int foundCatID = result.getInt(5);
+				url = new Url(foundID, foundUrl, foundTitle);
 				
-				ICategoryDAO category = database.getCategory();
-				url = new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID));
+				if(foundDescription != null) url.setDescription(foundDescription);
+				if(foundCatID != 0) {
+					ICategoryDAO category = database.getCategory();
+					url.setCategory(category.get(foundCatID));
+				}
 			}
 		}
 		catch(Exception ex) {
