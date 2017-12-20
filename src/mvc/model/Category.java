@@ -3,7 +3,6 @@ package mvc.model;
 import java.util.logging.Logger;
 
 public final class Category {
-	private static final String LoggerFormat = "Cat(%d)";
 	private Logger log = Logger.getLogger(Category.class.getName());
 	
 	private int ID = 0;
@@ -15,14 +14,12 @@ public final class Category {
 		this.ID = ID;
 		this.name = name;
 		this.parent = parent;
-		updateLogger();
 	}
 	
 	public Category(int ID, String name) {
 		log.info(String.format("Create new category: ID=%d, name=%s", ID, name));
 		this.ID = ID;
 		this.name = name;
-		updateLogger();
 	}
 	
 	public Category(String name) {
@@ -35,13 +32,11 @@ public final class Category {
 		ID = 0;
 		name = "EMPTY";
 		parent = new MainCategory();
-		updateLogger();
 	}
 	
 	public void setID(int ID) {
 		log.info("Set new ID: " + ID);
 		this.ID = ID;
-		updateLogger();
 	}
 	
 	public void setName(String name) {
@@ -64,9 +59,5 @@ public final class Category {
 	
 	public MainCategory getParent() {
 		return parent;
-	}
-
-	private void updateLogger() {
-		log = Logger.getLogger(String.format(LoggerFormat, ID));
 	}
 }
