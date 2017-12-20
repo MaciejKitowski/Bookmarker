@@ -22,6 +22,12 @@ public final class Category {
 		this.name = name;
 	}
 	
+	public Category(String name, MainCategory parent) {
+		log.info(String.format("New Category \n\t ID=%d \n\t name=%s \n\t parent: \n\t\t ID=%d \n\t\t name=%s", null, name, parent.getID(), parent.getName()));
+		this.name = name;
+		this.parent = parent;
+	}
+	
 	public Category(String name) {
 		log.info(String.format("New Category \n\t ID=%d \n\t name=%s \n\t parent: \n\t\t ID=%d \n\t\t name=%s", null, name, null, null));
 		this.name = name;
