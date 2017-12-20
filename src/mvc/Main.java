@@ -1,11 +1,12 @@
 package mvc;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
-	private static final Logger log = Logger.getLogger(Main.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(Main.class);
 	
 	public static void main(String[] args) {
-		log.info("Run application");
+		log.info("Start application");
 	}
-
 }
