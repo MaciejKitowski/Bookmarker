@@ -57,12 +57,18 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			statement = connection.createStatement();
 			
 			statement.execute(CREATE_TABLE);
-			
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
+		}
+		finally {
+			try {
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 	}
 	
@@ -85,14 +91,20 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			result = statement.getGeneratedKeys();
 			if(result != null && result.next()) resultBuffer = result.getInt(1);
 			else resultBuffer = INSERT_FAIL;
-			
-			result.close();
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
 			resultBuffer = INSERT_FAIL;
+		}
+		finally {
+			try {
+				if(result != null && !result.isClosed()) result.close();
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 
 		return resultBuffer;
@@ -121,13 +133,19 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 				
 				category = new MainCategory(foundID, foundName);
 			}
-			
-			result.close();
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
+		}
+		finally {
+			try {
+				if(result != null && !result.isClosed()) result.close();
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 
 		return category;
@@ -155,13 +173,19 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 					categories.add(new MainCategory(foundID, foundName));
 				}
 			}
-			
-			result.close();
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
+		}
+		finally {
+			try {
+				if(result != null && !result.isClosed()) result.close();
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 		
 		return categories;
@@ -173,6 +197,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
+		boolean result = false;
 		
 		try {
 			connection = database.getConnection();
@@ -182,15 +207,23 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			statement.setInt(2, category.getID());
 			statement.execute();
 			
-			statement.close();
-			connection.close();
-			
-			return true;
+			result = true;
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
-			return false;
+			result = false;
 		}
+		finally {
+			try {
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
+		}
+		
+		return result;
 	}
 	
 	@Override
@@ -199,6 +232,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
+		boolean result = false;
 		
 		try {
 			connection = database.getConnection();
@@ -207,14 +241,22 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			statement.setInt(1, ID);
 			statement.execute();
 			
-			statement.close();
-			connection.close();
-			
-			return true;
+			result = true;
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
-			return false;
+			result = false;
 		}
+		finally {
+			try {
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
+		}
+		
+		return result;
 	}
 }
