@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.swing.text.StyledEditorKit.BoldAction;
+
 import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
@@ -60,12 +62,18 @@ public final class UrlDAO implements IUrlDAO {
 			statement = connection.createStatement();
 			
 			statement.execute(CREATE_TABLE);
-			
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.info(ex.getMessage());
+		}
+		finally {
+			try {
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 	}
 
@@ -91,14 +99,20 @@ public final class UrlDAO implements IUrlDAO {
 			result = statement.getGeneratedKeys();
 			if(result != null && result.next()) resultBuffer = result.getInt(1);
 			else resultBuffer = INSERT_FAIL;
-			
-			result.close();
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
 			resultBuffer = INSERT_FAIL;
+		}
+		finally {
+			try {
+				if(result != null && !result.isClosed()) result.close();
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 
 		return resultBuffer;
@@ -132,13 +146,19 @@ public final class UrlDAO implements IUrlDAO {
 				ICategoryDAO category = database.getCategory();
 				url = new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID));
 			}
-			
-			result.close();
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
+		}
+		finally {
+			try {
+				if(result != null && !result.isClosed()) result.close();
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 		
 		return url;
@@ -174,6 +194,16 @@ public final class UrlDAO implements IUrlDAO {
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
 		}
+		finally {
+			try {
+				if(result != null && !result.isClosed()) result.close();
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
+		}
 		
 		return urls;
 	}
@@ -204,13 +234,19 @@ public final class UrlDAO implements IUrlDAO {
 					urls.add(new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID)));
 				}
 			}
-			
-			result.close();
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
+		}
+		finally {
+			try {
+				if(result != null && !result.isClosed()) result.close();
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 		
 		return urls;
@@ -222,6 +258,7 @@ public final class UrlDAO implements IUrlDAO {
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
+		boolean result = false;
 		
 		try {
 			connection = database.getConnection();
@@ -234,15 +271,23 @@ public final class UrlDAO implements IUrlDAO {
 			statement.setInt(5, url.getID());
 			statement.execute();
 			
-			statement.close();
-			connection.close();
-			
-			return true;
+			result = true;
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
-			return false;
+			result = false;
 		}
+		finally {
+			try {
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -251,6 +296,7 @@ public final class UrlDAO implements IUrlDAO {
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
+		boolean result = false;
 		
 		try {
 			connection = database.getConnection();
@@ -259,14 +305,22 @@ public final class UrlDAO implements IUrlDAO {
 			statement.setInt(1, ID);
 			statement.execute();
 			
-			statement.close();
-			connection.close();
-			
-			return true;
+			result = true;
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
-			return false;
+			result = false;
 		}
+		finally {
+			try {
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
+		}
+		
+		return result;
 	}
 }
