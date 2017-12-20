@@ -16,7 +16,6 @@ import org.junit.runners.Parameterized.Parameters;
 import mvc.dao.DAOFactory;
 import mvc.dao.model.MainCategoryDAO;
 import mvc.model.MainCategory;
-import test.dao.DAOutils;
 
 @RunWith(Parameterized.class)
 public class MainCategoryDAOTest {
@@ -44,7 +43,7 @@ public class MainCategoryDAOTest {
 		String[] fieldNames = {"CREATE_TABLE", "INSERT", "GET", "GET_ALL", "UPDATE", "DELETE"};
 		
 		try {
-			JSONObject json = DAOutils.getJsonQuery("MainCategory.json", databaseType);
+			JSONObject json = Utilities.getJsonQuery("MainCategory.json", databaseType);
 			Class<?> cls = dao.getClass();
 			
 			for(String name : fieldNames) {
@@ -52,7 +51,7 @@ public class MainCategoryDAOTest {
 				Field field = cls.getDeclaredField(name);
 				field.setAccessible(true);
 				
-				if(name == "CREATE_TABLE") sql = DAOutils.getCreateTable(json.getJSONArray(name));
+				if(name == "CREATE_TABLE") sql = Utilities.getCreateTable(json.getJSONArray(name));
 				else sql = json.getString(name);
 				
 				assertNotNull(field.get(dao));
@@ -68,7 +67,7 @@ public class MainCategoryDAOTest {
 	public void createTableTest() {
 		try {
 			dao.createTable();
-			List<String> tableList = DAOutils.getTableNames(databaseType);
+			List<String> tableList = Utilities.getTableNames(databaseType);
 			
 			assertTrue(tableList.contains("MainCategory") || tableList.contains("maincategory"));
 		}
@@ -114,7 +113,7 @@ public class MainCategoryDAOTest {
 		try {
 			List<MainCategory> result = dao.getAll();
 			
-			assertTrue(result != null && result.size() == DAOutils.count("MainCategory", databaseType));
+			assertTrue(result != null && result.size() == Utilities.count("MainCategory", databaseType));
 		}
 		catch(Exception ex) {
 			fail(ex.getMessage());

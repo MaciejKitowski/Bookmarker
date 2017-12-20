@@ -1,4 +1,4 @@
-package test.dao;
+package test.dao.model;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,8 +15,8 @@ import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
 
-public class DAOutils {
-	private DAOutils() {}
+public class Utilities {
+	private Utilities() {}
 	
 	public static List<String> getTableNames(int database) throws Exception {
 		Connection connection = DAOFactory.get(database).getConnection();

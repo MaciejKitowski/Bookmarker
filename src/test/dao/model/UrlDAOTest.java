@@ -18,7 +18,6 @@ import mvc.dao.model.CategoryDAO;
 import mvc.dao.model.UrlDAO;
 import mvc.model.Category;
 import mvc.model.Url;
-import test.dao.DAOutils;
 
 @RunWith(Parameterized.class)
 public class UrlDAOTest {
@@ -46,7 +45,7 @@ public class UrlDAOTest {
 		String[] fieldNames = {"CREATE_TABLE", "INSERT", "GET", "GET_CATEGORY", "GET_ALL", "UPDATE", "DELETE"};
 		
 		try {
-			JSONObject json = DAOutils.getJsonQuery("Url.json", databaseType);
+			JSONObject json = Utilities.getJsonQuery("Url.json", databaseType);
 			Class<?> cls = dao.getClass();
 			
 			for(String name : fieldNames) {
@@ -54,7 +53,7 @@ public class UrlDAOTest {
 				Field field = cls.getDeclaredField(name);
 				field.setAccessible(true);
 				
-				if(name == "CREATE_TABLE") sql = DAOutils.getCreateTable(json.getJSONArray(name));
+				if(name == "CREATE_TABLE") sql = Utilities.getCreateTable(json.getJSONArray(name));
 				else sql = json.getString(name);
 				
 				assertNotNull(field.get(dao));
@@ -70,7 +69,7 @@ public class UrlDAOTest {
 	public void createTableTest() {
 		try {
 			dao.createTable();
-			List<String> tableList = DAOutils.getTableNames(databaseType);
+			List<String> tableList = Utilities.getTableNames(databaseType);
 			
 			assertTrue(tableList.contains("Url") || tableList.contains("url"));
 		}
@@ -202,7 +201,7 @@ public class UrlDAOTest {
 	public void getAllTest() throws Exception {
 		List<Url> result = dao.getAll();
 		
-		assertTrue(result != null && result.size() == DAOutils.count("Url", databaseType));
+		assertTrue(result != null && result.size() == Utilities.count("Url", databaseType));
 	}
 	
 	@Test
