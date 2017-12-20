@@ -95,6 +95,15 @@ public class CategoryDAOTest {
 	}
 	
 	@Test
+	public void insertNullTest() {
+		Category category = new Category("SingleInsertNullTest");
+
+		int result = dao.insert(category);
+		
+		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+	}
+	
+	@Test
 	public void insertMultipleTest() {
 		String pattern = "MultipleInsertTest_%d";
 		int insertCount = 20;
@@ -103,6 +112,20 @@ public class CategoryDAOTest {
 		
 		for(int i = 0; i < insertCount; ++i) {
 			Category category = new Category(String.format(pattern, i + 1), main);
+			
+			int result = dao.insert(category);
+			
+			assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
+		}
+	}
+	
+	@Test
+	public void insertMultipleNullTest() {
+		String pattern = "MultipleInsertNullTest_%d";
+		int insertCount = 20;
+		
+		for(int i = 0; i < insertCount; ++i) {
+			Category category = new Category(String.format(pattern, i + 1));
 			
 			int result = dao.insert(category);
 			
