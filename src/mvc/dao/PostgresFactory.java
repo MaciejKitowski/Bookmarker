@@ -17,25 +17,7 @@ public final class PostgresFactory extends DAOFactory {
     private static final String URL = "jdbc:postgresql://localhost/bookmarker";
     private static final String USERNAME = "bookmarker";
     private static final String USERPASSWORD = "admin1";
-    
-    @Deprecated
-    public static Connection getConnection() {
-    	log.info("Get connection");
-    	Connection connection = null;
-    	
-    	try {
-    		Class.forName(DRIVER);
-    		connection = DriverManager.getConnection(URL, USERNAME, USERPASSWORD);
-    	}
-    	catch(SQLException ex) {
-    		log.warning(ex.getMessage());
-    	} catch (ClassNotFoundException ex) {
-			log.warning(ex.getMessage());
-		}
-    	
-    	return connection;
-    }
-    
+        
     @Override
 	public IMainCategoryDAO getMainCategory() {
 		return new MainCategoryDAO(POSTGRES);
@@ -53,6 +35,18 @@ public final class PostgresFactory extends DAOFactory {
 
 	@Override
 	public Connection createConnection() {
-		return PostgresFactory.getConnection();
+		log.info("Get connection");
+		
+		Connection connection = null;
+		
+		try {
+			Class.forName(DRIVER);
+			connection = DriverManager.getConnection(URL, USERNAME, USERPASSWORD);
+		}
+		catch(Exception ex) {
+			log.warning(ex.getMessage());
+		}
+		
+		return connection;
 	}
 }
