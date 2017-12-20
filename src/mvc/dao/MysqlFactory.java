@@ -2,7 +2,9 @@ package mvc.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import mvc.dao.model.CategoryDAO;
 import mvc.dao.model.ICategoryDAO;
@@ -10,7 +12,7 @@ import mvc.dao.model.IMainCategoryDAO;
 import mvc.dao.model.MainCategoryDAO;
 
 public final class MysqlFactory extends DAOFactory {
-	private static final Logger log = Logger.getLogger(MysqlFactory.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(MysqlFactory.class);
 	
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost/bookmarker?autoReconnect=true&useSSL=false";
@@ -19,22 +21,25 @@ public final class MysqlFactory extends DAOFactory {
         
     @Override
 	public IMainCategoryDAO getMainCategory() {
+    	log.trace("Get MainCategoryDAO");
 		return new MainCategoryDAO(MYSQL);
 	}
     
     @Override
 	public ICategoryDAO getCategory() {
+    	log.trace("Get CategoryDAO");
 		return new CategoryDAO(MYSQL);
 	}
 
 	@Override
 	public String getName() {
+		log.trace("Get name");
 		return "MYSQL";
 	}
 
 	@Override
 	public Connection getConnection() {
-		log.info("Get connection");
+		log.debug("Get connection");
 		
 		Connection connection = null;
 		
@@ -43,7 +48,7 @@ public final class MysqlFactory extends DAOFactory {
     		connection = DriverManager.getConnection(URL, USERNAME, USERPASSWORD);
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Get connection error", ex);
 		}
 		
 		return connection;

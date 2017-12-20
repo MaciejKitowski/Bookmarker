@@ -2,7 +2,9 @@ package mvc.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import mvc.dao.model.CategoryDAO;
 import mvc.dao.model.ICategoryDAO;
@@ -10,29 +12,32 @@ import mvc.dao.model.IMainCategoryDAO;
 import mvc.dao.model.MainCategoryDAO;
 
 public final class SqliteFactory extends DAOFactory {
-	private static final Logger log = Logger.getLogger(SqliteFactory.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(SqliteFactory.class);
 	
 	private static final String DRIVER = "org.sqlite.JDBC";
     private static final String URL = "jdbc:sqlite:sqlite.db";
         
     @Override
 	public IMainCategoryDAO getMainCategory() {
+    	log.trace("Get MainCategoryDAO");
 		return new MainCategoryDAO(SQLITE);
 	}
     
     @Override
 	public ICategoryDAO getCategory() {
+    	log.trace("Get CategoryDAO");
 		return new CategoryDAO(SQLITE);
 	}
 
 	@Override
 	public String getName() {
+		log.trace("Get name");
 		return "SQLITE";
 	}
 
 	@Override
 	public Connection getConnection() {
-		log.info("Get connection");
+		log.debug("Get connection");
 		
 		Connection connection = null;
 		
@@ -41,7 +46,7 @@ public final class SqliteFactory extends DAOFactory {
 			connection = DriverManager.getConnection(URL);
 		}
 		catch(Exception ex) {
-			log.warning(ex.getMessage());
+			log.error("Get connection error", ex);
 		}
 		
 		return connection;

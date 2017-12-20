@@ -1,13 +1,15 @@
 package mvc.dao;
 
 import java.sql.Connection;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import mvc.dao.model.ICategoryDAO;
 import mvc.dao.model.IMainCategoryDAO;
 
 public abstract class DAOFactory {
-	private static final Logger log = Logger.getLogger(DAOFactory.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(DAOFactory.class);
 	
 	public static final int SQLITE = 1;
 	public static final int MYSQL = 2;
@@ -21,19 +23,19 @@ public abstract class DAOFactory {
 
 	public static DAOFactory get(int database) {
 		if(database == SQLITE) {
-			log.info("Get SQLite database factory");
+			log.debug("Get SQLite database factory");
 			return new SqliteFactory();
 		}
 		else if(database == MYSQL) {
-			log.info("Get SQLite database factory");
+			log.debug("Get MySql database factory");
 			return new MysqlFactory();
 		}
 		else if(database == POSTGRES) {
-			log.info("Get PostgreSQL database factory");
+			log.debug("Get PostgreSql database factory");
 			return new PostgresFactory();
 		}
 		else {
-			log.warning("Wrong database selection");
+			log.warn("Wrong database selection");
 			return null;
 		}
 	}
