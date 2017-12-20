@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -88,7 +89,7 @@ public final class CategoryDAO implements ICategoryDAO {
 			
 			statement.setString(1, category.getName());
 			if(category.getParent() != null) statement.setInt(2, category.getParent().getID());
-			else statement.setNull(2, 2);
+			else statement.setNull(2, Types.INTEGER);
 			statement.execute();
 			
 			result = statement.getGeneratedKeys();
