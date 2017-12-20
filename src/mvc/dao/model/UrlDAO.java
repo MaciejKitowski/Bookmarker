@@ -56,7 +56,7 @@ public final class UrlDAO implements IUrlDAO {
 		Statement statement = null;
 		
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.createStatement();
 			
 			statement.execute(CREATE_TABLE);
@@ -79,7 +79,7 @@ public final class UrlDAO implements IUrlDAO {
 		int resultBuffer = 0;
 			
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			
 			statement.setString(1, url.getTitle());
@@ -114,7 +114,7 @@ public final class UrlDAO implements IUrlDAO {
 		ResultSet result = null;
 		
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.prepareStatement(GET);
 			
 			statement.setInt(1, ID);
@@ -154,7 +154,7 @@ public final class UrlDAO implements IUrlDAO {
 		ResultSet result = null;
 		
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.prepareStatement(GET_CATEGORY);
 			
 			statement.setInt(1, category.getID());
@@ -188,7 +188,7 @@ public final class UrlDAO implements IUrlDAO {
 		ResultSet result = null;
 		
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.createStatement();
 			
 			result = statement.executeQuery(GET_ALL);
@@ -224,7 +224,7 @@ public final class UrlDAO implements IUrlDAO {
 		PreparedStatement statement = null;
 		
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.prepareStatement(UPDATE);
 			
 			statement.setString(1, url.getTitle());
@@ -253,7 +253,7 @@ public final class UrlDAO implements IUrlDAO {
 		PreparedStatement statement = null;
 		
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.prepareStatement(DELETE);
 			
 			statement.setInt(1, ID);

@@ -17,7 +17,7 @@ public abstract class DAOFactory {
 	public abstract ICategoryDAO getCategory();
 	
 	public abstract String getName();
-	public abstract Connection createConnection(); //TODO Replace with static class getConnection()
+	public abstract Connection getConnection();
 
 	public static DAOFactory get(int database) {
 		if(database == SQLITE) {

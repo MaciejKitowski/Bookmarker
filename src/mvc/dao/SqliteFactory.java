@@ -31,7 +31,7 @@ public final class SqliteFactory extends DAOFactory {
 	}
 
 	@Override
-	public Connection createConnection() {
+	public Connection getConnection() {
 		log.info("Get connection");
 		
 		Connection connection = null;

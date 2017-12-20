@@ -53,7 +53,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 		Statement statement = null;
 		
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.createStatement();
 			
 			statement.execute(CREATE_TABLE);
@@ -76,7 +76,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 		int resultBuffer = 0;
 		
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			
 			statement.setString(1, category.getName());
@@ -108,7 +108,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 		ResultSet result = null;
 		
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.prepareStatement(GET);
 			
 			statement.setInt(1, ID);
@@ -143,7 +143,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 		ResultSet result = null;
 		
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.createStatement();
 			
 			result = statement.executeQuery(GET_ALL);
@@ -175,7 +175,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 		PreparedStatement statement = null;
 		
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.prepareStatement(UPDATE);
 			
 			statement.setString(1, category.getName());
@@ -201,7 +201,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 		PreparedStatement statement = null;
 		
 		try {
-			connection = database.createConnection();
+			connection = database.getConnection();
 			statement = connection.prepareStatement(DELETE);
 			
 			statement.setInt(1, ID);

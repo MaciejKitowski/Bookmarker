@@ -19,7 +19,7 @@ public class DAOutils {
 	private DAOutils() {}
 	
 	public static List<String> getTableNames(int database) throws Exception {
-		Connection connection = DAOFactory.get(database).createConnection();
+		Connection connection = DAOFactory.get(database).getConnection();
 		DatabaseMetaData meta = connection.getMetaData();
 		List<String> buffer = new ArrayList<>();
 		
@@ -35,7 +35,7 @@ public class DAOutils {
 	public static int count(String tableName, int database) throws Exception {
 		String sql = "SELECT COUNT(*) FROM " + tableName;
 		int result = 0;
-		Connection connection = DAOFactory.get(database).createConnection();
+		Connection connection = DAOFactory.get(database).getConnection();
 		Statement statement = connection.createStatement();
 		
 		ResultSet rs = statement.executeQuery(sql);
