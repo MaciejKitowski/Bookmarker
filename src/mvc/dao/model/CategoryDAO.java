@@ -60,12 +60,18 @@ public final class CategoryDAO implements ICategoryDAO {
 			statement = connection.createStatement();
 			
 			statement.execute(CREATE_TABLE);
-			
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
+		}
+		finally {
+			try {
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 	}
 	
@@ -90,14 +96,20 @@ public final class CategoryDAO implements ICategoryDAO {
 			result = statement.getGeneratedKeys();
 			if(result != null && result.next()) resultBuffer = result.getInt(1);
 			else resultBuffer = INSERT_FAIL;
-			
-			result.close();
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
 			resultBuffer = INSERT_FAIL;
+		}
+		finally {
+			try {
+				if(result != null && !result.isClosed()) result.close();
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 		
 		return resultBuffer;
@@ -130,13 +142,19 @@ public final class CategoryDAO implements ICategoryDAO {
 								
 				category = new Category(foundID, foundName, mainCategory.get(foundParentID));
 			}
-			
-			result.close();
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
+		}
+		finally {
+			try {
+				if(result != null && !result.isClosed()) result.close();
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 		
 		return category;
@@ -173,13 +191,19 @@ public final class CategoryDAO implements ICategoryDAO {
 					categories.add(new Category(foundID, foundName, category));
 				}
 			}
-			
-			result.close();
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
+		}
+		finally {
+			try {
+				if(result != null && !result.isClosed()) result.close();
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 		
 		return categories;
@@ -214,13 +238,19 @@ public final class CategoryDAO implements ICategoryDAO {
 					categories.add(category);
 				}
 			}
-			
-			result.close();
-			statement.close();
-			connection.close();
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
+		}
+		finally {
+			try {
+				if(result != null && !result.isClosed()) result.close();
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
 		}
 		
 		return categories;
@@ -232,6 +262,7 @@ public final class CategoryDAO implements ICategoryDAO {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
+		boolean result = false;
 		
 		try {
 			connection = database.getConnection();
@@ -241,16 +272,24 @@ public final class CategoryDAO implements ICategoryDAO {
 			statement.setInt(2, category.getParent().getID());
 			statement.setInt(3, category.getID());
 			statement.execute();
-			
-			statement.close();
-			connection.close();
-			
-			return true;
+						
+			result = true;
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
-			return false;
+			result = false;
 		}
+		finally {
+			try {
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
+		}
+		
+		return result;
 	}
 	
 	@Override
@@ -259,6 +298,7 @@ public final class CategoryDAO implements ICategoryDAO {
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
+		boolean result = false;
 		
 		try {
 			connection = database.getConnection();
@@ -266,15 +306,23 @@ public final class CategoryDAO implements ICategoryDAO {
 			
 			statement.setInt(1, ID);
 			statement.execute();
-			
-			statement.close();
-			connection.close();
-			
-			return true;
+						
+			result = true;
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
-			return false;
+			result = false;
 		}
+		finally {
+			try {
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.warning(ex.getMessage());
+			}
+		}
+		
+		return result;
 	}
 }
