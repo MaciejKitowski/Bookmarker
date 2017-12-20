@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -88,8 +89,10 @@ public final class UrlDAO implements IUrlDAO {
 			
 			statement.setString(1, url.getTitle());
 			statement.setString(2, url.getUrl());
-			statement.setString(3, url.getDescription());
-			statement.setInt(4, url.getCategory().getID());
+			if(url.getDescription() != null) statement.setString(3, url.getDescription());
+			else statement.setNull(3, Types.VARBINARY);
+			if(url.getCategory() != null) statement.setInt(4, url.getCategory().getID());
+			else statement.setNull(4, Types.INTEGER);
 			statement.execute();
 			
 			result = statement.getGeneratedKeys();
