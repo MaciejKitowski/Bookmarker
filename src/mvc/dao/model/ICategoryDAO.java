@@ -10,7 +10,6 @@ public interface ICategoryDAO {
 	public int insert(Category category);
 	
 	public Category get(int ID);
-	@Deprecated public List<Category> getAllParent(MainCategory mainCategory);
 	public List<Category> getWithMainCategory(MainCategory category);
 	public List<Category> getAll();
 	

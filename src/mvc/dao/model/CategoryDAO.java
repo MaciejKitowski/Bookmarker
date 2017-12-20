@@ -161,13 +161,6 @@ public final class CategoryDAO implements ICategoryDAO {
 	}
 	
 	@Override
-	public List<Category> getAllParent(MainCategory mainCategory) {
-		log.info(String.format("Get all categories with parent: ID=%d, name=%s", mainCategory.getID(), mainCategory.getName()));
-
-		return null;
-	}
-	
-	@Override
 	public List<Category> getWithMainCategory(MainCategory category) {
 		log.info(String.format("Get all categories with main category: ID=%d, name=%s", category.getID(), category.getName()));
 
