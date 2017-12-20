@@ -1,53 +1,52 @@
 package mvc.model;
 
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class MainCategory {
-	private static final String LoggerFormat = "MainCat(%d)";
-	private Logger log = Logger.getLogger(MainCategory.class.getName());
+	private Logger log = LoggerFactory.getLogger(MainCategory.class);
 	
 	private int ID = 0;
 	private String name = null;
 	
 	public MainCategory(int ID, String name) {
-		log.info(String.format("Create new category: ID=%d, name=%s", ID, name));
+		log.debug("New category: ID={} name={}", ID, name);
+			
 		this.ID = ID;
 		this.name = name;
-		updateLogger();
 	}
 	
 	public MainCategory(String name) {
-		log.info("Create category without ID: " + name);
+		log.debug("New category: ID={} name={}", null, name);
+		
 		this.name = name;
 	}
 	
 	public MainCategory() {
-		log.info("Create empty category");
+		log.debug("New category: ID={} name={}", null, null);
+		
 		ID = 0;
 		name = "EMPTY";
-		updateLogger();
 	}
 	
 	public void setID(int ID) {
-		log.info("Set new ID: " + ID);
+		log.debug("Set ID: {}", ID);
 		this.ID = ID;
-		updateLogger();
 	}
 	
 	public void setName(String name) {
-		log.info("Set new name: " + name);
+		log.debug("Set name: {}", name);
 		this.name = name;
 	}
 	
 	public int getID() {
+		log.trace("Get ID: {}", ID);
 		return ID;
 	}
 	
 	public String getName() {
+		log.trace("Get name: {}", name);
 		return name;
-	}
-	
-	private void updateLogger() {
-		log = Logger.getLogger(String.format(LoggerFormat, ID));
 	}
 }
