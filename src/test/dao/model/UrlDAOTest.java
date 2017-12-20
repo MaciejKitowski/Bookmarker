@@ -82,9 +82,37 @@ public class UrlDAOTest {
 	@Test
 	public void insertTest() {
 		int ID = 3;
-		Url url = new Url("http://test", "SingleinsertTest", "Single");
 		Category category = DAOFactory.get(databaseType).getCategory().get(ID);
-		url.setCategory(category);
+		Url url = new Url("http://test", "SingleinsertTest", "Single", category);
+		
+		int result = dao.insert(url);
+		
+		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+	}
+	
+	@Test
+	public void insertNullDescriptionTest() {
+		int ID = 3;
+		Category category = DAOFactory.get(databaseType).getCategory().get(ID);
+		Url url = new Url("http://test", "SingleinsertNullDescriptionTest", category);
+		
+		int result = dao.insert(url);
+		
+		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+	}
+	
+	@Test
+	public void insertNullCategoryTest() {
+		Url url = new Url("http://test", "SingleinsertNullCategoryTest", "Null Category");
+		
+		int result = dao.insert(url);
+		
+		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+	}
+	
+	@Test
+	public void insertNullDescriptionAndCategoryTest() {
+		Url url = new Url("http://test", "SingleinsertNullAllTest");
 		
 		int result = dao.insert(url);
 		
@@ -99,8 +127,51 @@ public class UrlDAOTest {
 		Category category = DAOFactory.get(databaseType).getCategory().get(ID);
 		
 		for(int i = 0; i < insertCount; ++i) {
-			Url url = new Url("http://test", String.format(pattern, i + 1), "Single");
-			url.setCategory(category);
+			Url url = new Url("http://test", String.format(pattern, i + 1), "Single", category);
+			
+			int result = dao.insert(url);
+			
+			assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+		}
+	}
+	
+	@Test
+	public void insertMultipleNullDescriptionTest() {
+		String pattern = "MultipleInsertNullDescriptionTest_%d";
+		int insertCount = 10;
+		int ID = 4;
+		Category category = DAOFactory.get(databaseType).getCategory().get(ID);
+		
+		for(int i = 0; i < insertCount; ++i) {
+			Url url = new Url("http://test", String.format(pattern, i + 1), category);
+			
+			int result = dao.insert(url);
+			
+			assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+		}
+	}
+	
+	@Test
+	public void insertMultipleNullCategoryTest() {
+		String pattern = "MultipleInsertNullCategoryTest_%d";
+		int insertCount = 10;
+		
+		for(int i = 0; i < insertCount; ++i) {
+			Url url = new Url("http://test", String.format(pattern, i + 1), "Null Category");
+			
+			int result = dao.insert(url);
+			
+			assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+		}
+	}
+	
+	@Test
+	public void insertMultipleNullDescriptionAndCategoryTest() {
+		String pattern = "MultipleInsertNullAllTest_%d";
+		int insertCount = 10;
+		
+		for(int i = 0; i < insertCount; ++i) {
+			Url url = new Url("http://test", String.format(pattern, i + 1));
 			
 			int result = dao.insert(url);
 			

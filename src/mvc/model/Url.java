@@ -12,7 +12,8 @@ public final class Url {
 	Category category = null;
 	
 	public Url(int ID, String url, String title, String description, Category category) {
-		log.info(String.format("Create new url: ID=%d, url=%s category: ID=%d name=%s", ID, url, category.getID(), category.getName()));
+		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", ID, url, title, description, category.getID(), category.getName()));
+
 		this.ID = ID;
 		this.url = url;
 		this.title = title;
@@ -20,15 +21,58 @@ public final class Url {
 		this.category = category;
 	}
 	
+	public Url(String url, String title, String description, Category category) {
+		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, url, title, description, category.getID(), category.getName()));
+
+		this.url = url;
+		this.title = title;
+		this.description = description;
+		this.category = category;
+	}
+	
+	public Url(int ID, String url, String title, Category category) {
+		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", ID, url, title, null, category.getID(), category.getName()));
+
+		this.ID = ID;
+		this.url = url;
+		this.title = title;
+		this.category = category;
+	}
+	
+	public Url(int ID, String url, String title) {
+		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", ID, url, title, null, null, null));
+
+		this.ID = ID;
+		this.url = url;
+		this.title = title;
+	}
+	
 	public Url(String url, String title, String description) {
-		log.info(String.format("Create new url: url=%s", url));
+		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, url, title, description, null, null));
+		
 		this.url = url;
 		this.title = title;
 		this.description = description;
 	}
 	
+	public Url(String url, String title, Category category) {
+		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, url, title, null, category.getID(), category.getName()));
+		
+		this.url = url;
+		this.title = title;
+		this.category = category;
+	}
+	
+	public Url(String url, String title) {
+		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, url, title, null, null, null));
+		
+		this.url = url;
+		this.title = title;
+	}
+	
 	public Url() {
-		log.info("Create empty url");
+		log.info(String.format("New Category \n\t ID=%d \n\t url=%s \n\t title=%s \n\t description=%s \n\t category: \n\t\t ID=%d \n\t\t name=%s", null, null, null, null, null, null));
+		
 		ID = 0;
 		url = "http://localhost";
 		title = "EMPTY";

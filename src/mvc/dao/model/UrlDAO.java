@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -88,8 +89,10 @@ public final class UrlDAO implements IUrlDAO {
 			
 			statement.setString(1, url.getTitle());
 			statement.setString(2, url.getUrl());
-			statement.setString(3, url.getDescription());
-			statement.setInt(4, url.getCategory().getID());
+			if(url.getDescription() != null) statement.setString(3, url.getDescription());
+			else statement.setNull(3, Types.VARBINARY);
+			if(url.getCategory() != null) statement.setInt(4, url.getCategory().getID());
+			else statement.setNull(4, Types.INTEGER);
 			statement.execute();
 			
 			result = statement.getGeneratedKeys();
@@ -138,9 +141,13 @@ public final class UrlDAO implements IUrlDAO {
 				String foundUrl = result.getString(3);
 				String foundDescription = result.getString(4);
 				int foundCatID = result.getInt(5);
+				url = new Url(foundID, foundUrl, foundTitle);
 				
-				ICategoryDAO category = database.getCategory();
-				url = new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID));
+				if(foundDescription != null) url.setDescription(foundDescription);
+				if(foundCatID != 0) {
+					ICategoryDAO category = database.getCategory();
+					url.setCategory(category.get(foundCatID));
+				}
 			}
 		}
 		catch(Exception ex) {
@@ -183,7 +190,11 @@ public final class UrlDAO implements IUrlDAO {
 					String foundUrl = result.getString(3);
 					String foundDescription = result.getString(4);
 					
-					urls.add(new Url(foundID, foundUrl, foundTitle, foundDescription, category));
+					Url url = new Url(foundID, foundUrl, foundTitle, category);
+					
+					if(foundDescription != null) url.setDescription(foundDescription);
+					
+					urls.add(url);
 				}
 			}
 		}
@@ -225,14 +236,22 @@ public final class UrlDAO implements IUrlDAO {
 					String foundUrl = result.getString(3);
 					String foundDescription = result.getString(4);
 					int foundCatID = result.getInt(5);
+					Url url = new Url(foundID, foundUrl, foundTitle);
 					
-					ICategoryDAO category = database.getCategory();
-					urls.add(new Url(foundID, foundUrl, foundTitle, foundDescription, category.get(foundCatID)));
+					if(foundDescription != null) url.setDescription(foundDescription);
+					if(foundCatID != 0) {
+						ICategoryDAO category = database.getCategory();
+						url.setCategory(category.get(foundCatID));
+					}
+					
+					
+					urls.add(url);
 				}
 			}
 		}
 		catch(Exception ex) {
 			log.warning(ex.getMessage());
+			ex.printStackTrace();
 		}
 		finally {
 			try {

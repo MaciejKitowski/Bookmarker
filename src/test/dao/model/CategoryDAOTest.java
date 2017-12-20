@@ -85,8 +85,19 @@ public class CategoryDAOTest {
 	
 	@Test
 	public void insertTest() {
-		Category category = new Category("SingleInsertTest");
+		int mainCategoryID = 4;
+		MainCategory main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
+		Category category = new Category("SingleInsertTest", main);
 		
+		int result = dao.insert(category);
+		
+		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+	}
+	
+	@Test
+	public void insertNullTest() {
+		Category category = new Category("SingleInsertNullTest");
+
 		int result = dao.insert(category);
 		
 		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
@@ -100,8 +111,21 @@ public class CategoryDAOTest {
 		MainCategory main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
 		
 		for(int i = 0; i < insertCount; ++i) {
+			Category category = new Category(String.format(pattern, i + 1), main);
+			
+			int result = dao.insert(category);
+			
+			assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
+		}
+	}
+	
+	@Test
+	public void insertMultipleNullTest() {
+		String pattern = "MultipleInsertNullTest_%d";
+		int insertCount = 20;
+		
+		for(int i = 0; i < insertCount; ++i) {
 			Category category = new Category(String.format(pattern, i + 1));
-			category.setParent(main);
 			
 			int result = dao.insert(category);
 			

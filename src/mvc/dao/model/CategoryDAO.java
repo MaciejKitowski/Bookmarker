@@ -136,10 +136,12 @@ public final class CategoryDAO implements ICategoryDAO {
 				int foundID = result.getInt(1);
 				String foundName = result.getString(2);
 				int foundParentID = result.getInt(3);
+				category = new Category(foundID, foundName);
 				
-				IMainCategoryDAO mainCategory = database.getMainCategory();
-								
-				category = new Category(foundID, foundName, mainCategory.get(foundParentID));
+				if(foundParentID != 0) {
+					IMainCategoryDAO mainCategory = database.getMainCategory();
+					category.setParent(mainCategory.get(foundParentID));
+				}
 			}
 		}
 		catch(Exception ex) {
