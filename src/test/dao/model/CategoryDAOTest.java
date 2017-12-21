@@ -69,10 +69,10 @@ public class CategoryDAOTest {
 				if(name == "CREATE_TABLE") sql = Utilities.getCreateTable(json.getJSONArray(name));
 				else sql = json.getString(name);
 				
+				log.debug("{} - {}", name, field.get(dao));
+				
 				assertNotNull(field.get(dao));
 				assertEquals(field.get(dao), sql);
-				
-				log.debug("{} - {}", name, field.get(dao));
 			}
 		}
 		catch(Exception ex) {
