@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import mvc.dao.model.ICategoryDAO;
 import mvc.dao.model.IMainCategoryDAO;
+import mvc.dao.model.IUrlDAO;
 
 public abstract class DAOFactory {
 	private static final Logger log = LoggerFactory.getLogger(DAOFactory.class);
@@ -17,6 +18,7 @@ public abstract class DAOFactory {
 	
 	public abstract IMainCategoryDAO getMainCategory();
 	public abstract ICategoryDAO getCategory();
+	public abstract IUrlDAO getUrl();
 	
 	public abstract String getName();
 	public abstract Connection getConnection();

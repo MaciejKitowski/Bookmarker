@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import mvc.dao.model.CategoryDAO;
 import mvc.dao.model.ICategoryDAO;
 import mvc.dao.model.IMainCategoryDAO;
+import mvc.dao.model.IUrlDAO;
 import mvc.dao.model.MainCategoryDAO;
+import mvc.dao.model.UrlDAO;
 
 public final class SqliteFactory extends DAOFactory {
 	private static final Logger log = LoggerFactory.getLogger(SqliteFactory.class);
@@ -27,6 +29,12 @@ public final class SqliteFactory extends DAOFactory {
 	public ICategoryDAO getCategory() {
     	log.trace("Get CategoryDAO");
 		return new CategoryDAO(SQLITE);
+	}
+    
+    @Override
+	public IUrlDAO getUrl() {
+    	log.trace("Get UrlDAO");
+		return new UrlDAO(SQLITE);
 	}
 
 	@Override
