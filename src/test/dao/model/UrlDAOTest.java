@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.model.CategoryDAO;
@@ -21,11 +23,15 @@ import mvc.model.Url;
 
 @RunWith(Parameterized.class)
 public class UrlDAOTest {
+	private static final Logger log = LoggerFactory.getLogger(UrlDAOTest.class);
+	
 	private UrlDAO dao = null;
 	private int databaseType;
 	
 	@Parameters
     public static List<Object> data() {
+		log.debug("Prepare data");
+		
         return Arrays.asList(new Object[] {     
                  DAOFactory.SQLITE, DAOFactory.MYSQL, DAOFactory.POSTGRES  
            });
@@ -33,15 +39,18 @@ public class UrlDAOTest {
 	
 	public UrlDAOTest(int database) {
 		databaseType = database;
+		log.debug("Initialize test for {} database", DAOFactory.get(database).getName());
 	}
 	
 	@Before
 	public void initialize() {
+		log.debug("Initialize UrlDAO");
 		dao = new UrlDAO(databaseType);
 	}
 	
 	@Test
 	public void loadQueriesTest() {
+		log.debug("Load queries from JSON test");
 		String[] fieldNames = {"CREATE_TABLE", "INSERT", "GET", "GET_CATEGORY", "GET_ALL", "UPDATE", "DELETE"};
 		
 		try {
@@ -56,17 +65,22 @@ public class UrlDAOTest {
 				if(name == "CREATE_TABLE") sql = Utilities.getCreateTable(json.getJSONArray(name));
 				else sql = json.getString(name);
 				
+				log.debug("{} - {}", name, field.get(dao));
+				
 				assertNotNull(field.get(dao));
 				assertEquals(field.get(dao), sql);
 			}
 		}
 		catch(Exception ex) {
+			log.error("Failed test - load queries from JSON", ex);
 			fail(ex.getMessage());
 		}
 	}
 	
 	@Test
 	public void createTableTest() {
+		log.debug("Create table test");
+		
 		try {
 			dao.createTable();
 			List<String> tableList = Utilities.getTableNames(databaseType);
@@ -74,12 +88,15 @@ public class UrlDAOTest {
 			assertTrue(tableList.contains("Url") || tableList.contains("url"));
 		}
 		catch(Exception ex) {
+			log.error("Failed test - create table", ex);
 			fail(ex.getMessage());
 		}
 	}
 	
 	@Test
 	public void insertTest() {
+		log.debug("Insert test");
+		
 		int ID = 3;
 		Category category = DAOFactory.get(databaseType).getCategory().get(ID);
 		Url url = new Url("http://test", "SingleinsertTest", "Single", category);
@@ -91,6 +108,8 @@ public class UrlDAOTest {
 	
 	@Test
 	public void insertNullDescriptionTest() {
+		log.debug("Insert with null description value test");
+		
 		int ID = 3;
 		Category category = DAOFactory.get(databaseType).getCategory().get(ID);
 		Url url = new Url("http://test", "SingleinsertNullDescriptionTest", category);
@@ -102,6 +121,8 @@ public class UrlDAOTest {
 	
 	@Test
 	public void insertNullCategoryTest() {
+		log.debug("Insert with null category value test");
+		
 		Url url = new Url("http://test", "SingleinsertNullCategoryTest", "Null Category");
 		
 		int result = dao.insert(url);
@@ -111,6 +132,8 @@ public class UrlDAOTest {
 	
 	@Test
 	public void insertNullDescriptionAndCategoryTest() {
+		log.debug("Insert with null description and category values test");
+		
 		Url url = new Url("http://test", "SingleinsertNullAllTest");
 		
 		int result = dao.insert(url);
@@ -120,6 +143,8 @@ public class UrlDAOTest {
 	
 	@Test
 	public void insertMultipleTest() {
+		log.debug("Multiple insert test");
+		
 		String pattern = "MultipleInsertTest_%d";
 		int insertCount = 10;
 		int ID = 4;
@@ -136,6 +161,8 @@ public class UrlDAOTest {
 	
 	@Test
 	public void insertMultipleNullDescriptionTest() {
+		log.debug("Multiple insert with null description value test");
+		
 		String pattern = "MultipleInsertNullDescriptionTest_%d";
 		int insertCount = 10;
 		int ID = 4;
@@ -152,6 +179,8 @@ public class UrlDAOTest {
 	
 	@Test
 	public void insertMultipleNullCategoryTest() {
+		log.debug("Multiple insert with null category value test");
+		
 		String pattern = "MultipleInsertNullCategoryTest_%d";
 		int insertCount = 10;
 		
@@ -166,6 +195,8 @@ public class UrlDAOTest {
 	
 	@Test
 	public void insertMultipleNullDescriptionAndCategoryTest() {
+		log.debug("Multiple insert with null description and category values test");
+		
 		String pattern = "MultipleInsertNullAllTest_%d";
 		int insertCount = 10;
 		
@@ -180,6 +211,8 @@ public class UrlDAOTest {
 	
 	@Test
 	public void getSingleTest() {
+		log.debug("Get test");
+		
 		int ID = 1;
 		
 		Url result = dao.get(ID);
@@ -189,6 +222,8 @@ public class UrlDAOTest {
 	
 	@Test
 	public void getWithCategoryTest() {
+		log.debug("Get with category test");
+		
 		int ID = 4;
 		Category category = DAOFactory.get(databaseType).getCategory().get(ID);
 		
@@ -199,6 +234,8 @@ public class UrlDAOTest {
 	
 	@Test
 	public void getAllTest() throws Exception {
+		log.debug("Get all test");
+		
 		List<Url> result = dao.getAll();
 		
 		assertTrue(result != null && result.size() == Utilities.count("Url", databaseType));
@@ -206,6 +243,8 @@ public class UrlDAOTest {
 	
 	@Test
 	public void updateTest() {
+		log.debug("Update test");
+		
 		Url toUpdate = dao.get(1);
 		toUpdate.setTitle(toUpdate.getTitle() + "-UPDATED");
 		
@@ -216,6 +255,8 @@ public class UrlDAOTest {
 	
 	@Test
 	public void deleteTest() {
+		log.debug("Delete test");
+		
 		int ID = 10;
 		
 		boolean result = dao.delete(ID);
