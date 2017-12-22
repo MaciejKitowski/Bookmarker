@@ -31,6 +31,7 @@ public final class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		initializeLayout();
+		testPanels();
 	}
 	
 	private void initializeLayout() {
@@ -41,20 +42,26 @@ public final class MainFrame extends JFrame {
 		layout.setVgap(layoutVerticalGap);
 		
 		setLayout(layout);
+	}
+	
+	private void testPanels() {
+		JPanel toolbar = new JPanel();
+		toolbar.setBackground(Color.CYAN);
+		toolbar.setPreferredSize(new Dimension(defaultWidth, 50));
+		toolbar.setBorder(new TitledBorder("Toolbar"));
 		
-		JPanel test = new JPanel();
-		test.setPreferredSize(new Dimension(200, 100));
-		test.setBorder(new TitledBorder("Test 1"));
-		test.setBackground(Color.BLUE);
+		JPanel categories = new JPanel();
+		categories.setBackground(Color.LIGHT_GRAY);
+		categories.setPreferredSize(new Dimension(100, defaultHeight));
+		categories.setBorder(new TitledBorder("Categories"));
 		
-		JPanel tesat = new JPanel();
-		tesat.setSize(500, 400);
-		tesat.setPreferredSize(new Dimension(200, 100));
-		tesat.setBorder(new TitledBorder("Test 2"));
-		tesat.setBackground(Color.GREEN);
+		JPanel urls = new JPanel();
+		urls.setBackground(Color.GREEN);
+		urls.setPreferredSize(new Dimension(400, defaultHeight));
+		urls.setBorder(new TitledBorder("Urls"));
 		
-		
-		add(test, BorderLayout.LINE_START);
-		add(tesat, BorderLayout.AFTER_LAST_LINE);
+		add(toolbar, BorderLayout.PAGE_START);
+		add(categories, BorderLayout.LINE_START);
+		add(urls, BorderLayout.CENTER);
 	}
 }
