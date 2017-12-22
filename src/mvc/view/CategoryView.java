@@ -3,18 +3,16 @@ package mvc.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Scrollbar;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.mysql.jdbc.log.Log;
 
 public final class CategoryView extends JPanel {
 	private static final long serialVersionUID = 8970054597563459574L;
@@ -51,6 +49,8 @@ public final class CategoryView extends JPanel {
 	}
 	
 	private void testInsert() {
+		log.warn("Test insert");
+		
 		DefaultMutableTreeNode mainA = new DefaultMutableTreeNode("Parent 1");
 		for(int i = 0; i < 50; ++i) {
 			DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child " + i);
