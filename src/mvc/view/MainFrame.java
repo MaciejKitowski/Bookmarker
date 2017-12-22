@@ -45,6 +45,8 @@ public final class MainFrame extends JFrame {
 	}
 	
 	private void testPanels() {
+		log.warn("Create test JPanels");
+		
 		JPanel toolbar = new JPanel();
 		toolbar.setBackground(Color.CYAN);
 		toolbar.setPreferredSize(new Dimension(defaultWidth, 50));
