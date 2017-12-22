@@ -10,6 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,75 +36,42 @@ public final class CategoryView extends JPanel {
 		
 		initializeListTree();
 		add(treeScrollbar);
+		
+		testInsert();
 	}
 	
 	private void initializeListTree() {
 		log.debug("Initialize category list tree");
 		
-		treeRoot = new DefaultMutableTreeNode("root");
+		treeRoot = new DefaultMutableTreeNode("Categories");
 		treeList = new JTree(treeRoot);
 		treeScrollbar = new JScrollPane(treeList);
 		
 		treeList.setRootVisible(false);
 	}
 	
-	/*private void generateList() {
-		log.debug("Generate list");
-		
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
-		
+	private void testInsert() {
 		DefaultMutableTreeNode mainA = new DefaultMutableTreeNode("Parent 1");
 		for(int i = 0; i < 50; ++i) {
 			DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child " + i);
 			mainA.add(childA);
 		}
 		
+		treeRoot.add(mainA);
+
 		DefaultMutableTreeNode mainB = new DefaultMutableTreeNode("Parent 2");
 		for(int i = 0; i < 50; ++i) {
 			DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child " + i);
 			mainB.add(childA);
 		}
 		
-		root.add(mainA);	
-		root.add(mainB);
+		treeRoot.add(mainB);
 		
-		JTree tree = new JTree(root);
-		tree.setRootVisible(false);
-		
-		JScrollPane scrollPane = new JScrollPane(tree);
-		
-		add(scrollPane);
-	}*/
+		refreshTreeList();
+	}
 	
-	/*private void generateTestList() {
-		log.debug("Generate list");
-		
-		//DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
-		
-		DefaultMutableTreeNode mainA = new DefaultMutableTreeNode("Parent 1");
-		
-		for(int i = 0; i < 50; ++i) {
-			DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child " + i);
-			mainA.add(childA);
-		}
-		
-		
-		DefaultMutableTreeNode mainB = new DefaultMutableTreeNode("Parent 2");
-		
-		DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child 1");
-		DefaultMutableTreeNode childB = new DefaultMutableTreeNode("Child 2");
-		DefaultMutableTreeNode childC = new DefaultMutableTreeNode("Child 3");
-		DefaultMutableTreeNode childD = new DefaultMutableTreeNode("Child 4");
-		
-		mainA.add(childA);
-		mainA.add(childB);
-		mainA.add(childC);
-		
-		JTree tree = new JTree(mainA);
-		
-		JScrollPane scrollPane = new JScrollPane(tree);
-
-	
-		add(scrollPane);
-	}*/
+	private void refreshTreeList() { //Tree have to be refreshed after add new node
+		DefaultTreeModel model = (DefaultTreeModel)treeList.getModel();
+		model.reload();
+	}
 }
