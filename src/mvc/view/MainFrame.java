@@ -74,7 +74,6 @@ public final class MainFrame extends JFrame {
 		urls.setPreferredSize(new Dimension(400, defaultHeight));
 		urls.setBorder(new TitledBorder("Urls"));
 		
-		//add(toolbar, BorderLayout.PAGE_START);
 		add(categories, BorderLayout.LINE_START);
 		add(urls, BorderLayout.CENTER);
 	}
