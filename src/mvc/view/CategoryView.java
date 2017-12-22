@@ -18,6 +18,11 @@ public final class CategoryView extends JPanel {
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
 	
+	
+	private DefaultMutableTreeNode treeRoot = null;
+	private JTree treeList = null;
+	private JScrollPane treeScrollbar = null;
+	
 	public CategoryView(int width, int height) {
 		log.info("Initialize Category view");
 		
@@ -27,11 +32,21 @@ public final class CategoryView extends JPanel {
 		
 		setLayout(new BorderLayout(5,5));
 		
-		//generateTestList();
-		generateList();
+		initializeListTree();
+		add(treeScrollbar);
 	}
 	
-	private void generateList() {
+	private void initializeListTree() {
+		log.debug("Initialize category list tree");
+		
+		treeRoot = new DefaultMutableTreeNode("root");
+		treeList = new JTree(treeRoot);
+		treeScrollbar = new JScrollPane(treeList);
+		
+		treeList.setRootVisible(false);
+	}
+	
+	/*private void generateList() {
 		log.debug("Generate list");
 		
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
@@ -57,9 +72,9 @@ public final class CategoryView extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(tree);
 		
 		add(scrollPane);
-	}
+	}*/
 	
-	private void generateTestList() {
+	/*private void generateTestList() {
 		log.debug("Generate list");
 		
 		//DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
@@ -72,7 +87,7 @@ public final class CategoryView extends JPanel {
 		}
 		
 		
-		/*DefaultMutableTreeNode mainB = new DefaultMutableTreeNode("Parent 2");
+		DefaultMutableTreeNode mainB = new DefaultMutableTreeNode("Parent 2");
 		
 		DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child 1");
 		DefaultMutableTreeNode childB = new DefaultMutableTreeNode("Child 2");
@@ -81,7 +96,7 @@ public final class CategoryView extends JPanel {
 		
 		mainA.add(childA);
 		mainA.add(childB);
-		mainA.add(childC);*/
+		mainA.add(childC);
 		
 		JTree tree = new JTree(mainA);
 		
@@ -89,5 +104,5 @@ public final class CategoryView extends JPanel {
 
 	
 		add(scrollPane);
-	}
+	}*/
 }
