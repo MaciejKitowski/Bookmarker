@@ -3,16 +3,16 @@ package mvc.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.mysql.jdbc.log.Log;
 
 public final class CategoryView extends JPanel {
 	private static final long serialVersionUID = 8970054597563459574L;
@@ -33,6 +33,7 @@ public final class CategoryView extends JPanel {
 		setLayout(new BorderLayout(5,5));
 		
 		initializeListTree();
+		setTreeListStyle();
 		add(treeScrollbar);
 		
 		testInsert();
@@ -46,6 +47,17 @@ public final class CategoryView extends JPanel {
 		treeScrollbar = new JScrollPane(treeList);
 		
 		treeList.setRootVisible(false);
+	}
+	
+	private void setTreeListStyle() {
+		log.debug("Set tree list style");
+		
+		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer)treeList.getCellRenderer();
+		
+		renderer.setBackgroundNonSelectionColor(Color.LIGHT_GRAY);
+		renderer.setBackgroundSelectionColor(Color.WHITE);
+		
+		treeList.setBackground(Color.LIGHT_GRAY);
 	}
 	
 	private void testInsert() {
