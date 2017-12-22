@@ -52,29 +52,29 @@ public final class MainFrame extends JFrame {
 	private void initializePanels() {
 		log.info("Initialize panels");
 		
-		categoryView = new CategoryView(defaultWidth, 50);
+		categoryView = new CategoryView(100, defaultHeight);
 	}
 	
 	private void addPanelsToView() {
 		log.info("Add panels to view");
 		
-		add(categoryView, BorderLayout.PAGE_START);
+		add(categoryView, BorderLayout.LINE_START);
 	}
 	
 	private void testPanels() {
 		log.warn("Create test JPanels");
-				
-		JPanel categories = new JPanel();
-		categories.setBackground(Color.LIGHT_GRAY);
-		categories.setPreferredSize(new Dimension(100, defaultHeight));
-		categories.setBorder(new TitledBorder("Categories"));
 		
+		JPanel toolbar = new JPanel();
+		toolbar.setBackground(Color.CYAN);
+		toolbar.setPreferredSize(new Dimension(defaultWidth, 50));
+		toolbar.setBorder(new TitledBorder("Toolbar"));
+						
 		JPanel urls = new JPanel();
 		urls.setBackground(Color.GREEN);
 		urls.setPreferredSize(new Dimension(400, defaultHeight));
 		urls.setBorder(new TitledBorder("Urls"));
 		
-		add(categories, BorderLayout.LINE_START);
+		add(toolbar, BorderLayout.PAGE_START);
 		add(urls, BorderLayout.CENTER);
 	}
 }

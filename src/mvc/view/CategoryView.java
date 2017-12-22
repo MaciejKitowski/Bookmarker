@@ -1,7 +1,9 @@
 package mvc.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Scrollbar;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,9 +21,11 @@ public final class CategoryView extends JPanel {
 	public CategoryView(int width, int height) {
 		log.info("Initialize Category view");
 		
-		setBackground(Color.CYAN);
+		setBackground(Color.LIGHT_GRAY);
 		setPreferredSize(new Dimension(width, height));
-		setBorder(new TitledBorder("Toolbar"));
+		setBorder(new TitledBorder("Categories"));
+		
+		setLayout(new BorderLayout(5,5));
 		
 		generateTestList();
 	}
@@ -29,8 +33,17 @@ public final class CategoryView extends JPanel {
 	private void generateTestList() {
 		log.debug("Generate list");
 		
+		//DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
+		
 		DefaultMutableTreeNode mainA = new DefaultMutableTreeNode("Parent 1");
-		DefaultMutableTreeNode mainB = new DefaultMutableTreeNode("Parent 2");
+		
+		for(int i = 0; i < 50; ++i) {
+			DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child " + i);
+			mainA.add(childA);
+		}
+		
+		
+		/*DefaultMutableTreeNode mainB = new DefaultMutableTreeNode("Parent 2");
 		
 		DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child 1");
 		DefaultMutableTreeNode childB = new DefaultMutableTreeNode("Child 2");
@@ -39,10 +52,12 @@ public final class CategoryView extends JPanel {
 		
 		mainA.add(childA);
 		mainA.add(childB);
-		mainA.add(childC);
+		mainA.add(childC);*/
 		
 		JTree tree = new JTree(mainA);
 		
-		add(tree);
+		JScrollPane scrollPane = new JScrollPane(tree);
+	
+		add(scrollPane);
 	}
 }
