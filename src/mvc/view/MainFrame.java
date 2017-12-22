@@ -52,7 +52,7 @@ public final class MainFrame extends JFrame {
 	private void initializePanels() {
 		log.info("Initialize panels");
 		
-		categoryView = new CategoryView(100, defaultHeight);
+		categoryView = new CategoryView(150, defaultHeight);
 	}
 	
 	private void addPanelsToView() {

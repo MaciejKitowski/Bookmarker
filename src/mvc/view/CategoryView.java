@@ -27,7 +27,36 @@ public final class CategoryView extends JPanel {
 		
 		setLayout(new BorderLayout(5,5));
 		
-		generateTestList();
+		//generateTestList();
+		generateList();
+	}
+	
+	private void generateList() {
+		log.debug("Generate list");
+		
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
+		
+		DefaultMutableTreeNode mainA = new DefaultMutableTreeNode("Parent 1");
+		for(int i = 0; i < 50; ++i) {
+			DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child " + i);
+			mainA.add(childA);
+		}
+		
+		DefaultMutableTreeNode mainB = new DefaultMutableTreeNode("Parent 2");
+		for(int i = 0; i < 50; ++i) {
+			DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child " + i);
+			mainB.add(childA);
+		}
+		
+		root.add(mainA);	
+		root.add(mainB);
+		
+		JTree tree = new JTree(root);
+		tree.setRootVisible(false);
+		
+		JScrollPane scrollPane = new JScrollPane(tree);
+		
+		add(scrollPane);
 	}
 	
 	private void generateTestList() {
@@ -57,6 +86,7 @@ public final class CategoryView extends JPanel {
 		JTree tree = new JTree(mainA);
 		
 		JScrollPane scrollPane = new JScrollPane(tree);
+
 	
 		add(scrollPane);
 	}
