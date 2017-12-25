@@ -23,6 +23,8 @@ public final class MainFrame extends JFrame {
 	private final int layoutHorizontalGap = 5;
 	private final int layoutVerticalGap = 5;
 	
+	private CategoryView categoryView = null;
+	
 	public MainFrame() {
 		log.info("Initialize Main Frame with title: {} and size: {}x{}", windowTitle, defaultWidth, defaultHeight);
 		
@@ -31,7 +33,10 @@ public final class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		initializeLayout();
+		initializePanels();
 		testPanels();
+		
+		addPanelsToView();
 	}
 	
 	private void initializeLayout() {
@@ -44,24 +49,32 @@ public final class MainFrame extends JFrame {
 		setLayout(layout);
 	}
 	
+	private void initializePanels() {
+		log.info("Initialize panels");
+		
+		categoryView = new CategoryView(150, defaultHeight);
+	}
+	
+	private void addPanelsToView() {
+		log.info("Add panels to view");
+		
+		add(categoryView, BorderLayout.LINE_START);
+	}
+	
 	private void testPanels() {
+		log.warn("Create test JPanels");
+		
 		JPanel toolbar = new JPanel();
 		toolbar.setBackground(Color.CYAN);
 		toolbar.setPreferredSize(new Dimension(defaultWidth, 50));
 		toolbar.setBorder(new TitledBorder("Toolbar"));
-		
-		JPanel categories = new JPanel();
-		categories.setBackground(Color.LIGHT_GRAY);
-		categories.setPreferredSize(new Dimension(100, defaultHeight));
-		categories.setBorder(new TitledBorder("Categories"));
-		
+						
 		JPanel urls = new JPanel();
 		urls.setBackground(Color.GREEN);
 		urls.setPreferredSize(new Dimension(400, defaultHeight));
 		urls.setBorder(new TitledBorder("Urls"));
 		
 		add(toolbar, BorderLayout.PAGE_START);
-		add(categories, BorderLayout.LINE_START);
 		add(urls, BorderLayout.CENTER);
 	}
 }
