@@ -19,7 +19,7 @@ import mvc.model.Url;
 public final class UrlDAO implements IUrlDAO {
 	private static final Logger log = LoggerFactory.getLogger(UrlDAO.class);
 	
-	private static final String queryFilename = "Url.json";
+	private static final String queryFilename = "resources/sql/Url.json";
 	
 	private DAOFactory database = null;
 	private String CREATE_TABLE = null;

@@ -54,7 +54,7 @@ public class UrlDAOTest {
 		String[] fieldNames = {"CREATE_TABLE", "INSERT", "GET", "GET_CATEGORY", "GET_ALL", "UPDATE", "DELETE"};
 		
 		try {
-			JSONObject json = Utilities.getJsonQuery("Url.json", databaseType);
+			JSONObject json = Utilities.getJsonQuery("resources/sql/Url.json", databaseType);
 			Class<?> cls = dao.getClass();
 			
 			for(String name : fieldNames) {
