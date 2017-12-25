@@ -1,5 +1,6 @@
 package mvc.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -31,10 +32,11 @@ public final class UrlView extends JPanel {
 		setBackground(Color.GREEN);
 		setPreferredSize(new Dimension(width, height));
 		setBorder(new TitledBorder("Urls"));
+		setLayout(new BorderLayout(5,5));
 				
 		initializeTable();
 		setTableStyle();
-		add(tableScroll);
+		add(tableScroll, BorderLayout.CENTER);
 	}
 	
 	private void initializeTable() {
