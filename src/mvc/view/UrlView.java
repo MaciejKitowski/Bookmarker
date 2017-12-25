@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 public final class UrlView extends JPanel {
 	private static final long serialVersionUID = -4908801645938833417L;
 	private static final Logger log = LoggerFactory.getLogger(UrlView.class);
+	private static final String[] columnNames = {"ID", "Title", "Url", "Description"};
 	
 	public UrlView(int width, int height) {
 		log.info("Initialize Url view");
