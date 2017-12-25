@@ -11,6 +11,8 @@ import javax.swing.border.TitledBorder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import mvc.controller.CategoryController;
+
 public final class MainFrame extends JFrame {
 	private static final long serialVersionUID = 4785143357028575468L;
 	private static final Logger log = LoggerFactory.getLogger(MainFrame.class);
@@ -66,6 +68,8 @@ public final class MainFrame extends JFrame {
 	
 	private void testPanels() {
 		log.warn("Create test JPanels");
+		
+		CategoryController controller = new CategoryController();
 		
 		JPanel toolbar = new JPanel();
 		toolbar.setBackground(Color.CYAN);

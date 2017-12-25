@@ -7,5 +7,5 @@ import mvc.model.MainCategory;
 import mvc.model.Category;
 
 public interface CategoryChangedListener {
-	public void onCategoryChange(Map<MainCategory, List<Category>> categories);
+	public void onCategoryChanged(Map<MainCategory, List<Category>> categories);
 }
