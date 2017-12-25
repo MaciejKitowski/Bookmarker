@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -16,7 +18,11 @@ import javax.swing.tree.DefaultTreeModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class CategoryView extends JPanel {
+import mvc.controller.observer.category.CategoryChangedListener;
+import mvc.model.Category;
+import mvc.model.MainCategory;
+
+public final class CategoryView extends JPanel implements CategoryChangedListener {
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
 	private static final boolean rootVisible = false;
@@ -40,6 +46,12 @@ public final class CategoryView extends JPanel {
 		add(treeScrollbar);
 		
 		testInsert();
+	}
+	
+	@Override
+	public void onCategoryChanged(Map<MainCategory, List<Category>> categories) {
+		log.debug("Categories changed");
+		
 	}
 	
 	private void initializeListTree() {
