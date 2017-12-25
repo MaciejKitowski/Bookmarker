@@ -40,6 +40,7 @@ public final class MainFrame extends JFrame {
 		initializeLayout();
 		initializeViews();
 		initializeControllers();
+		initializeObservers();
 		testPanels();
 		
 		addViewsToFrame();
@@ -66,6 +67,15 @@ public final class MainFrame extends JFrame {
 		log.info("Initialize controllers");
 		
 		categoryController = new CategoryController();
+	}
+	
+	private void initializeObservers() {
+		log.debug("Initalize observers");
+		
+		categoryController.addListener(categoryView);
+		
+		
+		categoryController.callListeners();
 	}
 	
 	private void addViewsToFrame() {

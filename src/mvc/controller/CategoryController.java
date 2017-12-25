@@ -44,11 +44,12 @@ public final class CategoryController implements CategoryChangedCaller {
 		listeners.remove(listener);
 	}
 	
-	private void callCategoryChangedListeners() {
+	@Override
+	public void callListeners() {
 		log.debug("Call {} category changed listeners", listeners.size());
 		for(CategoryChangedListener listener : listeners) listener.onCategoryChanged(getCategories());
 	}
-	
+		
 	private Map<MainCategory, List<Category>> getCategories() {
 		log.debug("Load categories to map");
 		
