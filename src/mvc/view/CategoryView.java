@@ -3,7 +3,10 @@ package mvc.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.net.URI;
+import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -57,6 +60,17 @@ public final class CategoryView extends JPanel {
 		renderer.setBackgroundNonSelectionColor(Color.LIGHT_GRAY);
 		renderer.setBackgroundSelectionColor(Color.WHITE);
 		
+		try {
+			URL nodeClosedIcon = getClass().getResource("/icons/treelist_node_closed.png");
+			URL nodeOpenedIcon = getClass().getResource("/icons/treelist_node_opened.png");
+			
+			renderer.setClosedIcon(new ImageIcon(nodeClosedIcon));
+			renderer.setOpenIcon(new ImageIcon(nodeOpenedIcon));
+		}
+		catch(Exception ex) {
+			log.error("Failed to load icons", ex);
+		}
+						
 		treeList.setBackground(Color.LIGHT_GRAY);
 	}
 	
