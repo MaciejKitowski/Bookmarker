@@ -53,5 +53,7 @@ public final class UrlView extends JPanel {
 		table.setFont(new Font("Arial", Font.PLAIN, 26));
 		table.setRowHeight(table.getRowHeight() + 16);
 		table.setAutoCreateRowSorter(true);
+		
+		tableScroll.getViewport().setBackground(Color.GREEN);
 	}
 }
