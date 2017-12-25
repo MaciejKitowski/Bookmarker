@@ -24,6 +24,7 @@ public final class MainFrame extends JFrame {
 	private final int layoutVerticalGap = 5;
 	
 	private CategoryView categoryView = null;
+	private UrlView urlView = null;
 	
 	public MainFrame() {
 		log.info("Initialize Main Frame with title: {} and size: {}x{}", windowTitle, defaultWidth, defaultHeight);
@@ -53,12 +54,14 @@ public final class MainFrame extends JFrame {
 		log.info("Initialize panels");
 		
 		categoryView = new CategoryView(150, defaultHeight);
+		urlView = new UrlView(400,  defaultHeight);
 	}
 	
 	private void addPanelsToView() {
 		log.info("Add panels to view");
 		
 		add(categoryView, BorderLayout.LINE_START);
+		add(urlView, BorderLayout.CENTER);
 	}
 	
 	private void testPanels() {
@@ -68,13 +71,7 @@ public final class MainFrame extends JFrame {
 		toolbar.setBackground(Color.CYAN);
 		toolbar.setPreferredSize(new Dimension(defaultWidth, 50));
 		toolbar.setBorder(new TitledBorder("Toolbar"));
-						
-		JPanel urls = new JPanel();
-		urls.setBackground(Color.GREEN);
-		urls.setPreferredSize(new Dimension(400, defaultHeight));
-		urls.setBorder(new TitledBorder("Urls"));
-		
+								
 		add(toolbar, BorderLayout.PAGE_START);
-		add(urls, BorderLayout.CENTER);
 	}
 }
