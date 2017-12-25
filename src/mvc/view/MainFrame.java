@@ -71,13 +71,7 @@ public final class MainFrame extends JFrame {
 		toolbar.setBackground(Color.CYAN);
 		toolbar.setPreferredSize(new Dimension(defaultWidth, 50));
 		toolbar.setBorder(new TitledBorder("Toolbar"));
-						
-		JPanel urls = new JPanel();
-		urls.setBackground(Color.GREEN);
-		urls.setPreferredSize(new Dimension(400, defaultHeight));
-		urls.setBorder(new TitledBorder("Urls"));
-		
+								
 		add(toolbar, BorderLayout.PAGE_START);
-		add(urls, BorderLayout.CENTER);
 	}
 }

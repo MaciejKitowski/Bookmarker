@@ -1,6 +1,10 @@
 package mvc.view;
 
+import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,5 +15,9 @@ public final class UrlView extends JPanel {
 	
 	public UrlView(int width, int height) {
 		log.info("Initialize Url view");
+		
+		setBackground(Color.GREEN);
+		setPreferredSize(new Dimension(width, height));
+		setBorder(new TitledBorder("Urls"));
 	}
 }
