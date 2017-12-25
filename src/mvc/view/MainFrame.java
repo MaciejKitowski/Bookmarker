@@ -26,6 +26,8 @@ public final class MainFrame extends JFrame {
 	private final int layoutVerticalGap = 5;
 	
 	private CategoryView categoryView = null;
+	private CategoryController categoryController = null;
+	
 	private UrlView urlView = null;
 	
 	public MainFrame() {
@@ -36,10 +38,11 @@ public final class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		initializeLayout();
-		initializePanels();
+		initializeViews();
+		initializeControllers();
 		testPanels();
 		
-		addPanelsToView();
+		addViewsToFrame();
 	}
 	
 	private void initializeLayout() {
@@ -52,15 +55,21 @@ public final class MainFrame extends JFrame {
 		setLayout(layout);
 	}
 	
-	private void initializePanels() {
-		log.info("Initialize panels");
+	private void initializeViews() {
+		log.info("Initialize views");
 		
 		categoryView = new CategoryView(150, defaultHeight);
 		urlView = new UrlView(400,  defaultHeight);
 	}
 	
-	private void addPanelsToView() {
-		log.info("Add panels to view");
+	private void initializeControllers() {
+		log.info("Initialize controllers");
+		
+		categoryController = new CategoryController();
+	}
+	
+	private void addViewsToFrame() {
+		log.info("Add views to frame");
 		
 		add(categoryView, BorderLayout.LINE_START);
 		add(urlView, BorderLayout.CENTER);
@@ -68,8 +77,6 @@ public final class MainFrame extends JFrame {
 	
 	private void testPanels() {
 		log.warn("Create test JPanels");
-		
-		CategoryController controller = new CategoryController();
 		
 		JPanel toolbar = new JPanel();
 		toolbar.setBackground(Color.CYAN);
