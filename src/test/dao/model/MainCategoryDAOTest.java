@@ -52,7 +52,7 @@ public class MainCategoryDAOTest {
 		String[] fieldNames = {"CREATE_TABLE", "INSERT", "GET", "GET_ALL", "UPDATE", "DELETE"};
 		
 		try {
-			JSONObject json = Utilities.getJsonQuery("MainCategory.json", databaseType);
+			JSONObject json = Utilities.getJsonQuery("resources/sql/MainCategory.json", databaseType);
 			Class<?> cls = dao.getClass();
 			
 			for(String name : fieldNames) {
