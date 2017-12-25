@@ -93,12 +93,12 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 		for(Map.Entry<MainCategory, List<Category>> entry : categories.entrySet()) {
 			log.debug("Add main category (ID={} name={}) as node", entry.getKey().getID(), entry.getKey().getName());
 			
-			DefaultMutableTreeNode main = new DefaultMutableTreeNode(entry.getKey().getName());
+			DefaultMutableTreeNode main = new DefaultMutableTreeNode(entry.getKey());
 			
 			for(Category cat : entry.getValue()) {
 				log.debug("Add subcategory (ID={} name={}) to category (ID={} name={})", cat.getID(), cat.getName(), entry.getKey().getID(), entry.getKey().getName());
 				
-				DefaultMutableTreeNode child = new DefaultMutableTreeNode(cat.getName());
+				DefaultMutableTreeNode child = new DefaultMutableTreeNode(cat);
 				main.add(child);
 			}
 			
