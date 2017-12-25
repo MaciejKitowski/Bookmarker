@@ -22,6 +22,7 @@ public final class UrlView extends JPanel {
 	private static final long serialVersionUID = -4908801645938833417L;
 	private static final Logger log = LoggerFactory.getLogger(UrlView.class);
 	private static final String[] columnNames = {"ID", "Title", "Url", "Description"};
+	private static final int rowHeight = 20;
 	
 	private DefaultTableModel tableModel = null;
 	private JTable table = null;
@@ -53,7 +54,7 @@ public final class UrlView extends JPanel {
 		log.debug("Set table style");
 		
 		table.setFont(new Font("Arial", Font.PLAIN, 26));
-		table.setRowHeight(table.getRowHeight() + 16);
+		table.setRowHeight(rowHeight);
 		table.setAutoCreateRowSorter(true);
 		
 		tableScroll.getViewport().setBackground(Color.GREEN);
