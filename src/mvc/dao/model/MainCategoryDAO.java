@@ -16,8 +16,7 @@ import mvc.model.MainCategory;
 
 public final class MainCategoryDAO implements IMainCategoryDAO {
 	private static final Logger log = LoggerFactory.getLogger(MainCategoryDAO.class);
-	
-	private static final String queryFilename = "resources/sql/MainCategory.json";
+	private static final String queryPath = "resources/sql/MainCategory.json";
 		
 	private DAOFactory database = null;
 	private String CREATE_TABLE = null;
@@ -32,7 +31,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 		log.debug("Create MainCategoryDAO with database: {}", database.getName());
 		
 		try {
-			JSONObject obj = JsonLoader.getJson(queryFilename, database.getName());
+			JSONObject obj = JsonLoader.getJson(queryPath, database.getName());
 			
 			CREATE_TABLE = JsonLoader.joinStringArray(obj.getJSONArray("CREATE_TABLE"));
 			INSERT = obj.getString("INSERT");
