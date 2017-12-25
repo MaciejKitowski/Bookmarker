@@ -58,7 +58,7 @@ public class CategoryDAOTest {
 		String[] fieldNames = {"CREATE_TABLE", "INSERT", "GET", "GET_MAINCAT", "GET_ALL", "UPDATE", "DELETE"};
 		
 		try {
-			JSONObject json = Utilities.getJsonQuery("Category.json", databaseType);
+			JSONObject json = Utilities.getJsonQuery("resources/sql/Category.json", databaseType);
 			Class<?> cls = dao.getClass();
 			
 			for(String name : fieldNames) {
