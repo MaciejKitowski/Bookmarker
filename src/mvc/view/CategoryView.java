@@ -63,9 +63,11 @@ public final class CategoryView extends JPanel {
 		try {
 			URL nodeClosedIcon = getClass().getResource("/icons/treelist_node_closed.png");
 			URL nodeOpenedIcon = getClass().getResource("/icons/treelist_node_opened.png");
+			URL nodeLeafIcon = getClass().getResource("/icons/treelist_leaf.png");
 			
 			renderer.setClosedIcon(new ImageIcon(nodeClosedIcon));
 			renderer.setOpenIcon(new ImageIcon(nodeOpenedIcon));
+			renderer.setLeafIcon(new ImageIcon(nodeLeafIcon));
 		}
 		catch(Exception ex) {
 			log.error("Failed to load icons", ex);
