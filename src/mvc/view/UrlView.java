@@ -4,17 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.Enumeration;
-import java.util.Set;
-
-import javax.lang.model.element.VariableElement;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
