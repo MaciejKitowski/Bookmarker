@@ -3,7 +3,6 @@ package mvc.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.net.URI;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -20,7 +19,8 @@ import org.slf4j.LoggerFactory;
 public final class CategoryView extends JPanel {
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
-	
+	private static final boolean rootVisible = false;
+	private static final int toggleClickCount = 1;
 	
 	private DefaultMutableTreeNode treeRoot = null;
 	private JTree treeList = null;
@@ -49,7 +49,8 @@ public final class CategoryView extends JPanel {
 		treeList = new JTree(treeRoot);
 		treeScrollbar = new JScrollPane(treeList);
 		
-		treeList.setRootVisible(false);
+		treeList.setRootVisible(rootVisible);
+		treeList.setToggleClickCount(toggleClickCount);
 	}
 	
 	private void setTreeListStyle() {
