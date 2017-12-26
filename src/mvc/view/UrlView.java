@@ -82,5 +82,19 @@ public final class UrlView extends JPanel implements UrlChangedListener {
 		for(Url url : urls) {
 			log.debug("{} {} {} {}", url.getID(), url.getTitle(), url.getUrl(), url.getDescription());
 		}
+		
+		refreshTable(urls);
+	}
+	
+	//TODO Change sort order cause exception
+	private void refreshTable(List<Url> urls) {
+		if(urls.size() == 0) tableModel.setRowCount(0);
+		else {
+			tableModel.getDataVector().clear();
+			
+			for(Url url : urls) {
+				tableModel.addRow(new Object[] {url.getID(), url.getTitle(), url.getUrl(), url.getDescription()});
+			}
+		}
 	}
 }
