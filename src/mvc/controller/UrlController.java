@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.model.ICategoryDAO;
-import mvc.dao.model.IMainCategoryDAO;
 import mvc.dao.model.IUrlDAO;
 import mvc.model.Category;
 import mvc.model.MainCategory;
