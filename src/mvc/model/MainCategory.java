@@ -49,4 +49,9 @@ public final class MainCategory {
 		log.trace("Get name: {}", name);
 		return name;
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 }

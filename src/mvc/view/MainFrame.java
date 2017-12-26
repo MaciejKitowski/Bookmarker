@@ -11,6 +11,9 @@ import javax.swing.border.TitledBorder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import mvc.controller.CategoryController;
+import mvc.controller.UrlController;
+
 public final class MainFrame extends JFrame {
 	private static final long serialVersionUID = 4785143357028575468L;
 	private static final Logger log = LoggerFactory.getLogger(MainFrame.class);
@@ -24,7 +27,10 @@ public final class MainFrame extends JFrame {
 	private final int layoutVerticalGap = 5;
 	
 	private CategoryView categoryView = null;
+	private CategoryController categoryController = null;
+	
 	private UrlView urlView = null;
+	private UrlController urlController = null;
 	
 	public MainFrame() {
 		log.info("Initialize Main Frame with title: {} and size: {}x{}", windowTitle, defaultWidth, defaultHeight);
@@ -34,10 +40,12 @@ public final class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		initializeLayout();
-		initializePanels();
+		initializeViews();
+		initializeControllers();
+		initializeObservers();
 		testPanels();
 		
-		addPanelsToView();
+		addViewsToFrame();
 	}
 	
 	private void initializeLayout() {
@@ -50,15 +58,35 @@ public final class MainFrame extends JFrame {
 		setLayout(layout);
 	}
 	
-	private void initializePanels() {
-		log.info("Initialize panels");
+	private void initializeViews() {
+		log.info("Initialize views");
 		
 		categoryView = new CategoryView(150, defaultHeight);
 		urlView = new UrlView(400,  defaultHeight);
 	}
 	
-	private void addPanelsToView() {
-		log.info("Add panels to view");
+	private void initializeControllers() {
+		log.info("Initialize controllers");
+		
+		categoryController = new CategoryController();
+		urlController = new UrlController();
+	}
+	
+	private void initializeObservers() {
+		log.debug("Initalize observers");
+		
+		categoryController.addListener(categoryView);
+		
+		categoryView.addListener(urlController);
+		
+		urlController.addListener(urlView);
+		
+		
+		categoryController.callListeners();
+	}
+	
+	private void addViewsToFrame() {
+		log.info("Add views to frame");
 		
 		add(categoryView, BorderLayout.LINE_START);
 		add(urlView, BorderLayout.CENTER);

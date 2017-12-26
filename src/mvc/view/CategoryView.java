@@ -4,19 +4,32 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class CategoryView extends JPanel {
+import mvc.controller.observer.category.CategoryChangedListener;
+import mvc.model.Category;
+import mvc.model.MainCategory;
+import mvc.view.observer.category.CategorySelectedCaller;
+import mvc.view.observer.category.CategorySelectedListener;
+
+public final class CategoryView extends JPanel implements CategoryChangedListener, CategorySelectedCaller {
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
 	private static final boolean rootVisible = false;
@@ -36,10 +49,15 @@ public final class CategoryView extends JPanel {
 		setLayout(new BorderLayout(5,5));
 		
 		initializeListTree();
+		initializeTreeSelectionListener();
 		setTreeListStyle();
 		add(treeScrollbar);
-		
-		testInsert();
+	}
+	
+	@Override
+	public void onCategoryChanged(Map<MainCategory, List<Category>> categories) {
+		log.debug("Categories changed");
+		setTreeList(categories);
 	}
 	
 	private void initializeListTree() {
@@ -51,6 +69,42 @@ public final class CategoryView extends JPanel {
 		
 		treeList.setRootVisible(rootVisible);
 		treeList.setToggleClickCount(toggleClickCount);
+	}
+	
+	private void initializeTreeSelectionListener() {
+		log.debug("Initialize tree selection listener");
+		
+		treeList.addTreeSelectionListener(new TreeSelectionListener() {
+			
+			@Override
+			public void valueChanged(TreeSelectionEvent e) {
+				log.debug("Selected category");
+				
+				TreePath[] paths = treeList.getSelectionPaths();
+				List<MainCategory> mainCategories = new LinkedList<>();
+				List<Category> categories = new LinkedList<>();
+				
+				for(TreePath path : paths) {
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode)path.getLastPathComponent();
+					Object obj = node.getUserObject();
+					
+					if(obj instanceof MainCategory) {
+						log.debug("Selected main category: {}", path.getLastPathComponent().toString());
+						mainCategories.add((MainCategory) obj);
+					}
+					else if(obj instanceof Category) {
+						log.debug("Selected subcategory: {}", path.getLastPathComponent().toString());
+						categories.add((Category) obj);
+					}
+					else {
+						log.warn("Unwanted object class type: {}", obj.getClass().getName());
+					}
+				}
+				
+				if(categories.size() > 0) callListenersCategory(categories);
+				else callListenersMainCategory(mainCategories);
+			}
+		});
 	}
 	
 	private void setTreeListStyle() {
@@ -77,30 +131,55 @@ public final class CategoryView extends JPanel {
 		treeList.setBackground(Color.LIGHT_GRAY);
 	}
 	
-	private void testInsert() {
-		log.warn("Test insert");
+	private void setTreeList(Map<MainCategory, List<Category>> categories) {
+		log.debug("Add {} nodes to tree list", categories.size());
 		
-		DefaultMutableTreeNode mainA = new DefaultMutableTreeNode("Parent 1");
-		for(int i = 0; i < 50; ++i) {
-			DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child " + i);
-			mainA.add(childA);
+		for(Map.Entry<MainCategory, List<Category>> entry : categories.entrySet()) {
+			log.debug("Add main category (ID={} name={}) as node", entry.getKey().getID(), entry.getKey().getName());
+			
+			DefaultMutableTreeNode main = new DefaultMutableTreeNode(entry.getKey());
+			
+			for(Category cat : entry.getValue()) {
+				log.debug("Add subcategory (ID={} name={}) to category (ID={} name={})", cat.getID(), cat.getName(), entry.getKey().getID(), entry.getKey().getName());
+				
+				DefaultMutableTreeNode child = new DefaultMutableTreeNode(cat);
+				main.add(child);
+			}
+			
+			treeRoot.add(main);
 		}
-		
-		treeRoot.add(mainA);
-
-		DefaultMutableTreeNode mainB = new DefaultMutableTreeNode("Parent 2");
-		for(int i = 0; i < 50; ++i) {
-			DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child " + i);
-			mainB.add(childA);
-		}
-		
-		treeRoot.add(mainB);
 		
 		refreshTreeList();
 	}
-	
+		
 	private void refreshTreeList() { //Tree have to be refreshed after add new node
 		DefaultTreeModel model = (DefaultTreeModel)treeList.getModel();
 		model.reload();
+	}
+	
+	private List<CategorySelectedListener> listeners = new LinkedList<>();
+
+	@Override
+	public void addListener(CategorySelectedListener listener) {
+		log.debug("Add new listener");
+		listeners.add(listener);
+	}
+
+	@Override
+	public void removeListener(CategorySelectedListener listener) {
+		log.debug("Remove listener");
+		listeners.remove(listener);
+	}
+
+	@Override
+	public void callListenersMainCategory(List<MainCategory> categories) {
+		log.debug("Call listeners with {} main categories", categories.size());
+		for(CategorySelectedListener listener : listeners) listener.onMainCategorySelect(categories);
+	}
+
+	@Override
+	public void callListenersCategory(List<Category> categories) {
+		log.debug("Call listeners with {} categories", categories.size());
+		for(CategorySelectedListener listener : listeners) listener.onCategorySelect(categories);
 	}
 }

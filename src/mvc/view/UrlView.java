@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.List;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -12,7 +14,10 @@ import javax.swing.table.DefaultTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class UrlView extends JPanel {
+import mvc.controller.observer.url.UrlChangedListener;
+import mvc.model.Url;
+
+public final class UrlView extends JPanel implements UrlChangedListener {
 	private static final long serialVersionUID = -4908801645938833417L;
 	private static final Logger log = LoggerFactory.getLogger(UrlView.class);
 	private static final String[] columnNames = {"ID", "Title", "Url", "Description"};
@@ -68,5 +73,14 @@ public final class UrlView extends JPanel {
 		
 		table.getColumn(name).setMinWidth(min);
 		table.getColumn(name).setPreferredWidth(prefered);
+	}
+
+	@Override
+	public void onUrlChanged(List<Url> urls) {
+		log.debug("Received {} urls", urls.size());
+		
+		for(Url url : urls) {
+			log.debug("{} {} {} {}", url.getID(), url.getTitle(), url.getUrl(), url.getDescription());
+		}
 	}
 }

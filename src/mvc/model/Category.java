@@ -75,4 +75,9 @@ public final class Category {
 		if(parent != null) log.trace("Get parent: ID={} name={}", parent.getID(), parent.getName());
 		return parent;
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 }
