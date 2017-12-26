@@ -6,7 +6,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mvc.controller.observer.category.CategoryChangedListener;
 import mvc.controller.observer.url.UrlChangedCaller;
 import mvc.controller.observer.url.UrlChangedListener;
 import mvc.dao.DAOFactory;
@@ -50,6 +49,7 @@ public final class UrlController implements CategorySelectedListener, UrlChanged
 		}
 		
 		log.debug("Found {} urls", urls.size());
+		callListeners(urls);
 	}
 
 	@Override
@@ -65,9 +65,10 @@ public final class UrlController implements CategorySelectedListener, UrlChanged
 		}
 		
 		log.debug("Found {} urls", urls.size());
+		callListeners(urls);
 	}
 	
-	private List<UrlChangedListener> listeners;
+	private List<UrlChangedListener> listeners = new LinkedList<>();
 
 	@Override
 	public void addListener(UrlChangedListener listener) {
