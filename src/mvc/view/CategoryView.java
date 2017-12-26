@@ -13,9 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +49,7 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 		setLayout(new BorderLayout(5,5));
 		
 		initializeListTree();
+		initializeTreeSelectionListener();
 		setTreeListStyle();
 		add(treeScrollbar);
 	}
@@ -64,6 +69,42 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 		
 		treeList.setRootVisible(rootVisible);
 		treeList.setToggleClickCount(toggleClickCount);
+	}
+	
+	private void initializeTreeSelectionListener() {
+		log.debug("Initialize tree selection listener");
+		
+		treeList.addTreeSelectionListener(new TreeSelectionListener() {
+			
+			@Override
+			public void valueChanged(TreeSelectionEvent e) {
+				log.debug("Selected category");
+				
+				TreePath[] paths = treeList.getSelectionPaths();
+				List<MainCategory> mainCategories = new LinkedList<>();
+				List<Category> categories = new LinkedList<>();
+				
+				for(TreePath path : paths) {
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode)path.getLastPathComponent();
+					Object obj = node.getUserObject();
+					
+					if(obj instanceof MainCategory) {
+						log.debug("Selected main category: {}", path.getLastPathComponent().toString());
+						mainCategories.add((MainCategory) obj);
+					}
+					else if(obj instanceof Category) {
+						log.debug("Selected subcategory: {}", path.getLastPathComponent().toString());
+						categories.add((Category) obj);
+					}
+					else {
+						log.warn("Unwanted object class type: {}", obj.getClass().getName());
+					}
+				}
+				
+				if(categories.size() > 0) callListenersCategory(categories);
+				else callListenersMainCategory(mainCategories);
+			}
+		});
 	}
 	
 	private void setTreeListStyle() {
