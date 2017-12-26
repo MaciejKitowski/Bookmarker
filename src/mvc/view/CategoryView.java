@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -16,7 +18,11 @@ import javax.swing.tree.DefaultTreeModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class CategoryView extends JPanel {
+import mvc.controller.observer.category.CategoryChangedListener;
+import mvc.model.Category;
+import mvc.model.MainCategory;
+
+public final class CategoryView extends JPanel implements CategoryChangedListener {
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
 	private static final boolean rootVisible = false;
@@ -38,8 +44,12 @@ public final class CategoryView extends JPanel {
 		initializeListTree();
 		setTreeListStyle();
 		add(treeScrollbar);
-		
-		testInsert();
+	}
+	
+	@Override
+	public void onCategoryChanged(Map<MainCategory, List<Category>> categories) {
+		log.debug("Categories changed");
+		setTreeList(categories);
 	}
 	
 	private void initializeListTree() {
@@ -77,28 +87,27 @@ public final class CategoryView extends JPanel {
 		treeList.setBackground(Color.LIGHT_GRAY);
 	}
 	
-	private void testInsert() {
-		log.warn("Test insert");
+	private void setTreeList(Map<MainCategory, List<Category>> categories) {
+		log.debug("Add {} nodes to tree list", categories.size());
 		
-		DefaultMutableTreeNode mainA = new DefaultMutableTreeNode("Parent 1");
-		for(int i = 0; i < 50; ++i) {
-			DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child " + i);
-			mainA.add(childA);
+		for(Map.Entry<MainCategory, List<Category>> entry : categories.entrySet()) {
+			log.debug("Add main category (ID={} name={}) as node", entry.getKey().getID(), entry.getKey().getName());
+			
+			DefaultMutableTreeNode main = new DefaultMutableTreeNode(entry.getKey());
+			
+			for(Category cat : entry.getValue()) {
+				log.debug("Add subcategory (ID={} name={}) to category (ID={} name={})", cat.getID(), cat.getName(), entry.getKey().getID(), entry.getKey().getName());
+				
+				DefaultMutableTreeNode child = new DefaultMutableTreeNode(cat);
+				main.add(child);
+			}
+			
+			treeRoot.add(main);
 		}
-		
-		treeRoot.add(mainA);
-
-		DefaultMutableTreeNode mainB = new DefaultMutableTreeNode("Parent 2");
-		for(int i = 0; i < 50; ++i) {
-			DefaultMutableTreeNode childA = new DefaultMutableTreeNode("Child " + i);
-			mainB.add(childA);
-		}
-		
-		treeRoot.add(mainB);
 		
 		refreshTreeList();
 	}
-	
+		
 	private void refreshTreeList() { //Tree have to be refreshed after add new node
 		DefaultTreeModel model = (DefaultTreeModel)treeList.getModel();
 		model.reload();

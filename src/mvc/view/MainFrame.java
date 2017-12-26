@@ -11,6 +11,8 @@ import javax.swing.border.TitledBorder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import mvc.controller.CategoryController;
+
 public final class MainFrame extends JFrame {
 	private static final long serialVersionUID = 4785143357028575468L;
 	private static final Logger log = LoggerFactory.getLogger(MainFrame.class);
@@ -24,6 +26,8 @@ public final class MainFrame extends JFrame {
 	private final int layoutVerticalGap = 5;
 	
 	private CategoryView categoryView = null;
+	private CategoryController categoryController = null;
+	
 	private UrlView urlView = null;
 	
 	public MainFrame() {
@@ -34,10 +38,12 @@ public final class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		initializeLayout();
-		initializePanels();
+		initializeViews();
+		initializeControllers();
+		initializeObservers();
 		testPanels();
 		
-		addPanelsToView();
+		addViewsToFrame();
 	}
 	
 	private void initializeLayout() {
@@ -50,15 +56,30 @@ public final class MainFrame extends JFrame {
 		setLayout(layout);
 	}
 	
-	private void initializePanels() {
-		log.info("Initialize panels");
+	private void initializeViews() {
+		log.info("Initialize views");
 		
 		categoryView = new CategoryView(150, defaultHeight);
 		urlView = new UrlView(400,  defaultHeight);
 	}
 	
-	private void addPanelsToView() {
-		log.info("Add panels to view");
+	private void initializeControllers() {
+		log.info("Initialize controllers");
+		
+		categoryController = new CategoryController();
+	}
+	
+	private void initializeObservers() {
+		log.debug("Initalize observers");
+		
+		categoryController.addListener(categoryView);
+		
+		
+		categoryController.callListeners();
+	}
+	
+	private void addViewsToFrame() {
+		log.info("Add views to frame");
 		
 		add(categoryView, BorderLayout.LINE_START);
 		add(urlView, BorderLayout.CENTER);
