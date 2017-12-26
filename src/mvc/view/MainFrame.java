@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.controller.CategoryController;
+import mvc.controller.UrlController;
 
 public final class MainFrame extends JFrame {
 	private static final long serialVersionUID = 4785143357028575468L;
@@ -29,6 +30,7 @@ public final class MainFrame extends JFrame {
 	private CategoryController categoryController = null;
 	
 	private UrlView urlView = null;
+	private UrlController urlController = null;
 	
 	public MainFrame() {
 		log.info("Initialize Main Frame with title: {} and size: {}x{}", windowTitle, defaultWidth, defaultHeight);
@@ -67,12 +69,17 @@ public final class MainFrame extends JFrame {
 		log.info("Initialize controllers");
 		
 		categoryController = new CategoryController();
+		urlController = new UrlController();
 	}
 	
 	private void initializeObservers() {
 		log.debug("Initalize observers");
 		
 		categoryController.addListener(categoryView);
+		
+		categoryView.addListener(urlController);
+		
+		urlController.addListener(urlView);
 		
 		
 		categoryController.callListeners();

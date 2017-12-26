@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,17 +13,23 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.controller.observer.category.CategoryChangedListener;
 import mvc.model.Category;
 import mvc.model.MainCategory;
+import mvc.view.observer.category.CategorySelectedCaller;
+import mvc.view.observer.category.CategorySelectedListener;
 
-public final class CategoryView extends JPanel implements CategoryChangedListener {
+public final class CategoryView extends JPanel implements CategoryChangedListener, CategorySelectedCaller {
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
 	private static final boolean rootVisible = false;
@@ -42,6 +49,7 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 		setLayout(new BorderLayout(5,5));
 		
 		initializeListTree();
+		initializeTreeSelectionListener();
 		setTreeListStyle();
 		add(treeScrollbar);
 	}
@@ -61,6 +69,42 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 		
 		treeList.setRootVisible(rootVisible);
 		treeList.setToggleClickCount(toggleClickCount);
+	}
+	
+	private void initializeTreeSelectionListener() {
+		log.debug("Initialize tree selection listener");
+		
+		treeList.addTreeSelectionListener(new TreeSelectionListener() {
+			
+			@Override
+			public void valueChanged(TreeSelectionEvent e) {
+				log.debug("Selected category");
+				
+				TreePath[] paths = treeList.getSelectionPaths();
+				List<MainCategory> mainCategories = new LinkedList<>();
+				List<Category> categories = new LinkedList<>();
+				
+				for(TreePath path : paths) {
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode)path.getLastPathComponent();
+					Object obj = node.getUserObject();
+					
+					if(obj instanceof MainCategory) {
+						log.debug("Selected main category: {}", path.getLastPathComponent().toString());
+						mainCategories.add((MainCategory) obj);
+					}
+					else if(obj instanceof Category) {
+						log.debug("Selected subcategory: {}", path.getLastPathComponent().toString());
+						categories.add((Category) obj);
+					}
+					else {
+						log.warn("Unwanted object class type: {}", obj.getClass().getName());
+					}
+				}
+				
+				if(categories.size() > 0) callListenersCategory(categories);
+				else callListenersMainCategory(mainCategories);
+			}
+		});
 	}
 	
 	private void setTreeListStyle() {
@@ -111,5 +155,31 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 	private void refreshTreeList() { //Tree have to be refreshed after add new node
 		DefaultTreeModel model = (DefaultTreeModel)treeList.getModel();
 		model.reload();
+	}
+	
+	private List<CategorySelectedListener> listeners = new LinkedList<>();
+
+	@Override
+	public void addListener(CategorySelectedListener listener) {
+		log.debug("Add new listener");
+		listeners.add(listener);
+	}
+
+	@Override
+	public void removeListener(CategorySelectedListener listener) {
+		log.debug("Remove listener");
+		listeners.remove(listener);
+	}
+
+	@Override
+	public void callListenersMainCategory(List<MainCategory> categories) {
+		log.debug("Call listeners with {} main categories", categories.size());
+		for(CategorySelectedListener listener : listeners) listener.onMainCategorySelect(categories);
+	}
+
+	@Override
+	public void callListenersCategory(List<Category> categories) {
+		log.debug("Call listeners with {} categories", categories.size());
+		for(CategorySelectedListener listener : listeners) listener.onCategorySelect(categories);
 	}
 }
