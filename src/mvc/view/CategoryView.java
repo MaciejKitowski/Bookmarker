@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,8 +22,10 @@ import org.slf4j.LoggerFactory;
 import mvc.controller.observer.category.CategoryChangedListener;
 import mvc.model.Category;
 import mvc.model.MainCategory;
+import mvc.view.observer.category.CategorySelectedCaller;
+import mvc.view.observer.category.CategorySelectedListener;
 
-public final class CategoryView extends JPanel implements CategoryChangedListener {
+public final class CategoryView extends JPanel implements CategoryChangedListener, CategorySelectedCaller {
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
 	private static final boolean rootVisible = false;
@@ -111,5 +114,31 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 	private void refreshTreeList() { //Tree have to be refreshed after add new node
 		DefaultTreeModel model = (DefaultTreeModel)treeList.getModel();
 		model.reload();
+	}
+	
+	private List<CategorySelectedListener> listeners = new LinkedList<>();
+
+	@Override
+	public void addListener(CategorySelectedListener listener) {
+		log.debug("Add new listener");
+		listeners.add(listener);
+	}
+
+	@Override
+	public void removeListener(CategorySelectedListener listener) {
+		log.debug("Remove listener");
+		listeners.remove(listener);
+	}
+
+	@Override
+	public void callListenersMainCategory(List<MainCategory> categories) {
+		log.debug("Call listeners with {} main categories", categories.size());
+		for(CategorySelectedListener listener : listeners) listener.onMainCategorySelect(categories);
+	}
+
+	@Override
+	public void callListenersCategory(List<Category> categories) {
+		log.debug("Call listeners with {} categories", categories.size());
+		for(CategorySelectedListener listener : listeners) listener.onCategorySelect(categories);
 	}
 }
