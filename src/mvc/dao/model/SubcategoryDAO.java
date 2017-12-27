@@ -16,8 +16,8 @@ import mvc.dao.DAOFactory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 
-public final class CategoryDAO implements ICategoryDAO {
-	private static final Logger log = LoggerFactory.getLogger(CategoryDAO.class);
+public final class SubcategoryDAO implements ICategoryDAO {
+	private static final Logger log = LoggerFactory.getLogger(SubcategoryDAO.class);
 	private static final String queryPath = "resources/sql/Category.json";
 	
 	private DAOFactory database = null;
@@ -29,9 +29,9 @@ public final class CategoryDAO implements ICategoryDAO {
 	private String UPDATE = null;
 	private String DELETE = null;
 	
-	public CategoryDAO(int databaseType) {
+	public SubcategoryDAO(int databaseType) {
 		database = DAOFactory.get(databaseType);
-		log.debug("Create CategoryDAO with database: {}", database.getName());
+		log.debug("Create SubcategoryDAO with database: {}", database.getName());
 		
 		try {
 			JSONObject obj = JsonLoader.getJson(queryPath, database.getName());

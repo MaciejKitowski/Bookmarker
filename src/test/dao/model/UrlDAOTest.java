@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.model.CategoryDAO;
+import mvc.dao.model.SubcategoryDAO;
 import mvc.dao.model.UrlDAO;
 import mvc.model.Category;
 import mvc.model.Url;
@@ -103,7 +103,7 @@ public class UrlDAOTest {
 		
 		int result = dao.insert(url);
 		
-		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+		assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 	}
 	
 	@Test
@@ -116,7 +116,7 @@ public class UrlDAOTest {
 		
 		int result = dao.insert(url);
 		
-		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+		assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 	}
 	
 	@Test
@@ -127,7 +127,7 @@ public class UrlDAOTest {
 		
 		int result = dao.insert(url);
 		
-		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+		assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 	}
 	
 	@Test
@@ -138,7 +138,7 @@ public class UrlDAOTest {
 		
 		int result = dao.insert(url);
 		
-		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+		assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 	}
 	
 	@Test
@@ -155,7 +155,7 @@ public class UrlDAOTest {
 			
 			int result = dao.insert(url);
 			
-			assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+			assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 		}
 	}
 	
@@ -173,7 +173,7 @@ public class UrlDAOTest {
 			
 			int result = dao.insert(url);
 			
-			assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+			assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 		}
 	}
 	
@@ -189,7 +189,7 @@ public class UrlDAOTest {
 			
 			int result = dao.insert(url);
 			
-			assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+			assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 		}
 	}
 	
@@ -205,7 +205,7 @@ public class UrlDAOTest {
 			
 			int result = dao.insert(url);
 			
-			assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+			assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 		}
 	}
 	

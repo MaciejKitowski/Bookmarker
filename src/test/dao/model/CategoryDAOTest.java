@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.model.CategoryDAO;
+import mvc.dao.model.SubcategoryDAO;
 import mvc.dao.model.MainCategoryDAO;
 import mvc.model.Category;
 import mvc.model.MainCategory;
@@ -29,7 +29,7 @@ import mvc.model.MainCategory;
 public class CategoryDAOTest {
 	private static final Logger log = LoggerFactory.getLogger(CategoryDAOTest.class);
 	
-	private CategoryDAO dao = null;
+	private SubcategoryDAO dao = null;
 	private int databaseType;
 	
 	@Parameters
@@ -48,8 +48,8 @@ public class CategoryDAOTest {
 	
 	@Before
 	public void initialize() {
-		log.debug("Initialize CategoryDAO");
-		dao = new CategoryDAO(databaseType);
+		log.debug("Initialize SubcategoryDAO");
+		dao = new SubcategoryDAO(databaseType);
 	}
 	
 	@Test
@@ -107,7 +107,7 @@ public class CategoryDAOTest {
 		
 		int result = dao.insert(category);
 		
-		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+		assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 	}
 	
 	@Test
@@ -118,7 +118,7 @@ public class CategoryDAOTest {
 
 		int result = dao.insert(category);
 		
-		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
+		assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 	}
 	
 	@Test

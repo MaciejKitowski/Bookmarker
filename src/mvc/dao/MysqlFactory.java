@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mvc.dao.model.CategoryDAO;
+import mvc.dao.model.SubcategoryDAO;
 import mvc.dao.model.ICategoryDAO;
 import mvc.dao.model.IMainCategoryDAO;
 import mvc.dao.model.IUrlDAO;
@@ -29,8 +29,8 @@ public final class MysqlFactory extends DAOFactory {
     
     @Override
 	public ICategoryDAO getCategory() {
-    	log.trace("Get CategoryDAO");
-		return new CategoryDAO(MYSQL);
+    	log.trace("Get SubcategoryDAO");
+		return new SubcategoryDAO(MYSQL);
 	}
     
     @Override
