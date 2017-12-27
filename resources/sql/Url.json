@@ -9,7 +9,7 @@
         "description  VARCHAR(255),",
         "FOREIGN KEY(cat_ID) REFERENCES Subcategory(ID)",
           "ON UPDATE CASCADE",
-          "ON DELETE SET NULL",
+          "ON DELETE CASCADE",
       ")"
     ],
     "INSERT": "INSERT INTO Url(title, url, description, cat_ID) VALUES(?, ?, ?, ?)",
@@ -30,7 +30,7 @@
         "PRIMARY KEY(ID),",
         "FOREIGN KEY(cat_ID) REFERENCES Subcategory(ID)",
           "ON UPDATE CASCADE",
-          "ON DELETE SET NULL",
+          "ON DELETE CASCADE",
       ")"
     ],
     "INSERT": "INSERT INTO Url(title, url, description, cat_ID) VALUES(?, ?, ?, ?)",
@@ -50,7 +50,7 @@
         "description  VARCHAR(255),",
         "CONSTRAINT cat_fk FOREIGN KEY(cat_ID) REFERENCES Subcategory(ID)",
           "ON UPDATE CASCADE",
-          "ON DELETE SET NULL",
+          "ON DELETE CASCADE",
       ")"
     ],
     "INSERT": "INSERT INTO Url(title, url, description, cat_ID) VALUES(?, ?, ?, ?)",
