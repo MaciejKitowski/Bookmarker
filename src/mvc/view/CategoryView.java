@@ -23,14 +23,13 @@ import javax.swing.tree.TreePath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mvc.controller.observer.category.CategoryChangedListener;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 import mvc.observer.category.CategoryUpdateListener;
 import mvc.view.observer.category.CategorySelectedCaller;
 import mvc.view.observer.category.CategorySelectedListener;
 
-public final class CategoryView extends JPanel implements CategoryChangedListener, CategorySelectedCaller, CategoryUpdateListener {
+public final class CategoryView extends JPanel implements CategorySelectedCaller, CategoryUpdateListener {
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
 	private static final boolean rootVisible = false;
@@ -54,13 +53,7 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 		setTreeListStyle();
 		add(treeScrollbar);
 	}
-	
-	@Override
-	public void onCategoryChanged(Map<MainCategory, List<Category>> categories) {
-		log.debug("Categories changed");
-		setTreeList(categories);
-	}
-	
+		
 	private void initializeListTree() {
 		log.debug("Initialize category list tree");
 		
@@ -153,7 +146,7 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 		refreshTreeList();
 	}
 		
-	private void refreshTreeList() { //Tree have to be refreshed after add new node
+	private void refreshTreeList() {
 		DefaultTreeModel model = (DefaultTreeModel)treeList.getModel();
 		model.reload();
 	}
