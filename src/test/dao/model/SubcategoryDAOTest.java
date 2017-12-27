@@ -25,8 +25,8 @@ import mvc.model.Category;
 import mvc.model.MainCategory;
 
 @RunWith(Parameterized.class)
-public class CategoryDAOTest {
-	private static final Logger log = LoggerFactory.getLogger(CategoryDAOTest.class);
+public class SubcategoryDAOTest {
+	private static final Logger log = LoggerFactory.getLogger(SubcategoryDAOTest.class);
 	
 	private SubcategoryDAO dao = null;
 	private int databaseType;
@@ -40,7 +40,7 @@ public class CategoryDAOTest {
            });
     }
 	
-	public CategoryDAOTest(int database) {
+	public SubcategoryDAOTest(int database) {
 		databaseType = database;
 		log.debug("Initialize test for {} database", DAOFactory.get(database).getName());
 	}
