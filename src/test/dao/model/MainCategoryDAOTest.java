@@ -16,14 +16,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.model.MainCategoryDAO;
+import mvc.dao.model.CategoryDAO;
 import mvc.model.MainCategory;
 
 @RunWith(Parameterized.class)
 public class MainCategoryDAOTest {
 	private static final Logger log = LoggerFactory.getLogger(MainCategoryDAOTest.class);
 	
-	private MainCategoryDAO dao = null;
+	private CategoryDAO dao = null;
 	private int databaseType;
 	
 	@Parameters
@@ -42,8 +42,8 @@ public class MainCategoryDAOTest {
 	
 	@Before
 	public void initialize() {
-		log.debug("Initialize MainCategoryDAO");
-		dao = new MainCategoryDAO(databaseType);
+		log.debug("Initialize CategoryDAO");
+		dao = new CategoryDAO(databaseType);
 	}
 	
 	@Test
@@ -99,7 +99,7 @@ public class MainCategoryDAOTest {
 		
 		int result = dao.insert(category);
 		
-		assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
+		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
 	}
 	
 	@Test
@@ -114,7 +114,7 @@ public class MainCategoryDAOTest {
 			
 			int result = dao.insert(category);
 			
-			assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
+			assertNotEquals(CategoryDAO.INSERT_FAIL, result);
 		}
 	}
 	

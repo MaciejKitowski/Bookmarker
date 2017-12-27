@@ -55,7 +55,7 @@ public class DatabaseFactoryTest {
 	
 	@Test
 	public void getMainCategoryTest() {
-		log.debug("Get MainCategoryDAO test");
+		log.debug("Get CategoryDAO test");
 		
 		IMainCategoryDAO dao = DAOFactory.get(databaseType).getMainCategory();
 		

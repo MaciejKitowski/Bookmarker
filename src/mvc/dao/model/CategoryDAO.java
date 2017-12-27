@@ -14,8 +14,8 @@ import org.slf4j.LoggerFactory;
 import mvc.dao.DAOFactory;
 import mvc.model.MainCategory;
 
-public final class MainCategoryDAO implements IMainCategoryDAO {
-	private static final Logger log = LoggerFactory.getLogger(MainCategoryDAO.class);
+public final class CategoryDAO implements IMainCategoryDAO {
+	private static final Logger log = LoggerFactory.getLogger(CategoryDAO.class);
 	private static final String queryPath = "resources/sql/MainCategory.json";
 		
 	private DAOFactory database = null;
@@ -26,9 +26,9 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	private String UPDATE = null;
 	private String DELETE = null;
 	
-	public MainCategoryDAO(int databaseType) {
+	public CategoryDAO(int databaseType) {
 		database = DAOFactory.get(databaseType);
-		log.debug("Create MainCategoryDAO with database: {}", database.getName());
+		log.debug("Create CategoryDAO with database: {}", database.getName());
 		
 		try {
 			JSONObject obj = JsonLoader.getJson(queryPath, database.getName());
