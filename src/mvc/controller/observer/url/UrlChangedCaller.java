@@ -4,6 +4,7 @@ import java.util.List;
 
 import mvc.model.Url;
 
+@Deprecated
 public interface UrlChangedCaller {
 	public void addListener(UrlChangedListener listener);
 	public void removeListener(UrlChangedListener listener);
