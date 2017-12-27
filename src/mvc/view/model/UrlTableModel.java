@@ -17,6 +17,12 @@ public final class UrlTableModel extends AbstractTableModel {
 	
 	private List<Url> urls = new ArrayList<>();
 	
+	public UrlTableModel() {
+		log.info("Initialize model");
+		
+		fireTableStructureChanged();
+	}
+	
 	public void setList(List<Url> urls) {
 		log.debug("Set new list with {} values", urls.size());
 		this.urls = urls;
@@ -32,6 +38,10 @@ public final class UrlTableModel extends AbstractTableModel {
 	@Override
 	public int getRowCount() {
 		return urls.size();
+	}
+	@Override
+	public String getColumnName(int col) {
+	    return columnNames[col];
 	}
 
 	@Override
