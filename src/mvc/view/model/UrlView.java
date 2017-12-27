@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +22,6 @@ public final class UrlView extends JPanel implements UrlUpdateListener {
 	private static final String[] columnNames = {"ID", "Title", "Url", "Description"};
 	private static final int rowHeight = 20;
 	
-	//private DefaultTableModel tableModel = null;
 	private UrlTableModel tableModel = null;
 	private JTable table = null;
 	private JScrollPane tableScroll = null;
@@ -38,14 +36,13 @@ public final class UrlView extends JPanel implements UrlUpdateListener {
 				
 		initializeTable();
 		setTableStyle();
-		//setTableColumnsSize();
+		setTableColumnsSize();
 		add(tableScroll, BorderLayout.CENTER);
 	}
 	
 	private void initializeTable() {
 		log.debug("Initialize table");
 		
-		//tableModel = new DefaultTableModel(columnNames, 0);
 		tableModel = new UrlTableModel();
 		table = new JTable(tableModel);
 		tableScroll = new JScrollPane(table);
@@ -77,24 +74,11 @@ public final class UrlView extends JPanel implements UrlUpdateListener {
 		table.getColumn(name).setPreferredWidth(prefered);
 	}
 	
-	//TODO Change category after set sort order cause exception
-	private void refreshTable(List<Url> urls) {
-		tableModel.setList(urls);
-		/*if(urls.size() == 0) tableModel.setRowCount(0);
-		else {
-			tableModel.getDataVector().clear();
-			
-			for(Url url : urls) {
-				tableModel.addRow(new Object[] {url.getID(), url.getTitle(), url.getUrl(), url.getDescription()});
-			}
-		}*/
-	}
-
 	@Override
 	public void onUrlUpdate(List<Url> urls) {
 		log.debug("Update url list, received {} values", urls.size());
 		for(Url url : urls) log.debug("{} {} {} {}", url.getID(), url.getTitle(), url.getUrl(), url.getDescription());
 		
-		refreshTable(urls);
+		tableModel.setList(urls);
 	}
 }
