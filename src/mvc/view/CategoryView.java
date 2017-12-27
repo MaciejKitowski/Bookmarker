@@ -35,6 +35,7 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 	private static final boolean rootVisible = false;
 	private static final int toggleClickCount = 1;
 	
+	private List<CategorySelectListener> listeners = new LinkedList<>();
 	private DefaultMutableTreeNode treeRoot = null;
 	private JTree treeList = null;
 	private JScrollPane treeScrollbar = null;
@@ -151,8 +152,6 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 		model.reload();
 	}
 	
-	private List<CategorySelectListener> listeners = new LinkedList<>();
-
 	@Override
 	public void addCategorySelectListener(CategorySelectListener listener) {
 		log.debug("Add new listener");
