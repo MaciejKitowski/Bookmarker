@@ -1,8 +1,10 @@
 package mvc.view.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import javax.print.DocFlavor.URL;
 import javax.swing.table.AbstractTableModel;
 
 import org.slf4j.Logger;
@@ -15,7 +17,7 @@ public final class UrlTableModel extends AbstractTableModel {
 	private static final Logger log = LoggerFactory.getLogger(UrlTableModel.class);
 	private static final String[] columnNames = {"ID", "Title", "Url", "Description"};
 	
-	private List<Url> urls = new ArrayList<>();
+	private List<Url> urls = new LinkedList<>();
 	
 	public UrlTableModel() {
 		log.info("Initialize model");
@@ -51,13 +53,16 @@ public final class UrlTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int row, int col) {
-		Url url = urls.get(row);
-		Object toReturn = null;
-
-		if(col == 0) toReturn = url.getID();
-		else if(col == 1) toReturn = url.getTitle();
-		else if(col == 2) toReturn = url.getUrl();
-		else if(col == 3) toReturn = url.getDescription();
+		Object toReturn = Object.class;
+		
+		if(urls.size() > 0) {
+			Url url = urls.get(row);
+			
+			if(col == 0) toReturn = url.getID();
+			else if(col == 1) toReturn = url.getTitle();
+			else if(col == 2) toReturn = url.getUrl();
+			else if(col == 3) toReturn = url.getDescription();
+		}
 		
 		return toReturn;
 	}
