@@ -12,7 +12,7 @@ public interface IUrlDAO {
 	public int insert(Url url);
 	
 	public Url get(int ID);
-	public List<Url> getAllWithCategory(Subcategory subcategory);
+	public List<Url> getAllWithSubcategory(Subcategory subcategory);
 	public List<Url> getAll();
 	
 	public boolean update(Url url);

@@ -172,7 +172,7 @@ public class SubcategoryDAOTest {
 		int mainCategoryID = 4;
 		Category main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
 		
-		List<Subcategory> result = dao.getWithMainCategory(main);
+		List<Subcategory> result = dao.getWithCategory(main);
 		
 		assertTrue(result != null);
 	}

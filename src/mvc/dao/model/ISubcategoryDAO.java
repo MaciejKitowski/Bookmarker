@@ -12,7 +12,7 @@ public interface ISubcategoryDAO {
 	public int insert(Subcategory subcategory);
 	
 	public Subcategory get(int ID);
-	public List<Subcategory> getWithMainCategory(Category category);
+	public List<Subcategory> getWithCategory(Category category);
 	public List<Subcategory> getAll();
 	
 	public boolean update(Subcategory subcategory);

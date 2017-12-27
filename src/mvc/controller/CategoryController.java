@@ -41,7 +41,7 @@ public final class CategoryController implements CategoryUpdateSubject {
 		for(Category category : mainCategories) {
 			log.debug("Create list for main category(ID={} name={})", category.getID(), category.getName());
 			
-			List<Subcategory> subcategories = catDao.getWithMainCategory(category);
+			List<Subcategory> subcategories = catDao.getWithCategory(category);
 			categories.put(category, subcategories);
 			
 			log.debug("Added {} subcategories", subcategories.size());

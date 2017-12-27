@@ -227,7 +227,7 @@ public class UrlDAOTest {
 		int ID = 4;
 		Subcategory subcategory = DAOFactory.get(databaseType).getCategory().get(ID);
 		
-		List<Url> result = dao.getAllWithCategory(subcategory);
+		List<Url> result = dao.getAllWithSubcategory(subcategory);
 		
 		assertTrue(result != null);
 	}

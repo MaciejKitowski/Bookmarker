@@ -178,7 +178,7 @@ public final class UrlDAO implements IUrlDAO {
 	}
 
 	@Override
-	public List<Url> getAllWithCategory(Subcategory subcategory) {
+	public List<Url> getAllWithSubcategory(Subcategory subcategory) {
 		log.debug("Get all urls with subcategory: ID={} name={}", subcategory.getID(), subcategory.getName());
 		
 		List<Url> urls = new ArrayList<>();

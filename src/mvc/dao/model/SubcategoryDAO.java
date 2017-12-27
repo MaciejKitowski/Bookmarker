@@ -172,7 +172,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 	}
 	
 	@Override
-	public List<Subcategory> getWithMainCategory(Category category) {
+	public List<Subcategory> getWithCategory(Category category) {
 		log.debug("Get all categories with parent: ID={} name={}", category.getID(), category.getName());
 
 		List<Subcategory> subcategories = new ArrayList<>();

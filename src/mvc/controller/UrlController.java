@@ -40,13 +40,13 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 		for(Category cat : categories) {
 			log.debug("Get all subcategories from {} category", cat.toString());
 			
-			List<Subcategory> subcategories = catDao.getWithMainCategory(cat);
+			List<Subcategory> subcategories = catDao.getWithCategory(cat);
 			log.debug("Found {} subcategories", subcategories.size());
 			
 			for(Subcategory subcat : subcategories) {
 				log.debug("Get all urls from {} subcategory", subcat.toString());
 				
-				urls.addAll(urlDao.getAllWithCategory(subcat));
+				urls.addAll(urlDao.getAllWithSubcategory(subcat));
 			}
 		}
 		
@@ -63,7 +63,7 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 		for(Subcategory subcat : subcategories) {
 			log.debug("Get all urls from {} subcategory", subcat.toString());
 			
-			urls.addAll(urlDao.getAllWithCategory(subcat));
+			urls.addAll(urlDao.getAllWithSubcategory(subcat));
 		}
 		
 		log.debug("Found {} urls", urls.size());
