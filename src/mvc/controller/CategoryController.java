@@ -1,7 +1,7 @@
 package mvc.controller;
 
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +35,7 @@ public final class CategoryController implements CategoryUpdateSubject {
 	private Map<MainCategory, List<Category>> getCategories() {
 		log.debug("Load categories to map");
 		
-		Map<MainCategory, List<Category>> categories = new HashMap<>();
+		Map<MainCategory, List<Category>> categories = new LinkedHashMap<>();
 		List<MainCategory> mainCategories = mainDao.getAll();
 		
 		for(MainCategory category : mainCategories) {
@@ -65,6 +65,8 @@ public final class CategoryController implements CategoryUpdateSubject {
 	@Override
 	public void updateCategories() {
 		log.debug("Call {} category updated listeners", catUpdateListeners.size());
-		for(CategoryUpdateListener listener : catUpdateListeners) listener.onCategoryUpdate(getCategories());
+		
+		Map<MainCategory, List<Category>> categories = getCategories();
+		for(CategoryUpdateListener listener : catUpdateListeners) listener.onCategoryUpdate(categories);
 	}
 }
