@@ -16,8 +16,9 @@ import org.slf4j.LoggerFactory;
 
 import mvc.controller.observer.url.UrlChangedListener;
 import mvc.model.Url;
+import mvc.observer.url.UrlUpdateListener;
 
-public final class UrlView extends JPanel implements UrlChangedListener {
+public final class UrlView extends JPanel implements UrlChangedListener, UrlUpdateListener {
 	private static final long serialVersionUID = -4908801645938833417L;
 	private static final Logger log = LoggerFactory.getLogger(UrlView.class);
 	private static final String[] columnNames = {"ID", "Title", "Url", "Description"};
@@ -96,5 +97,13 @@ public final class UrlView extends JPanel implements UrlChangedListener {
 				tableModel.addRow(new Object[] {url.getID(), url.getTitle(), url.getUrl(), url.getDescription()});
 			}
 		}
+	}
+
+	@Override
+	public void onUrlUpdate(List<Url> urls) {
+		log.debug("Update url list, received {} values", urls.size());
+		for(Url url : urls) log.debug("{} {} {} {}", url.getID(), url.getTitle(), url.getUrl(), url.getDescription());
+		
+		refreshTable(urls);
 	}
 }
