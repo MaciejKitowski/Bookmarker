@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.model.SubcategoryDAO;
-import mvc.dao.model.ICategoryDAO;
+import mvc.dao.model.ISubcategoryDAO;
 import mvc.dao.model.IMainCategoryDAO;
 import mvc.dao.model.IUrlDAO;
 import mvc.dao.model.MainCategoryDAO;
@@ -26,7 +26,7 @@ public final class SqliteFactory extends DAOFactory {
 	}
     
     @Override
-	public ICategoryDAO getCategory() {
+	public ISubcategoryDAO getCategory() {
     	log.trace("Get SubcategoryDAO");
 		return new SubcategoryDAO(SQLITE);
 	}

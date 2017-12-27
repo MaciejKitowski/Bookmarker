@@ -16,7 +16,7 @@ import mvc.dao.DAOFactory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 
-public final class SubcategoryDAO implements ICategoryDAO {
+public final class SubcategoryDAO implements ISubcategoryDAO {
 	private static final Logger log = LoggerFactory.getLogger(SubcategoryDAO.class);
 	private static final String queryPath = "resources/sql/Category.json";
 	

@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.model.ICategoryDAO;
+import mvc.dao.model.ISubcategoryDAO;
 import mvc.dao.model.IMainCategoryDAO;
 import mvc.model.Category;
 import mvc.model.MainCategory;
@@ -22,7 +22,7 @@ public final class CategoryController implements CategoryUpdateSubject {
 	
 	private List<CategoryUpdateListener> catUpdateListeners = new LinkedList<>();
 	private IMainCategoryDAO mainDao = null;
-	private ICategoryDAO catDao = null;
+	private ISubcategoryDAO catDao = null;
 	
 	public CategoryController() {
 		log.info("Initialize category controller");

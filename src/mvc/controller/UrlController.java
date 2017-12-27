@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.model.ICategoryDAO;
+import mvc.dao.model.ISubcategoryDAO;
 import mvc.dao.model.IUrlDAO;
 import mvc.model.Category;
 import mvc.model.MainCategory;
@@ -21,7 +21,7 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	
 	private List<UrlUpdateListener> urlUpdateListeners = new LinkedList<>();
 	private IUrlDAO urlDao = null;
-	private ICategoryDAO catDao = null;
+	private ISubcategoryDAO catDao = null;
 	
 	public UrlController() {
 		log.info("Initialize url controller");
