@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.model.CategoryDAO;
-import mvc.model.MainCategory;
+import mvc.model.Category;
 
 @RunWith(Parameterized.class)
 public class CategoryDAOTest {
@@ -52,7 +52,7 @@ public class CategoryDAOTest {
 		String[] fieldNames = {"CREATE_TABLE", "INSERT", "GET", "GET_ALL", "UPDATE", "DELETE"};
 		
 		try {
-			JSONObject json = Utilities.getJsonQuery("resources/sql/MainCategory.json", databaseType);
+			JSONObject json = Utilities.getJsonQuery("resources/sql/Category.json", databaseType);
 			Class<?> cls = dao.getClass();
 			
 			for(String name : fieldNames) {
@@ -83,7 +83,7 @@ public class CategoryDAOTest {
 			dao.createTable();
 			List<String> tableList = Utilities.getTableNames(databaseType);
 			
-			assertTrue(tableList.contains("MainCategory") || tableList.contains("maincategory"));
+			assertTrue(tableList.contains("Category") || tableList.contains("maincategory"));
 		}
 		catch(Exception ex) {
 			log.error("Failed test - create table", ex);
@@ -95,7 +95,7 @@ public class CategoryDAOTest {
 	public void insertTest() {
 		log.debug("Insert test");
 		
-		MainCategory category = new MainCategory("SingleInsertTest");
+		Category category = new Category("SingleInsertTest");
 		
 		int result = dao.insert(category);
 		
@@ -110,7 +110,7 @@ public class CategoryDAOTest {
 		int insertCount = 20;
 		
 		for(int i = 0; i < insertCount; ++i) {
-			MainCategory category = new MainCategory(String.format(pattern, i + 1));
+			Category category = new Category(String.format(pattern, i + 1));
 			
 			int result = dao.insert(category);
 			
@@ -124,7 +124,7 @@ public class CategoryDAOTest {
 		
 		int ID = 1;
 		
-		MainCategory result = dao.get(ID);
+		Category result = dao.get(ID);
 		
 		assertTrue(result != null && result.getID() == ID);
 	}
@@ -134,9 +134,9 @@ public class CategoryDAOTest {
 		log.debug("Get all test");
 		
 		try {
-			List<MainCategory> result = dao.getAll();
+			List<Category> result = dao.getAll();
 			
-			assertTrue(result != null && result.size() == Utilities.count("MainCategory", databaseType));
+			assertTrue(result != null && result.size() == Utilities.count("Category", databaseType));
 		}
 		catch(Exception ex) {
 			log.error("Failed test - Get all", ex);
@@ -149,7 +149,7 @@ public class CategoryDAOTest {
 		log.debug("Update test");
 		
 		int ID = 1;
-		MainCategory toUpdate = dao.get(ID);
+		Category toUpdate = dao.get(ID);
 
 		toUpdate.setName(toUpdate.getName() + "-UPDATE");
 		boolean result = dao.update(toUpdate);

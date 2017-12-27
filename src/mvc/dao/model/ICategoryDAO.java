@@ -2,17 +2,17 @@ package mvc.dao.model;
 
 import java.util.List;
 
-import mvc.model.MainCategory;
+import mvc.model.Category;
 
 public interface ICategoryDAO {
 	public int INSERT_FAIL = -1;
 	
 	public void createTable();
-	public int insert(MainCategory category);
+	public int insert(Category category);
 	
-	public MainCategory get(int ID);
-	public List<MainCategory> getAll();
+	public Category get(int ID);
+	public List<Category> getAll();
 	
-	public boolean update(MainCategory category);
+	public boolean update(Category category);
 	public boolean delete(int ID);
 }

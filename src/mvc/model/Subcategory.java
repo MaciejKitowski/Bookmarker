@@ -8,9 +8,9 @@ public final class Subcategory {
 	
 	private int ID = 0;
 	private String name = null;
-	private MainCategory parent = null;
+	private Category parent = null;
 	
-	public Subcategory(int ID, String name, MainCategory parent) {
+	public Subcategory(int ID, String name, Category parent) {
 		log.debug("New subcategory: ID={} name={} parent: ID={} name={}", ID, name, parent.getID(), parent.getName());
 		
 		this.ID = ID;
@@ -25,7 +25,7 @@ public final class Subcategory {
 		this.name = name;
 	}
 	
-	public Subcategory(String name, MainCategory parent) {
+	public Subcategory(String name, Category parent) {
 		log.debug("New subcategory: ID={} name={} parent: ID={} name={}", null, name, parent.getID(), parent.getName());
 
 		this.name = name;
@@ -43,7 +43,7 @@ public final class Subcategory {
 
 		ID = 0;
 		name = "EMPTY";
-		parent = new MainCategory();
+		parent = new Category();
 	}
 	
 	public void setID(int ID) {
@@ -56,7 +56,7 @@ public final class Subcategory {
 		this.name = name;
 	}
 	
-	public void setParent(MainCategory parent) {
+	public void setParent(Category parent) {
 		log.debug("Set parent: ID={} name={}", parent.getID(), parent.getName());
 		this.parent = parent;
 	}
@@ -71,7 +71,7 @@ public final class Subcategory {
 		return name;
 	}
 	
-	public MainCategory getParent() {
+	public Category getParent() {
 		if(parent != null) log.trace("Get parent: ID={} name={}", parent.getID(), parent.getName());
 		return parent;
 	}

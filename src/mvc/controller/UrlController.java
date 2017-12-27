@@ -10,7 +10,7 @@ import mvc.dao.DAOFactory;
 import mvc.dao.model.ISubcategoryDAO;
 import mvc.dao.model.IUrlDAO;
 import mvc.model.Subcategory;
-import mvc.model.MainCategory;
+import mvc.model.Category;
 import mvc.model.Url;
 import mvc.observer.category.CategorySelectListener;
 import mvc.observer.url.UrlUpdateListener;
@@ -32,12 +32,12 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	}
 
 	@Override
-	public void onSelectMainCategory(List<MainCategory> categories) {
+	public void onSelectMainCategory(List<Category> categories) {
 		log.debug("Main categories selected");
 		
 		List<Url> urls = new LinkedList<>();
 		
-		for(MainCategory cat : categories) {
+		for(Category cat : categories) {
 			log.debug("Get all subcategories from {} category", cat.toString());
 			
 			List<Subcategory> subcategories = catDao.getWithMainCategory(cat);
