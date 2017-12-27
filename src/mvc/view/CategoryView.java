@@ -25,9 +25,9 @@ import org.slf4j.LoggerFactory;
 
 import mvc.model.Category;
 import mvc.model.MainCategory;
+import mvc.observer.category.CategorySelectedCaller;
+import mvc.observer.category.CategorySelectedListener;
 import mvc.observer.category.CategoryUpdateListener;
-import mvc.view.observer.category.CategorySelectedCaller;
-import mvc.view.observer.category.CategorySelectedListener;
 
 public final class CategoryView extends JPanel implements CategorySelectedCaller, CategoryUpdateListener {
 	private static final long serialVersionUID = 8970054597563459574L;

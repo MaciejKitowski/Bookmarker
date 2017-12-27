@@ -1,4 +1,4 @@
-package mvc.view.observer.category;
+package mvc.observer.category;
 
 import java.util.List;
 

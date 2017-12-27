@@ -12,9 +12,9 @@ import mvc.dao.model.IUrlDAO;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 import mvc.model.Url;
+import mvc.observer.category.CategorySelectedListener;
 import mvc.observer.url.UrlUpdateListener;
 import mvc.observer.url.UrlUpdateSubject;
-import mvc.view.observer.category.CategorySelectedListener;
 
 public final class UrlController implements CategorySelectedListener, UrlUpdateSubject {
 	private static final Logger log = LoggerFactory.getLogger(UrlController.class);
