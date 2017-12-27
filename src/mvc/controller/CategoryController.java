@@ -16,11 +16,15 @@ import mvc.dao.model.ICategoryDAO;
 import mvc.dao.model.IMainCategoryDAO;
 import mvc.model.Category;
 import mvc.model.MainCategory;
+import mvc.observer.category.CategoryUpdateListener;
+import mvc.observer.category.CategoryUpdateSubject;
 
-public final class CategoryController implements CategoryChangedCaller {
+public final class CategoryController implements CategoryChangedCaller, CategoryUpdateSubject {
 	private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
 	
+	@Deprecated
 	private List<CategoryChangedListener> listeners = new LinkedList<>();
+	private List<CategoryUpdateListener> newListener = new LinkedList<>();
 	private IMainCategoryDAO mainDao = null;
 	private ICategoryDAO catDao = null;
 	
@@ -66,5 +70,23 @@ public final class CategoryController implements CategoryChangedCaller {
 		}
 		
 		return categories;
+	}
+
+	@Override
+	public void addCategoryUpdateListener(CategoryUpdateListener listener) {
+		log.debug("Add new listener");
+		newListener.add(listener);
+	}
+
+	@Override
+	public void removeCategoryUpdateListener(CategoryUpdateListener listener) {
+		log.debug("Remove listener");
+		newListener.remove(listener);
+	}
+
+	@Override
+	public void updateCategories() {
+		log.debug("Call {} category updated listeners", newListener.size());
+		for(CategoryUpdateListener listener : newListener) listener.onCategoryUpdate(getCategories());
 	}
 }
