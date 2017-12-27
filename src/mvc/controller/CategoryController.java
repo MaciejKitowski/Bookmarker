@@ -9,8 +9,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mvc.controller.observer.category.CategoryChangedCaller;
-import mvc.controller.observer.category.CategoryChangedListener;
 import mvc.dao.DAOFactory;
 import mvc.dao.model.ICategoryDAO;
 import mvc.dao.model.IMainCategoryDAO;
@@ -19,12 +17,10 @@ import mvc.model.MainCategory;
 import mvc.observer.category.CategoryUpdateListener;
 import mvc.observer.category.CategoryUpdateSubject;
 
-public final class CategoryController implements CategoryChangedCaller, CategoryUpdateSubject {
+public final class CategoryController implements CategoryUpdateSubject {
 	private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
 	
-	@Deprecated
-	private List<CategoryChangedListener> listeners = new LinkedList<>();
-	private List<CategoryUpdateListener> newListener = new LinkedList<>();
+	private List<CategoryUpdateListener> catUpdateListeners = new LinkedList<>();
 	private IMainCategoryDAO mainDao = null;
 	private ICategoryDAO catDao = null;
 	
@@ -35,25 +31,7 @@ public final class CategoryController implements CategoryChangedCaller, Category
 		mainDao = DAOFactory.get(DAOFactory.SQLITE).getMainCategory();
 		catDao = DAOFactory.get(DAOFactory.SQLITE).getCategory();
 	}
-
-	@Override
-	public void addListener(CategoryChangedListener listener) {
-		log.debug("Add new listener");
-		listeners.add(listener);
-	}
-
-	@Override
-	public void removeListener(CategoryChangedListener listener) {
-		log.debug("Remove listener");
-		listeners.remove(listener);
-	}
-	
-	@Override
-	public void callListeners() {
-		log.debug("Call {} category changed listeners", listeners.size());
-		for(CategoryChangedListener listener : listeners) listener.onCategoryChanged(getCategories());
-	}
-		
+			
 	private Map<MainCategory, List<Category>> getCategories() {
 		log.debug("Load categories to map");
 		
@@ -75,18 +53,18 @@ public final class CategoryController implements CategoryChangedCaller, Category
 	@Override
 	public void addCategoryUpdateListener(CategoryUpdateListener listener) {
 		log.debug("Add new listener");
-		newListener.add(listener);
+		catUpdateListeners.add(listener);
 	}
 
 	@Override
 	public void removeCategoryUpdateListener(CategoryUpdateListener listener) {
 		log.debug("Remove listener");
-		newListener.remove(listener);
+		catUpdateListeners.remove(listener);
 	}
 
 	@Override
 	public void updateCategories() {
-		log.debug("Call {} category updated listeners", newListener.size());
-		for(CategoryUpdateListener listener : newListener) listener.onCategoryUpdate(getCategories());
+		log.debug("Call {} category updated listeners", catUpdateListeners.size());
+		for(CategoryUpdateListener listener : catUpdateListeners) listener.onCategoryUpdate(getCategories());
 	}
 }
