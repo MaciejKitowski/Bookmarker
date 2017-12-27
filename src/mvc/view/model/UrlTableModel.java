@@ -43,6 +43,11 @@ public final class UrlTableModel extends AbstractTableModel {
 	public String getColumnName(int col) {
 	    return columnNames[col];
 	}
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		return getValueAt(0, columnIndex).getClass();
+	}
 
 	@Override
 	public Object getValueAt(int row, int col) {
