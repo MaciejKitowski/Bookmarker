@@ -10,38 +10,38 @@ public final class Url {
 	private String url = null;
 	private String title = null;
 	private String description = null;
-	Category category = null;
+	Subcategory subcategory = null;
 	
-	public Url(int ID, String url, String title, String description, Category category) {
-		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", ID, url, title, description, category.getID(), category.getName());
+	public Url(int ID, String url, String title, String description, Subcategory subcategory) {
+		log.debug("New Url: ID={} url={} title={} description={} subcategory: ID={} name={}", ID, url, title, description, subcategory.getID(), subcategory.getName());
 		
 		this.ID = ID;
 		this.url = url;
 		this.title = title;
 		this.description = description;
-		this.category = category;
+		this.subcategory = subcategory;
 	}
 	
-	public Url(String url, String title, String description, Category category) {
-		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", null, url, title, description, category.getID(), category.getName());
+	public Url(String url, String title, String description, Subcategory subcategory) {
+		log.debug("New Url: ID={} url={} title={} description={} subcategory: ID={} name={}", null, url, title, description, subcategory.getID(), subcategory.getName());
 		
 		this.url = url;
 		this.title = title;
 		this.description = description;
-		this.category = category;
+		this.subcategory = subcategory;
 	}
 	
-	public Url(int ID, String url, String title, Category category) {
-		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", ID, url, title, null, category.getID(), category.getName());
+	public Url(int ID, String url, String title, Subcategory subcategory) {
+		log.debug("New Url: ID={} url={} title={} description={} subcategory: ID={} name={}", ID, url, title, null, subcategory.getID(), subcategory.getName());
 		
 		this.ID = ID;
 		this.url = url;
 		this.title = title;
-		this.category = category;
+		this.subcategory = subcategory;
 	}
 	
 	public Url(int ID, String url, String title) {
-		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", ID, url, title, null, null, null);
+		log.debug("New Url: ID={} url={} title={} description={} subcategory: ID={} name={}", ID, url, title, null, null, null);
 		
 		this.ID = ID;
 		this.url = url;
@@ -49,36 +49,36 @@ public final class Url {
 	}
 	
 	public Url(String url, String title, String description) {
-		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", null, url, title, description, null, null);
+		log.debug("New Url: ID={} url={} title={} description={} subcategory: ID={} name={}", null, url, title, description, null, null);
 		
 		this.url = url;
 		this.title = title;
 		this.description = description;
 	}
 	
-	public Url(String url, String title, Category category) {
-		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", null, url, title, null, category.getID(), category.getName());
+	public Url(String url, String title, Subcategory subcategory) {
+		log.debug("New Url: ID={} url={} title={} description={} subcategory: ID={} name={}", null, url, title, null, subcategory.getID(), subcategory.getName());
 		
 		this.url = url;
 		this.title = title;
-		this.category = category;
+		this.subcategory = subcategory;
 	}
 	
 	public Url(String url, String title) {
-		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", null, url, title, null, null, null);
+		log.debug("New Url: ID={} url={} title={} description={} subcategory: ID={} name={}", null, url, title, null, null, null);
 		
 		this.url = url;
 		this.title = title;
 	}
 	
 	public Url() {
-		log.debug("New Url: ID={} url={} title={} description={} category: ID={} name={}", null, null, null, null, null, null);
+		log.debug("New Url: ID={} url={} title={} description={} subcategory: ID={} name={}", null, null, null, null, null, null);
 		
 		ID = 0;
 		url = "http://localhost";
 		title = "EMPTY";
 		description = "EMPTY";
-		category = new Category();
+		subcategory = new Subcategory();
 	}
 	
 	public void setID(int ID) {
@@ -101,9 +101,9 @@ public final class Url {
 		this.description = description;
 	}
 
-	public void setCategory(Category category) {
-		log.debug("Set category: ID={} name={}", category.getID(), category.getName());
-		this.category = category;
+	public void setCategory(Subcategory subcategory) {
+		log.debug("Set subcategory: ID={} name={}", subcategory.getID(), subcategory.getName());
+		this.subcategory = subcategory;
 	}
 
 	public int getID() {
@@ -126,8 +126,8 @@ public final class Url {
 		return description;
 	}
 	
-	public Category getCategory() {
-		if(category != null) log.trace("Get category: ID={} name={}", category.getID(), category.getName());
-		return category;
+	public Subcategory getCategory() {
+		if(subcategory != null) log.trace("Get subcategory: ID={} name={}", subcategory.getID(), subcategory.getName());
+		return subcategory;
 	}
 }

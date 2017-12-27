@@ -7,9 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.model.ICategoryDAO;
+import mvc.dao.model.ISubcategoryDAO;
 import mvc.dao.model.IUrlDAO;
-import mvc.model.Category;
+import mvc.model.Subcategory;
 import mvc.model.MainCategory;
 import mvc.model.Url;
 import mvc.observer.category.CategorySelectListener;
@@ -21,7 +21,7 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	
 	private List<UrlUpdateListener> urlUpdateListeners = new LinkedList<>();
 	private IUrlDAO urlDao = null;
-	private ICategoryDAO catDao = null;
+	private ISubcategoryDAO catDao = null;
 	
 	public UrlController() {
 		log.info("Initialize url controller");
@@ -40,10 +40,10 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 		for(MainCategory cat : categories) {
 			log.debug("Get all subcategories from {} category", cat.toString());
 			
-			List<Category> subcategories = catDao.getWithMainCategory(cat);
+			List<Subcategory> subcategories = catDao.getWithMainCategory(cat);
 			log.debug("Found {} subcategories", subcategories.size());
 			
-			for(Category subcat : subcategories) {
+			for(Subcategory subcat : subcategories) {
 				log.debug("Get all urls from {} subcategory", subcat.toString());
 				
 				urls.addAll(urlDao.getAllWithCategory(subcat));
@@ -55,12 +55,12 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	}
 
 	@Override
-	public void onSelectCategory(List<Category> categories) {
+	public void onSelectCategory(List<Subcategory> subcategories) {
 		log.debug("Main categories selected");
 		
 		List<Url> urls = new LinkedList<>();
 		
-		for(Category subcat : categories) {
+		for(Subcategory subcat : subcategories) {
 			log.debug("Get all urls from {} subcategory", subcat.toString());
 			
 			urls.addAll(urlDao.getAllWithCategory(subcat));

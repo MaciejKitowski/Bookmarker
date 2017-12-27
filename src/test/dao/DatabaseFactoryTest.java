@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.model.ICategoryDAO;
+import mvc.dao.model.ISubcategoryDAO;
 import mvc.dao.model.IMainCategoryDAO;
 import mvc.dao.model.IUrlDAO;
 
@@ -64,9 +64,9 @@ public class DatabaseFactoryTest {
 	
 	@Test
 	public void getCategoryTest() {
-		log.debug("Get CategoryDAO test");
+		log.debug("Get SubcategoryDAO test");
 		
-		ICategoryDAO dao = DAOFactory.get(databaseType).getCategory();
+		ISubcategoryDAO dao = DAOFactory.get(databaseType).getCategory();
 		
 		assertNotNull(dao);
 	}

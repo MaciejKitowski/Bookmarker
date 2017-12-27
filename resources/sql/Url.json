@@ -7,7 +7,7 @@
         "title  VARCHAR(255)  NOT NULL,",
         "url  VARCHAR(255)  NOT NULL,",
         "description  VARCHAR(255),",
-        "FOREIGN KEY(cat_ID) REFERENCES Category(ID)",
+        "FOREIGN KEY(cat_ID) REFERENCES Subcategory(ID)",
           "ON UPDATE CASCADE",
           "ON DELETE SET NULL",
       ")"
@@ -28,7 +28,7 @@
         "url  VARCHAR(255)  NOT NULL,",
         "description  VARCHAR(255),",
         "PRIMARY KEY(ID),",
-        "FOREIGN KEY(cat_ID) REFERENCES Category(ID)",
+        "FOREIGN KEY(cat_ID) REFERENCES Subcategory(ID)",
           "ON UPDATE CASCADE",
           "ON DELETE SET NULL",
       ")"
@@ -48,7 +48,7 @@
         "title  VARCHAR(255)  NOT NULL,",
         "url  VARCHAR(255)  NOT NULL,",
         "description  VARCHAR(255),",
-        "CONSTRAINT cat_fk FOREIGN KEY(cat_ID) REFERENCES Category(ID)",
+        "CONSTRAINT cat_fk FOREIGN KEY(cat_ID) REFERENCES Subcategory(ID)",
           "ON UPDATE CASCADE",
           "ON DELETE SET NULL",
       ")"
