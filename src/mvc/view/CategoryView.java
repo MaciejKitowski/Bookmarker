@@ -23,18 +23,19 @@ import javax.swing.tree.TreePath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mvc.controller.observer.category.CategoryChangedListener;
+import mvc.model.Subcategory;
 import mvc.model.Category;
-import mvc.model.MainCategory;
-import mvc.view.observer.category.CategorySelectedCaller;
-import mvc.view.observer.category.CategorySelectedListener;
+import mvc.observer.category.CategorySelectSubject;
+import mvc.observer.category.CategorySelectListener;
+import mvc.observer.category.CategoryUpdateListener;
 
-public final class CategoryView extends JPanel implements CategoryChangedListener, CategorySelectedCaller {
+public final class CategoryView extends JPanel implements CategorySelectSubject, CategoryUpdateListener {
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
 	private static final boolean rootVisible = false;
 	private static final int toggleClickCount = 1;
 	
+	private List<CategorySelectListener> listeners = new LinkedList<>();
 	private DefaultMutableTreeNode treeRoot = null;
 	private JTree treeList = null;
 	private JScrollPane treeScrollbar = null;
@@ -53,13 +54,7 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 		setTreeListStyle();
 		add(treeScrollbar);
 	}
-	
-	@Override
-	public void onCategoryChanged(Map<MainCategory, List<Category>> categories) {
-		log.debug("Categories changed");
-		setTreeList(categories);
-	}
-	
+		
 	private void initializeListTree() {
 		log.debug("Initialize category list tree");
 		
@@ -81,28 +76,28 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 				log.debug("Selected category");
 				
 				TreePath[] paths = treeList.getSelectionPaths();
-				List<MainCategory> mainCategories = new LinkedList<>();
 				List<Category> categories = new LinkedList<>();
+				List<Subcategory> subcategories = new LinkedList<>();
 				
 				for(TreePath path : paths) {
 					DefaultMutableTreeNode node = (DefaultMutableTreeNode)path.getLastPathComponent();
 					Object obj = node.getUserObject();
 					
-					if(obj instanceof MainCategory) {
-						log.debug("Selected main category: {}", path.getLastPathComponent().toString());
-						mainCategories.add((MainCategory) obj);
-					}
-					else if(obj instanceof Category) {
-						log.debug("Selected subcategory: {}", path.getLastPathComponent().toString());
+					if(obj instanceof Category) {
+						log.debug("Selected category: {}", path.getLastPathComponent().toString());
 						categories.add((Category) obj);
+					}
+					else if(obj instanceof Subcategory) {
+						log.debug("Selected subcategory: {}", path.getLastPathComponent().toString());
+						subcategories.add((Subcategory) obj);
 					}
 					else {
 						log.warn("Unwanted object class type: {}", obj.getClass().getName());
 					}
 				}
 				
-				if(categories.size() > 0) callListenersCategory(categories);
-				else callListenersMainCategory(mainCategories);
+				if(subcategories.size() > 0) selectSubcategory(subcategories);
+				else selectCategory(categories);
 			}
 		});
 	}
@@ -131,15 +126,15 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 		treeList.setBackground(Color.LIGHT_GRAY);
 	}
 	
-	private void setTreeList(Map<MainCategory, List<Category>> categories) {
+	private void setTreeList(Map<Category, List<Subcategory>> categories) {
 		log.debug("Add {} nodes to tree list", categories.size());
 		
-		for(Map.Entry<MainCategory, List<Category>> entry : categories.entrySet()) {
-			log.debug("Add main category (ID={} name={}) as node", entry.getKey().getID(), entry.getKey().getName());
+		for(Map.Entry<Category, List<Subcategory>> entry : categories.entrySet()) {
+			log.debug("Add category (ID={} name={}) as node", entry.getKey().getID(), entry.getKey().getName());
 			
 			DefaultMutableTreeNode main = new DefaultMutableTreeNode(entry.getKey());
 			
-			for(Category cat : entry.getValue()) {
+			for(Subcategory cat : entry.getValue()) {
 				log.debug("Add subcategory (ID={} name={}) to category (ID={} name={})", cat.getID(), cat.getName(), entry.getKey().getID(), entry.getKey().getName());
 				
 				DefaultMutableTreeNode child = new DefaultMutableTreeNode(cat);
@@ -152,34 +147,38 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 		refreshTreeList();
 	}
 		
-	private void refreshTreeList() { //Tree have to be refreshed after add new node
+	private void refreshTreeList() {
 		DefaultTreeModel model = (DefaultTreeModel)treeList.getModel();
 		model.reload();
 	}
 	
-	private List<CategorySelectedListener> listeners = new LinkedList<>();
-
 	@Override
-	public void addListener(CategorySelectedListener listener) {
+	public void addCategorySelectListener(CategorySelectListener listener) {
 		log.debug("Add new listener");
 		listeners.add(listener);
 	}
 
 	@Override
-	public void removeListener(CategorySelectedListener listener) {
+	public void removeCategorySelectListener(CategorySelectListener listener) {
 		log.debug("Remove listener");
 		listeners.remove(listener);
 	}
 
 	@Override
-	public void callListenersMainCategory(List<MainCategory> categories) {
-		log.debug("Call listeners with {} main categories", categories.size());
-		for(CategorySelectedListener listener : listeners) listener.onMainCategorySelect(categories);
+	public void selectCategory(List<Category> categories) {
+		log.debug("Call listeners with {} categories", categories.size());
+		for(CategorySelectListener listener : listeners) listener.onSelectCategory(categories);
 	}
 
 	@Override
-	public void callListenersCategory(List<Category> categories) {
-		log.debug("Call listeners with {} categories", categories.size());
-		for(CategorySelectedListener listener : listeners) listener.onCategorySelect(categories);
+	public void selectSubcategory(List<Subcategory> subcategories) {
+		log.debug("Call listeners with {} subcategories", subcategories.size());
+		for(CategorySelectListener listener : listeners) listener.onSelectSubcategory(subcategories);
+	}
+
+	@Override
+	public void onCategoryUpdate(Map<Category, List<Subcategory>> categories) {
+		log.debug("Categories updated");
+		setTreeList(categories);
 	}
 }

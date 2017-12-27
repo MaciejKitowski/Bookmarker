@@ -2,57 +2,41 @@
   "SQLITE": {
     "CREATE_TABLE": [
       "CREATE TABLE Category(",
-        "ID   INTEGER   PRIMARY KEY   AUTOINCREMENT,",
-        "parent_ID  INTEGER,",
-        "name   VARCHAR(255)  NOT NULL,",
-        "FOREIGN KEY(parent_ID) REFERENCES MainCategory(ID)",
-          "ON UPDATE CASCADE",
-          "ON DELETE SET NULL",
+        "ID   INTEGER   PRIMARY KEY AUTOINCREMENT,",
+        "name   VARCHAR(255)  NOT NULL",
       ")"
     ],
-    "INSERT": "INSERT INTO Category(name, parent_ID) VALUES(?, ?)",
-    "GET": "SELECT ID, name, parent_ID FROM Category WHERE ID = ?",
-    "GET_ALL": "SELECT ID, name, parent_ID FROM Category",
-    "GET_MAINCAT": "SELECT ID, name, parent_ID FROM Category WHERE parent_ID = ?",
-    "UPDATE": "UPDATE Category SET name=?, parent_ID=? WHERE id = ?",
+    "INSERT": "INSERT INTO Category(name) VALUES(?)",
+    "GET": "SELECT ID, name FROM Category WHERE id = ?",
+    "GET_ALL": "SELECT ID, name FROM Category",
+    "UPDATE": "UPDATE Category SET name=? WHERE id = ?",
     "DELETE": "DELETE FROM Category WHERE id = ?"
   },
   "MYSQL": {
     "CREATE_TABLE": [
       "CREATE TABLE Category(",
         "ID   int   NOT NULL  AUTO_INCREMENT,",
-        "parent_ID  int,",
         "name   VARCHAR(255)  NOT NULL,",
-        "PRIMARY KEY(ID),",
-        "FOREIGN KEY(parent_ID) REFERENCES MainCategory(ID)",
-          "ON UPDATE CASCADE",
-          "ON DELETE SET NULL",
+        "PRIMARY KEY(ID)",
       ")"
     ],
-    "INSERT": "INSERT INTO Category(name, parent_ID) VALUES(?, ?)",
-    "GET": "SELECT ID, name, parent_ID FROM Category WHERE ID = ?",
-    "GET_ALL": "SELECT ID, name, parent_ID FROM Category",
-    "GET_MAINCAT": "SELECT ID, name, parent_ID FROM Category WHERE parent_ID = ?",
-    "UPDATE": "UPDATE Category SET name=?, parent_ID=? WHERE id = ?",
+    "INSERT": "INSERT INTO Category(name) VALUES(?)",
+    "GET": "SELECT ID, name FROM Category WHERE id = ?",
+    "GET_ALL": "SELECT ID, name FROM Category",
+    "UPDATE": "UPDATE Category SET name=? WHERE id = ?",
     "DELETE": "DELETE FROM Category WHERE id = ?"
   },
   "POSTGRES": {
     "CREATE_TABLE": [
       "CREATE TABLE Category(",
-        "ID   SERIAL  NOT NULL,",
-        "parent_ID  int,",
-        "name   VARCHAR(255)  NOT NULL,",
-        "CONSTRAINT cat_pk PRIMARY KEY(ID),",
-        "CONSTRAINT mCat_fk FOREIGN KEY(parent_ID) REFERENCES MainCategory(ID)",
-          "ON UPDATE CASCADE",
-          "ON DELETE SET NULL",
+        "ID   SERIAL  PRIMARY KEY,",
+        "name   VARCHAR(255)  NOT NULL",
       ")"
     ],
-    "INSERT": "INSERT INTO Category(name, parent_ID) VALUES(?, ?)",
-    "GET": "SELECT ID, name, parent_ID FROM Category WHERE ID = ?",
-    "GET_ALL": "SELECT ID, name, parent_ID FROM Category",
-    "GET_MAINCAT": "SELECT ID, name, parent_ID FROM Category WHERE parent_ID = ?",
-    "UPDATE": "UPDATE Category SET name=?, parent_ID=? WHERE id = ?",
+    "INSERT": "INSERT INTO Category(name) VALUES(?)",
+    "GET": "SELECT ID, name FROM Category WHERE id = ?",
+    "GET_ALL": "SELECT ID, name FROM Category",
+    "UPDATE": "UPDATE Category SET name=? WHERE id = ?",
     "DELETE": "DELETE FROM Category WHERE id = ?"
   }
 }

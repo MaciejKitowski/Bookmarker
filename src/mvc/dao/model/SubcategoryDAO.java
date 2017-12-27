@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,23 +13,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
-import mvc.model.MainCategory;
+import mvc.model.Subcategory;
+import mvc.model.Category;
 
-public final class MainCategoryDAO implements IMainCategoryDAO {
-	private static final Logger log = LoggerFactory.getLogger(MainCategoryDAO.class);
-	private static final String queryPath = "resources/sql/MainCategory.json";
-		
+public final class SubcategoryDAO implements ISubcategoryDAO {
+	private static final Logger log = LoggerFactory.getLogger(SubcategoryDAO.class);
+	private static final String queryPath = "resources/sql/Subcategory.json";
+	
 	private DAOFactory database = null;
 	private String CREATE_TABLE = null;
 	private String INSERT = null;
 	private String GET = null;
 	private String GET_ALL = null;
+	private String GET_MAINCAT = null;
 	private String UPDATE = null;
 	private String DELETE = null;
 	
-	public MainCategoryDAO(int databaseType) {
+	public SubcategoryDAO(int databaseType) {
 		database = DAOFactory.get(databaseType);
-		log.debug("Create MainCategoryDAO with database: {}", database.getName());
+		log.debug("Create SubcategoryDAO with database: {}", database.getName());
 		
 		try {
 			JSONObject obj = JsonLoader.getJson(queryPath, database.getName());
@@ -37,6 +40,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			INSERT = obj.getString("INSERT");
 			GET = obj.getString("GET");
 			GET_ALL = obj.getString("GET_ALL");
+			GET_MAINCAT = obj.getString("GET_MAINCAT");
 			UPDATE = obj.getString("UPDATE");
 			DELETE = obj.getString("DELETE");
 			
@@ -44,6 +48,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			log.debug("INSERT: {}", INSERT);
 			log.debug("GET: {}", GET);
 			log.debug("GET_ALL: {}", GET_ALL);
+			log.debug("GET_MAINCAT: {}", GET_MAINCAT);
 			log.debug("UPDATE: {}", UPDATE);
 			log.debug("DELETE: {}", DELETE);
 		}
@@ -80,9 +85,9 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	}
 	
 	@Override
-	public int insert(MainCategory category) {
-		log.debug("Insert category: ID={} name={}", category.getID(), category.getName());
-		
+	public int insert(Subcategory subcategory) {
+		log.debug("Insert subcategory: ID={} name={}", subcategory.getID(), subcategory.getName());
+
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -92,7 +97,9 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			connection = database.getConnection();
 			statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			
-			statement.setString(1, category.getName());
+			statement.setString(1, subcategory.getName());
+			if(subcategory.getParent() != null) statement.setInt(2, subcategory.getParent().getID());
+			else statement.setNull(2, Types.INTEGER);
 			statement.execute();
 			
 			result = statement.getGeneratedKeys();
@@ -113,15 +120,15 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 				log.error("Close connection failed", ex);
 			}
 		}
-
+		
 		return resultBuffer;
 	}
 	
 	@Override
-	public MainCategory get(int ID) {
-		log.debug("Get category: ID={}", ID);
+	public Subcategory get(int ID) {
+		log.debug("Get subcategory: ID={}", ID);
 		
-		MainCategory category = null;
+		Subcategory subcategory = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -134,11 +141,17 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			statement.execute();
 			
 			result = statement.getResultSet();
+			
 			if(result != null && result.next()) {
 				int foundID = result.getInt(1);
 				String foundName = result.getString(2);
+				int foundParentID = result.getInt(3);
+				subcategory = new Subcategory(foundID, foundName);
 				
-				category = new MainCategory(foundID, foundName);
+				if(foundParentID != 0) {
+					ICategoryDAO mainCategory = database.getMainCategory();
+					subcategory.setParent(mainCategory.get(foundParentID));
+				}
 			}
 		}
 		catch(Exception ex) {
@@ -154,15 +167,57 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 				log.error("Close connection failed", ex);
 			}
 		}
-
-		return category;
+		
+		return subcategory;
 	}
 	
 	@Override
-	public List<MainCategory> getAll() {
+	public List<Subcategory> getWithCategory(Category category) {
+		log.debug("Get all categories with parent: ID={} name={}", category.getID(), category.getName());
+
+		List<Subcategory> subcategories = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		
+		try {
+			connection = database.getConnection();
+			statement = connection.prepareStatement(GET_MAINCAT);
+			
+			statement.setInt(1, category.getID());
+			
+			result = statement.executeQuery();
+			if(result != null) {
+				while(result.next()) {
+					int foundID = result.getInt(1);
+					String foundName = result.getString(2);
+					
+					subcategories.add(new Subcategory(foundID, foundName, category));
+				}
+			}
+		}
+		catch(Exception ex) {
+			log.error("Get all with parent category failed", ex);
+		}
+		finally {
+			try {
+				if(result != null && !result.isClosed()) result.close();
+				if(statement != null && !statement.isClosed()) statement.close();
+				if(connection != null && !connection.isClosed()) connection.close();
+			}
+			catch(Exception ex) {
+				log.error("Close connection failed", ex);
+			}
+		}
+		
+		return subcategories;
+	}
+	
+	@Override
+	public List<Subcategory> getAll() {
 		log.debug("Get all categories");
 		
-		List<MainCategory> categories = new ArrayList<>();
+		List<Subcategory> subcategories = new ArrayList<>();
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet result = null;
@@ -176,8 +231,15 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 				while(result.next()) {
 					int foundID = result.getInt(1);
 					String foundName = result.getString(2);
+					int foundParentID = result.getInt(3);
+					Subcategory subcategory = new Subcategory(foundID, foundName);
 					
-					categories.add(new MainCategory(foundID, foundName));
+					if(foundParentID != 0) {
+						ICategoryDAO mainCategory = database.getMainCategory();
+						subcategory.setParent(mainCategory.get(foundParentID));
+					}
+					
+					subcategories.add(subcategory);
 				}
 			}
 		}
@@ -195,13 +257,13 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			}
 		}
 		
-		return categories;
+		return subcategories;
 	}
 	
 	@Override
-	public boolean update(MainCategory category) {
-		log.debug("Update category: ID={} name={}", category.getID(), category.getName());
-		
+	public boolean update(Subcategory subcategory) {
+		log.debug("Update subcategory: ID={} name={}", subcategory.getID(), subcategory.getName());
+
 		Connection connection = null;
 		PreparedStatement statement = null;
 		boolean result = false;
@@ -210,10 +272,11 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			connection = database.getConnection();
 			statement = connection.prepareStatement(UPDATE);
 			
-			statement.setString(1, category.getName());
-			statement.setInt(2, category.getID());
+			statement.setString(1, subcategory.getName());
+			statement.setInt(2, subcategory.getParent().getID());
+			statement.setInt(3, subcategory.getID());
 			statement.execute();
-			
+						
 			result = true;
 		}
 		catch(Exception ex) {
@@ -235,7 +298,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	
 	@Override
 	public boolean delete(int ID) {
-		log.debug("Delete category: ID={}", ID);
+		log.debug("Delete subcategory: ID={}", ID);
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -247,7 +310,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 			
 			statement.setInt(1, ID);
 			statement.execute();
-			
+						
 			result = true;
 		}
 		catch(Exception ex) {

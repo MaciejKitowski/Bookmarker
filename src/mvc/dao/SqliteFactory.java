@@ -6,11 +6,11 @@ import java.sql.DriverManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mvc.dao.model.CategoryDAO;
+import mvc.dao.model.SubcategoryDAO;
+import mvc.dao.model.ISubcategoryDAO;
 import mvc.dao.model.ICategoryDAO;
-import mvc.dao.model.IMainCategoryDAO;
 import mvc.dao.model.IUrlDAO;
-import mvc.dao.model.MainCategoryDAO;
+import mvc.dao.model.CategoryDAO;
 import mvc.dao.model.UrlDAO;
 
 public final class SqliteFactory extends DAOFactory {
@@ -20,15 +20,15 @@ public final class SqliteFactory extends DAOFactory {
     private static final String URL = "jdbc:sqlite:sqlite.db";
         
     @Override
-	public IMainCategoryDAO getMainCategory() {
-    	log.trace("Get MainCategoryDAO");
-		return new MainCategoryDAO(SQLITE);
+	public ICategoryDAO getMainCategory() {
+    	log.trace("Get CategoryDAO");
+		return new CategoryDAO(SQLITE);
 	}
     
     @Override
-	public ICategoryDAO getCategory() {
-    	log.trace("Get CategoryDAO");
-		return new CategoryDAO(SQLITE);
+	public ISubcategoryDAO getCategory() {
+    	log.trace("Get SubcategoryDAO");
+		return new SubcategoryDAO(SQLITE);
 	}
     
     @Override

@@ -6,21 +6,22 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mvc.controller.observer.url.UrlChangedCaller;
-import mvc.controller.observer.url.UrlChangedListener;
 import mvc.dao.DAOFactory;
-import mvc.dao.model.ICategoryDAO;
+import mvc.dao.model.ISubcategoryDAO;
 import mvc.dao.model.IUrlDAO;
+import mvc.model.Subcategory;
 import mvc.model.Category;
-import mvc.model.MainCategory;
 import mvc.model.Url;
-import mvc.view.observer.category.CategorySelectedListener;
+import mvc.observer.category.CategorySelectListener;
+import mvc.observer.url.UrlUpdateListener;
+import mvc.observer.url.UrlUpdateSubject;
 
-public final class UrlController implements CategorySelectedListener, UrlChangedCaller {
+public final class UrlController implements CategorySelectListener, UrlUpdateSubject {
 	private static final Logger log = LoggerFactory.getLogger(UrlController.class);
 	
+	private List<UrlUpdateListener> urlUpdateListeners = new LinkedList<>();
 	private IUrlDAO urlDao = null;
-	private ICategoryDAO catDao = null;
+	private ISubcategoryDAO catDao = null;
 	
 	public UrlController() {
 		log.info("Initialize url controller");
@@ -31,60 +32,59 @@ public final class UrlController implements CategorySelectedListener, UrlChanged
 	}
 
 	@Override
-	public void onMainCategorySelect(List<MainCategory> categories) {
+	public void onSelectCategory(List<Category> categories) {
 		log.debug("Main categories selected");
 		
 		List<Url> urls = new LinkedList<>();
 		
-		for(MainCategory cat : categories) {
+		for(Category cat : categories) {
 			log.debug("Get all subcategories from {} category", cat.toString());
-			List<Category> subcategories = catDao.getWithMainCategory(cat);
+			
+			List<Subcategory> subcategories = catDao.getWithCategory(cat);
 			log.debug("Found {} subcategories", subcategories.size());
 			
-			for(Category subcat : subcategories) {
+			for(Subcategory subcat : subcategories) {
 				log.debug("Get all urls from {} subcategory", subcat.toString());
 				
-				urls.addAll(urlDao.getAllWithCategory(subcat));
+				urls.addAll(urlDao.getAllWithSubcategory(subcat));
 			}
 		}
 		
 		log.debug("Found {} urls", urls.size());
-		callListeners(urls);
+		updateUrls(urls);
 	}
 
 	@Override
-	public void onCategorySelect(List<Category> categories) {
+	public void onSelectSubcategory(List<Subcategory> subcategories) {
 		log.debug("Main categories selected");
 		
 		List<Url> urls = new LinkedList<>();
 		
-		for(Category subcat : categories) {
+		for(Subcategory subcat : subcategories) {
 			log.debug("Get all urls from {} subcategory", subcat.toString());
 			
-			urls.addAll(urlDao.getAllWithCategory(subcat));
+			urls.addAll(urlDao.getAllWithSubcategory(subcat));
 		}
 		
 		log.debug("Found {} urls", urls.size());
-		callListeners(urls);
+		updateUrls(urls);
 	}
 	
-	private List<UrlChangedListener> listeners = new LinkedList<>();
-
 	@Override
-	public void addListener(UrlChangedListener listener) {
+	public void addUrlUpdateListener(UrlUpdateListener listener) {
 		log.debug("Add new listener");
-		listeners.add(listener);
+		urlUpdateListeners.add(listener);
 	}
 
 	@Override
-	public void removeListener(UrlChangedListener listener) {
+	public void removeUrlUpdateListener(UrlUpdateListener listener) {
 		log.debug("Remove listener");
-		listeners.remove(listener);
+		urlUpdateListeners.remove(listener);
 	}
 
 	@Override
-	public void callListeners(List<Url> urls) {
-		log.debug("Call {} url changed listeners", listeners.size());
-		for(UrlChangedListener listener : listeners) listener.onUrlChanged(urls);
+	public void updateUrls(List<Url> urls) {
+		log.debug("Call {} url update listeners", urlUpdateListeners.size());
+		for(UrlUpdateListener listener : urlUpdateListeners) listener.onUrlUpdate(urls);
 	}
 }

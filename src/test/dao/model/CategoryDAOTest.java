@@ -1,10 +1,6 @@
 package test.dao.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -21,9 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.model.CategoryDAO;
-import mvc.dao.model.MainCategoryDAO;
 import mvc.model.Category;
-import mvc.model.MainCategory;
 
 @RunWith(Parameterized.class)
 public class CategoryDAOTest {
@@ -55,7 +49,7 @@ public class CategoryDAOTest {
 	@Test
 	public void loadQueriesTest() {
 		log.debug("Load queries from JSON test");
-		String[] fieldNames = {"CREATE_TABLE", "INSERT", "GET", "GET_MAINCAT", "GET_ALL", "UPDATE", "DELETE"};
+		String[] fieldNames = {"CREATE_TABLE", "INSERT", "GET", "GET_ALL", "UPDATE", "DELETE"};
 		
 		try {
 			JSONObject json = Utilities.getJsonQuery("resources/sql/Category.json", databaseType);
@@ -101,21 +95,8 @@ public class CategoryDAOTest {
 	public void insertTest() {
 		log.debug("Insert test");
 		
-		int mainCategoryID = 4;
-		MainCategory main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
-		Category category = new Category("SingleInsertTest", main);
+		Category category = new Category("SingleInsertTest");
 		
-		int result = dao.insert(category);
-		
-		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
-	}
-	
-	@Test
-	public void insertNullTest() {
-		log.debug("Insert with null value test");
-		
-		Category category = new Category("SingleInsertNullTest");
-
 		int result = dao.insert(category);
 		
 		assertNotEquals(CategoryDAO.INSERT_FAIL, result);
@@ -127,31 +108,13 @@ public class CategoryDAOTest {
 		
 		String pattern = "MultipleInsertTest_%d";
 		int insertCount = 20;
-		int mainCategoryID = 4;
-		MainCategory main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
-		
-		for(int i = 0; i < insertCount; ++i) {
-			Category category = new Category(String.format(pattern, i + 1), main);
-			
-			int result = dao.insert(category);
-			
-			assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
-		}
-	}
-	
-	@Test
-	public void insertMultipleNullTest() {
-		log.debug("Multiple inserts with null value test");
-		
-		String pattern = "MultipleInsertNullTest_%d";
-		int insertCount = 20;
 		
 		for(int i = 0; i < insertCount; ++i) {
 			Category category = new Category(String.format(pattern, i + 1));
 			
 			int result = dao.insert(category);
 			
-			assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
+			assertNotEquals(CategoryDAO.INSERT_FAIL, result);
 		}
 	}
 	
@@ -164,18 +127,6 @@ public class CategoryDAOTest {
 		Category result = dao.get(ID);
 		
 		assertTrue(result != null && result.getID() == ID);
-	}
-	
-	@Test
-	public void getWithParentTest() {
-		log.debug("Get with parent test");
-		
-		int mainCategoryID = 4;
-		MainCategory main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
-		
-		List<Category> result = dao.getWithMainCategory(main);
-		
-		assertTrue(result != null);
 	}
 	
 	@Test

@@ -75,14 +75,11 @@ public final class MainFrame extends JFrame {
 	private void initializeObservers() {
 		log.debug("Initalize observers");
 		
-		categoryController.addListener(categoryView);
+		categoryController.addCategoryUpdateListener(categoryView);
+		categoryView.addCategorySelectListener(urlController);
+		urlController.addUrlUpdateListener(urlView);
 		
-		categoryView.addListener(urlController);
-		
-		urlController.addListener(urlView);
-		
-		
-		categoryController.callListeners();
+		categoryController.updateCategories();
 	}
 	
 	private void addViewsToFrame() {
