@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import mvc.controller.CategoryController;
 import mvc.controller.UrlController;
+import mvc.view.model.CategoryView;
+import mvc.view.model.UrlView;
 
 public final class MainFrame extends JFrame {
 	private static final long serialVersionUID = 4785143357028575468L;
