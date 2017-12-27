@@ -12,11 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
-import mvc.model.MainCategory;
+import mvc.model.Category;
 
-public final class MainCategoryDAO implements IMainCategoryDAO {
-	private static final Logger log = LoggerFactory.getLogger(MainCategoryDAO.class);
-	private static final String queryPath = "resources/sql/MainCategory.json";
+public final class CategoryDAO implements ICategoryDAO {
+	private static final Logger log = LoggerFactory.getLogger(CategoryDAO.class);
+	private static final String queryPath = "resources/sql/Category.json";
 		
 	private DAOFactory database = null;
 	private String CREATE_TABLE = null;
@@ -26,9 +26,9 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	private String UPDATE = null;
 	private String DELETE = null;
 	
-	public MainCategoryDAO(int databaseType) {
+	public CategoryDAO(int databaseType) {
 		database = DAOFactory.get(databaseType);
-		log.debug("Create MainCategoryDAO with database: {}", database.getName());
+		log.debug("Create CategoryDAO with database: {}", database.getName());
 		
 		try {
 			JSONObject obj = JsonLoader.getJson(queryPath, database.getName());
@@ -80,7 +80,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	}
 	
 	@Override
-	public int insert(MainCategory category) {
+	public int insert(Category category) {
 		log.debug("Insert category: ID={} name={}", category.getID(), category.getName());
 		
 		Connection connection = null;
@@ -118,10 +118,10 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	}
 	
 	@Override
-	public MainCategory get(int ID) {
+	public Category get(int ID) {
 		log.debug("Get category: ID={}", ID);
 		
-		MainCategory category = null;
+		Category category = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -138,7 +138,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 				int foundID = result.getInt(1);
 				String foundName = result.getString(2);
 				
-				category = new MainCategory(foundID, foundName);
+				category = new Category(foundID, foundName);
 			}
 		}
 		catch(Exception ex) {
@@ -159,10 +159,10 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	}
 	
 	@Override
-	public List<MainCategory> getAll() {
+	public List<Category> getAll() {
 		log.debug("Get all categories");
 		
-		List<MainCategory> categories = new ArrayList<>();
+		List<Category> categories = new ArrayList<>();
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet result = null;
@@ -177,7 +177,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 					int foundID = result.getInt(1);
 					String foundName = result.getString(2);
 					
-					categories.add(new MainCategory(foundID, foundName));
+					categories.add(new Category(foundID, foundName));
 				}
 			}
 		}
@@ -199,7 +199,7 @@ public final class MainCategoryDAO implements IMainCategoryDAO {
 	}
 	
 	@Override
-	public boolean update(MainCategory category) {
+	public boolean update(Category category) {
 		log.debug("Update category: ID={} name={}", category.getID(), category.getName());
 		
 		Connection connection = null;

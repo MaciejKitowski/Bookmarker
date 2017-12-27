@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
 import mvc.model.Subcategory;
-import mvc.model.MainCategory;
+import mvc.model.Category;
 
 public final class SubcategoryDAO implements ISubcategoryDAO {
 	private static final Logger log = LoggerFactory.getLogger(SubcategoryDAO.class);
@@ -149,7 +149,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 				subcategory = new Subcategory(foundID, foundName);
 				
 				if(foundParentID != 0) {
-					IMainCategoryDAO mainCategory = database.getMainCategory();
+					ICategoryDAO mainCategory = database.getMainCategory();
 					subcategory.setParent(mainCategory.get(foundParentID));
 				}
 			}
@@ -172,7 +172,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 	}
 	
 	@Override
-	public List<Subcategory> getWithMainCategory(MainCategory category) {
+	public List<Subcategory> getWithMainCategory(Category category) {
 		log.debug("Get all categories with parent: ID={} name={}", category.getID(), category.getName());
 
 		List<Subcategory> subcategories = new ArrayList<>();
@@ -235,7 +235,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 					Subcategory subcategory = new Subcategory(foundID, foundName);
 					
 					if(foundParentID != 0) {
-						IMainCategoryDAO mainCategory = database.getMainCategory();
+						ICategoryDAO mainCategory = database.getMainCategory();
 						subcategory.setParent(mainCategory.get(foundParentID));
 					}
 					

@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import mvc.dao.model.SubcategoryDAO;
 import mvc.dao.model.ISubcategoryDAO;
-import mvc.dao.model.IMainCategoryDAO;
+import mvc.dao.model.ICategoryDAO;
 import mvc.dao.model.IUrlDAO;
-import mvc.dao.model.MainCategoryDAO;
+import mvc.dao.model.CategoryDAO;
 import mvc.dao.model.UrlDAO;
 
 public final class PostgresFactory extends DAOFactory {
@@ -22,9 +22,9 @@ public final class PostgresFactory extends DAOFactory {
     private static final String USERPASSWORD = "admin1";
         
     @Override
-	public IMainCategoryDAO getMainCategory() {
-    	log.trace("Get MainCategoryDAO");
-		return new MainCategoryDAO(POSTGRES);
+	public ICategoryDAO getMainCategory() {
+    	log.trace("Get CategoryDAO");
+		return new CategoryDAO(POSTGRES);
 	}
     
     @Override

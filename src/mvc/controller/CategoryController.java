@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.model.ISubcategoryDAO;
-import mvc.dao.model.IMainCategoryDAO;
+import mvc.dao.model.ICategoryDAO;
 import mvc.model.Subcategory;
-import mvc.model.MainCategory;
+import mvc.model.Category;
 import mvc.observer.category.CategoryUpdateListener;
 import mvc.observer.category.CategoryUpdateSubject;
 
@@ -21,7 +21,7 @@ public final class CategoryController implements CategoryUpdateSubject {
 	private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
 	
 	private List<CategoryUpdateListener> catUpdateListeners = new LinkedList<>();
-	private IMainCategoryDAO mainDao = null;
+	private ICategoryDAO mainDao = null;
 	private ISubcategoryDAO catDao = null;
 	
 	public CategoryController() {
@@ -32,13 +32,13 @@ public final class CategoryController implements CategoryUpdateSubject {
 		catDao = DAOFactory.get(DAOFactory.SQLITE).getCategory();
 	}
 			
-	private Map<MainCategory, List<Subcategory>> getCategories() {
+	private Map<Category, List<Subcategory>> getCategories() {
 		log.debug("Load categories to map");
 		
-		Map<MainCategory, List<Subcategory>> categories = new LinkedHashMap<>();
-		List<MainCategory> mainCategories = mainDao.getAll();
+		Map<Category, List<Subcategory>> categories = new LinkedHashMap<>();
+		List<Category> mainCategories = mainDao.getAll();
 		
-		for(MainCategory category : mainCategories) {
+		for(Category category : mainCategories) {
 			log.debug("Create list for main category(ID={} name={})", category.getID(), category.getName());
 			
 			List<Subcategory> subcategories = catDao.getWithMainCategory(category);
@@ -66,7 +66,7 @@ public final class CategoryController implements CategoryUpdateSubject {
 	public void updateCategories() {
 		log.debug("Call {} category updated listeners", catUpdateListeners.size());
 		
-		Map<MainCategory, List<Subcategory>> categories = getCategories();
+		Map<Category, List<Subcategory>> categories = getCategories();
 		for(CategoryUpdateListener listener : catUpdateListeners) listener.onCategoryUpdate(categories);
 	}
 }
