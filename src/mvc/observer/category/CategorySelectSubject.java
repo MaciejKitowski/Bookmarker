@@ -2,7 +2,7 @@ package mvc.observer.category;
 
 import java.util.List;
 
-import mvc.model.Category;
+import mvc.model.Subcategory;
 import mvc.model.MainCategory;
 
 public interface CategorySelectSubject {
@@ -10,5 +10,5 @@ public interface CategorySelectSubject {
 	public void removeCategorySelectListener(CategorySelectListener listener);
 	
 	public void selectMainCategory(List<MainCategory> categories);
-	public void selectCategory(List<Category> categories);
+	public void selectCategory(List<Subcategory> subcategories);
 }

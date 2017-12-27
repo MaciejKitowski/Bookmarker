@@ -23,7 +23,7 @@ import javax.swing.tree.TreePath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mvc.model.Category;
+import mvc.model.Subcategory;
 import mvc.model.MainCategory;
 import mvc.observer.category.CategorySelectSubject;
 import mvc.observer.category.CategorySelectListener;
@@ -77,7 +77,7 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 				
 				TreePath[] paths = treeList.getSelectionPaths();
 				List<MainCategory> mainCategories = new LinkedList<>();
-				List<Category> categories = new LinkedList<>();
+				List<Subcategory> subcategories = new LinkedList<>();
 				
 				for(TreePath path : paths) {
 					DefaultMutableTreeNode node = (DefaultMutableTreeNode)path.getLastPathComponent();
@@ -87,16 +87,16 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 						log.debug("Selected main category: {}", path.getLastPathComponent().toString());
 						mainCategories.add((MainCategory) obj);
 					}
-					else if(obj instanceof Category) {
+					else if(obj instanceof Subcategory) {
 						log.debug("Selected subcategory: {}", path.getLastPathComponent().toString());
-						categories.add((Category) obj);
+						subcategories.add((Subcategory) obj);
 					}
 					else {
 						log.warn("Unwanted object class type: {}", obj.getClass().getName());
 					}
 				}
 				
-				if(categories.size() > 0) selectCategory(categories);
+				if(subcategories.size() > 0) selectCategory(subcategories);
 				else selectMainCategory(mainCategories);
 			}
 		});
@@ -126,16 +126,16 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 		treeList.setBackground(Color.LIGHT_GRAY);
 	}
 	
-	private void setTreeList(Map<MainCategory, List<Category>> categories) {
+	private void setTreeList(Map<MainCategory, List<Subcategory>> categories) {
 		log.debug("Add {} nodes to tree list", categories.size());
 		
-		for(Map.Entry<MainCategory, List<Category>> entry : categories.entrySet()) {
-			log.debug("Add main category (ID={} name={}) as node", entry.getKey().getID(), entry.getKey().getName());
+		for(Map.Entry<MainCategory, List<Subcategory>> entry : categories.entrySet()) {
+			log.debug("Add main subcategory (ID={} name={}) as node", entry.getKey().getID(), entry.getKey().getName());
 			
 			DefaultMutableTreeNode main = new DefaultMutableTreeNode(entry.getKey());
 			
-			for(Category cat : entry.getValue()) {
-				log.debug("Add subcategory (ID={} name={}) to category (ID={} name={})", cat.getID(), cat.getName(), entry.getKey().getID(), entry.getKey().getName());
+			for(Subcategory cat : entry.getValue()) {
+				log.debug("Add subcategory (ID={} name={}) to subcategory (ID={} name={})", cat.getID(), cat.getName(), entry.getKey().getID(), entry.getKey().getName());
 				
 				DefaultMutableTreeNode child = new DefaultMutableTreeNode(cat);
 				main.add(child);
@@ -171,13 +171,13 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 	}
 
 	@Override
-	public void selectCategory(List<Category> categories) {
-		log.debug("Call listeners with {} categories", categories.size());
-		for(CategorySelectListener listener : listeners) listener.onSelectCategory(categories);
+	public void selectCategory(List<Subcategory> subcategories) {
+		log.debug("Call listeners with {} categories", subcategories.size());
+		for(CategorySelectListener listener : listeners) listener.onSelectCategory(subcategories);
 	}
 
 	@Override
-	public void onCategoryUpdate(Map<MainCategory, List<Category>> categories) {
+	public void onCategoryUpdate(Map<MainCategory, List<Subcategory>> categories) {
 		log.debug("Categories updated");
 		setTreeList(categories);
 	}

@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
-import mvc.model.Category;
+import mvc.model.Subcategory;
 import mvc.model.Url;
 
 public final class UrlDAO implements IUrlDAO {
@@ -178,8 +178,8 @@ public final class UrlDAO implements IUrlDAO {
 	}
 
 	@Override
-	public List<Url> getAllWithCategory(Category category) {
-		log.debug("Get all urls with category: ID={} name={}", category.getID(), category.getName());
+	public List<Url> getAllWithCategory(Subcategory subcategory) {
+		log.debug("Get all urls with subcategory: ID={} name={}", subcategory.getID(), subcategory.getName());
 		
 		List<Url> urls = new ArrayList<>();
 		Connection connection = null;
@@ -190,7 +190,7 @@ public final class UrlDAO implements IUrlDAO {
 			connection = database.getConnection();
 			statement = connection.prepareStatement(GET_CATEGORY);
 			
-			statement.setInt(1, category.getID());
+			statement.setInt(1, subcategory.getID());
 			
 			result = statement.executeQuery();
 			if(result != null) {
@@ -200,7 +200,7 @@ public final class UrlDAO implements IUrlDAO {
 					String foundUrl = result.getString(3);
 					String foundDescription = result.getString(4);
 					
-					Url url = new Url(foundID, foundUrl, foundTitle, category);
+					Url url = new Url(foundID, foundUrl, foundTitle, subcategory);
 					
 					if(foundDescription != null) url.setDescription(foundDescription);
 					
@@ -209,7 +209,7 @@ public final class UrlDAO implements IUrlDAO {
 			}
 		}
 		catch(Exception ex) {
-			log.error("Get all with category failed", ex);
+			log.error("Get all with subcategory failed", ex);
 		}
 		finally {
 			try {
@@ -279,7 +279,7 @@ public final class UrlDAO implements IUrlDAO {
 
 	@Override
 	public boolean update(Url url) {
-		log.debug("Update category: ID={} url={} title={}", url.getID(), url.getUrl(), url.getTitle());
+		log.debug("Update subcategory: ID={} url={} title={}", url.getID(), url.getUrl(), url.getTitle());
 		
 		Connection connection = null;
 		PreparedStatement statement = null;

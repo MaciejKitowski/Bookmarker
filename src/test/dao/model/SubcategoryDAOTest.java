@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.model.SubcategoryDAO;
-import mvc.model.Category;
+import mvc.model.Subcategory;
 import mvc.model.MainCategory;
 
 @RunWith(Parameterized.class)
@@ -57,7 +57,7 @@ public class SubcategoryDAOTest {
 		String[] fieldNames = {"CREATE_TABLE", "INSERT", "GET", "GET_MAINCAT", "GET_ALL", "UPDATE", "DELETE"};
 		
 		try {
-			JSONObject json = Utilities.getJsonQuery("resources/sql/Category.json", databaseType);
+			JSONObject json = Utilities.getJsonQuery("resources/sql/Subcategory.json", databaseType);
 			Class<?> cls = dao.getClass();
 			
 			for(String name : fieldNames) {
@@ -88,7 +88,7 @@ public class SubcategoryDAOTest {
 			dao.createTable();
 			List<String> tableList = Utilities.getTableNames(databaseType);
 			
-			assertTrue(tableList.contains("Category") || tableList.contains("category"));
+			assertTrue(tableList.contains("Subcategory") || tableList.contains("subcategory"));
 		}
 		catch(Exception ex) {
 			log.error("Failed test - create table", ex);
@@ -102,9 +102,9 @@ public class SubcategoryDAOTest {
 		
 		int mainCategoryID = 4;
 		MainCategory main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
-		Category category = new Category("SingleInsertTest", main);
+		Subcategory subcategory = new Subcategory("SingleInsertTest", main);
 		
-		int result = dao.insert(category);
+		int result = dao.insert(subcategory);
 		
 		assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 	}
@@ -113,9 +113,9 @@ public class SubcategoryDAOTest {
 	public void insertNullTest() {
 		log.debug("Insert with null value test");
 		
-		Category category = new Category("SingleInsertNullTest");
+		Subcategory subcategory = new Subcategory("SingleInsertNullTest");
 
-		int result = dao.insert(category);
+		int result = dao.insert(subcategory);
 		
 		assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 	}
@@ -130,9 +130,9 @@ public class SubcategoryDAOTest {
 		MainCategory main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
 		
 		for(int i = 0; i < insertCount; ++i) {
-			Category category = new Category(String.format(pattern, i + 1), main);
+			Subcategory subcategory = new Subcategory(String.format(pattern, i + 1), main);
 			
-			int result = dao.insert(category);
+			int result = dao.insert(subcategory);
 			
 			assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 		}
@@ -146,9 +146,9 @@ public class SubcategoryDAOTest {
 		int insertCount = 20;
 		
 		for(int i = 0; i < insertCount; ++i) {
-			Category category = new Category(String.format(pattern, i + 1));
+			Subcategory subcategory = new Subcategory(String.format(pattern, i + 1));
 			
-			int result = dao.insert(category);
+			int result = dao.insert(subcategory);
 			
 			assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 		}
@@ -160,7 +160,7 @@ public class SubcategoryDAOTest {
 		
 		int ID = 1;
 		
-		Category result = dao.get(ID);
+		Subcategory result = dao.get(ID);
 		
 		assertTrue(result != null && result.getID() == ID);
 	}
@@ -172,7 +172,7 @@ public class SubcategoryDAOTest {
 		int mainCategoryID = 4;
 		MainCategory main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
 		
-		List<Category> result = dao.getWithMainCategory(main);
+		List<Subcategory> result = dao.getWithMainCategory(main);
 		
 		assertTrue(result != null);
 	}
@@ -182,9 +182,9 @@ public class SubcategoryDAOTest {
 		log.debug("Get all test");
 		
 		try {
-			List<Category> result = dao.getAll();
+			List<Subcategory> result = dao.getAll();
 			
-			assertTrue(result != null && result.size() == Utilities.count("Category", databaseType));
+			assertTrue(result != null && result.size() == Utilities.count("Subcategory", databaseType));
 		}
 		catch(Exception ex) {
 			log.error("Failed test - Get all", ex);
@@ -197,7 +197,7 @@ public class SubcategoryDAOTest {
 		log.debug("Update test");
 		
 		int ID = 1;
-		Category toUpdate = dao.get(ID);
+		Subcategory toUpdate = dao.get(ID);
 
 		toUpdate.setName(toUpdate.getName() + "-UPDATE");
 		boolean result = dao.update(toUpdate);

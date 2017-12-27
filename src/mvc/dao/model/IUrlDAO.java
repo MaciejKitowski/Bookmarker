@@ -2,7 +2,7 @@ package mvc.dao.model;
 
 import java.util.List;
 
-import mvc.model.Category;
+import mvc.model.Subcategory;
 import mvc.model.Url;
 
 public interface IUrlDAO {
@@ -12,7 +12,7 @@ public interface IUrlDAO {
 	public int insert(Url url);
 	
 	public Url get(int ID);
-	public List<Url> getAllWithCategory(Category category);
+	public List<Url> getAllWithCategory(Subcategory subcategory);
 	public List<Url> getAll();
 	
 	public boolean update(Url url);

@@ -13,12 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
-import mvc.model.Category;
+import mvc.model.Subcategory;
 import mvc.model.MainCategory;
 
 public final class SubcategoryDAO implements ISubcategoryDAO {
 	private static final Logger log = LoggerFactory.getLogger(SubcategoryDAO.class);
-	private static final String queryPath = "resources/sql/Category.json";
+	private static final String queryPath = "resources/sql/Subcategory.json";
 	
 	private DAOFactory database = null;
 	private String CREATE_TABLE = null;
@@ -85,8 +85,8 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 	}
 	
 	@Override
-	public int insert(Category category) {
-		log.debug("Insert category: ID={} name={}", category.getID(), category.getName());
+	public int insert(Subcategory subcategory) {
+		log.debug("Insert subcategory: ID={} name={}", subcategory.getID(), subcategory.getName());
 
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -97,8 +97,8 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			connection = database.getConnection();
 			statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			
-			statement.setString(1, category.getName());
-			if(category.getParent() != null) statement.setInt(2, category.getParent().getID());
+			statement.setString(1, subcategory.getName());
+			if(subcategory.getParent() != null) statement.setInt(2, subcategory.getParent().getID());
 			else statement.setNull(2, Types.INTEGER);
 			statement.execute();
 			
@@ -125,10 +125,10 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 	}
 	
 	@Override
-	public Category get(int ID) {
-		log.debug("Get category: ID={}", ID);
+	public Subcategory get(int ID) {
+		log.debug("Get subcategory: ID={}", ID);
 		
-		Category category = null;
+		Subcategory subcategory = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -146,11 +146,11 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 				int foundID = result.getInt(1);
 				String foundName = result.getString(2);
 				int foundParentID = result.getInt(3);
-				category = new Category(foundID, foundName);
+				subcategory = new Subcategory(foundID, foundName);
 				
 				if(foundParentID != 0) {
 					IMainCategoryDAO mainCategory = database.getMainCategory();
-					category.setParent(mainCategory.get(foundParentID));
+					subcategory.setParent(mainCategory.get(foundParentID));
 				}
 			}
 		}
@@ -168,14 +168,14 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 		}
 		
-		return category;
+		return subcategory;
 	}
 	
 	@Override
-	public List<Category> getWithMainCategory(MainCategory category) {
+	public List<Subcategory> getWithMainCategory(MainCategory category) {
 		log.debug("Get all categories with parent: ID={} name={}", category.getID(), category.getName());
 
-		List<Category> categories = new ArrayList<>();
+		List<Subcategory> subcategories = new ArrayList<>();
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -192,7 +192,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 					int foundID = result.getInt(1);
 					String foundName = result.getString(2);
 					
-					categories.add(new Category(foundID, foundName, category));
+					subcategories.add(new Subcategory(foundID, foundName, category));
 				}
 			}
 		}
@@ -210,14 +210,14 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 		}
 		
-		return categories;
+		return subcategories;
 	}
 	
 	@Override
-	public List<Category> getAll() {
+	public List<Subcategory> getAll() {
 		log.debug("Get all categories");
 		
-		List<Category> categories = new ArrayList<>();
+		List<Subcategory> subcategories = new ArrayList<>();
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet result = null;
@@ -232,14 +232,14 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 					int foundID = result.getInt(1);
 					String foundName = result.getString(2);
 					int foundParentID = result.getInt(3);
-					Category category = new Category(foundID, foundName);
+					Subcategory subcategory = new Subcategory(foundID, foundName);
 					
 					if(foundParentID != 0) {
 						IMainCategoryDAO mainCategory = database.getMainCategory();
-						category.setParent(mainCategory.get(foundParentID));
+						subcategory.setParent(mainCategory.get(foundParentID));
 					}
 					
-					categories.add(category);
+					subcategories.add(subcategory);
 				}
 			}
 		}
@@ -257,12 +257,12 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 		}
 		
-		return categories;
+		return subcategories;
 	}
 	
 	@Override
-	public boolean update(Category category) {
-		log.debug("Update category: ID={} name={}", category.getID(), category.getName());
+	public boolean update(Subcategory subcategory) {
+		log.debug("Update subcategory: ID={} name={}", subcategory.getID(), subcategory.getName());
 
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -272,9 +272,9 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			connection = database.getConnection();
 			statement = connection.prepareStatement(UPDATE);
 			
-			statement.setString(1, category.getName());
-			statement.setInt(2, category.getParent().getID());
-			statement.setInt(3, category.getID());
+			statement.setString(1, subcategory.getName());
+			statement.setInt(2, subcategory.getParent().getID());
+			statement.setInt(3, subcategory.getID());
 			statement.execute();
 						
 			result = true;
@@ -298,7 +298,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 	
 	@Override
 	public boolean delete(int ID) {
-		log.debug("Delete category: ID={}", ID);
+		log.debug("Delete subcategory: ID={}", ID);
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
