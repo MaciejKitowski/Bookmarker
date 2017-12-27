@@ -26,10 +26,11 @@ import org.slf4j.LoggerFactory;
 import mvc.controller.observer.category.CategoryChangedListener;
 import mvc.model.Category;
 import mvc.model.MainCategory;
+import mvc.observer.category.CategoryUpdateListener;
 import mvc.view.observer.category.CategorySelectedCaller;
 import mvc.view.observer.category.CategorySelectedListener;
 
-public final class CategoryView extends JPanel implements CategoryChangedListener, CategorySelectedCaller {
+public final class CategoryView extends JPanel implements CategoryChangedListener, CategorySelectedCaller, CategoryUpdateListener {
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
 	private static final boolean rootVisible = false;
@@ -181,5 +182,11 @@ public final class CategoryView extends JPanel implements CategoryChangedListene
 	public void callListenersCategory(List<Category> categories) {
 		log.debug("Call listeners with {} categories", categories.size());
 		for(CategorySelectedListener listener : listeners) listener.onCategorySelect(categories);
+	}
+
+	@Override
+	public void onCategoryUpdate(Map<MainCategory, List<Category>> categories) {
+		log.debug("Categories updated");
+		setTreeList(categories);
 	}
 }
