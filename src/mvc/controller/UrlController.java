@@ -39,6 +39,7 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 		
 		for(MainCategory cat : categories) {
 			log.debug("Get all subcategories from {} category", cat.toString());
+			
 			List<Category> subcategories = catDao.getWithMainCategory(cat);
 			log.debug("Found {} subcategories", subcategories.size());
 			
