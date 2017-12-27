@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.model.SubcategoryDAO;
-import mvc.dao.model.MainCategoryDAO;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 
@@ -135,7 +134,7 @@ public class CategoryDAOTest {
 			
 			int result = dao.insert(category);
 			
-			assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
+			assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 		}
 	}
 	
@@ -151,7 +150,7 @@ public class CategoryDAOTest {
 			
 			int result = dao.insert(category);
 			
-			assertNotEquals(MainCategoryDAO.INSERT_FAIL, result);
+			assertNotEquals(SubcategoryDAO.INSERT_FAIL, result);
 		}
 	}
 	
