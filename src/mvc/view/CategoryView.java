@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 import mvc.observer.category.CategorySelectedCaller;
-import mvc.observer.category.CategorySelectedListener;
+import mvc.observer.category.CategorySelectListener;
 import mvc.observer.category.CategoryUpdateListener;
 
 public final class CategoryView extends JPanel implements CategorySelectedCaller, CategoryUpdateListener {
@@ -151,16 +151,16 @@ public final class CategoryView extends JPanel implements CategorySelectedCaller
 		model.reload();
 	}
 	
-	private List<CategorySelectedListener> listeners = new LinkedList<>();
+	private List<CategorySelectListener> listeners = new LinkedList<>();
 
 	@Override
-	public void addListener(CategorySelectedListener listener) {
+	public void addListener(CategorySelectListener listener) {
 		log.debug("Add new listener");
 		listeners.add(listener);
 	}
 
 	@Override
-	public void removeListener(CategorySelectedListener listener) {
+	public void removeListener(CategorySelectListener listener) {
 		log.debug("Remove listener");
 		listeners.remove(listener);
 	}
@@ -168,13 +168,13 @@ public final class CategoryView extends JPanel implements CategorySelectedCaller
 	@Override
 	public void callListenersMainCategory(List<MainCategory> categories) {
 		log.debug("Call listeners with {} main categories", categories.size());
-		for(CategorySelectedListener listener : listeners) listener.onMainCategorySelect(categories);
+		for(CategorySelectListener listener : listeners) listener.onSelectMainCategory(categories);
 	}
 
 	@Override
 	public void callListenersCategory(List<Category> categories) {
 		log.debug("Call listeners with {} categories", categories.size());
-		for(CategorySelectedListener listener : listeners) listener.onCategorySelect(categories);
+		for(CategorySelectListener listener : listeners) listener.onSelectCategory(categories);
 	}
 
 	@Override

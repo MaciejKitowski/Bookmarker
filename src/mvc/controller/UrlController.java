@@ -12,11 +12,11 @@ import mvc.dao.model.IUrlDAO;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 import mvc.model.Url;
-import mvc.observer.category.CategorySelectedListener;
+import mvc.observer.category.CategorySelectListener;
 import mvc.observer.url.UrlUpdateListener;
 import mvc.observer.url.UrlUpdateSubject;
 
-public final class UrlController implements CategorySelectedListener, UrlUpdateSubject {
+public final class UrlController implements CategorySelectListener, UrlUpdateSubject {
 	private static final Logger log = LoggerFactory.getLogger(UrlController.class);
 	
 	private List<UrlUpdateListener> urlUpdateListeners = new LinkedList<>();
@@ -32,7 +32,7 @@ public final class UrlController implements CategorySelectedListener, UrlUpdateS
 	}
 
 	@Override
-	public void onMainCategorySelect(List<MainCategory> categories) {
+	public void onSelectMainCategory(List<MainCategory> categories) {
 		log.debug("Main categories selected");
 		
 		List<Url> urls = new LinkedList<>();
@@ -54,7 +54,7 @@ public final class UrlController implements CategorySelectedListener, UrlUpdateS
 	}
 
 	@Override
-	public void onCategorySelect(List<Category> categories) {
+	public void onSelectCategory(List<Category> categories) {
 		log.debug("Main categories selected");
 		
 		List<Url> urls = new LinkedList<>();
