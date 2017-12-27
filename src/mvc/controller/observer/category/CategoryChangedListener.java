@@ -6,6 +6,7 @@ import java.util.Map;
 import mvc.model.MainCategory;
 import mvc.model.Category;
 
+@Deprecated
 public interface CategoryChangedListener {
 	public void onCategoryChanged(Map<MainCategory, List<Category>> categories);
 }
