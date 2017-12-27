@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import mvc.dao.DAOFactory;
 import mvc.model.MainCategory;
 
-public final class CategoryDAO implements IMainCategoryDAO {
+public final class CategoryDAO implements ICategoryDAO {
 	private static final Logger log = LoggerFactory.getLogger(CategoryDAO.class);
 	private static final String queryPath = "resources/sql/MainCategory.json";
 		

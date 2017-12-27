@@ -149,7 +149,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 				subcategory = new Subcategory(foundID, foundName);
 				
 				if(foundParentID != 0) {
-					IMainCategoryDAO mainCategory = database.getMainCategory();
+					ICategoryDAO mainCategory = database.getMainCategory();
 					subcategory.setParent(mainCategory.get(foundParentID));
 				}
 			}
@@ -235,7 +235,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 					Subcategory subcategory = new Subcategory(foundID, foundName);
 					
 					if(foundParentID != 0) {
-						IMainCategoryDAO mainCategory = database.getMainCategory();
+						ICategoryDAO mainCategory = database.getMainCategory();
 						subcategory.setParent(mainCategory.get(foundParentID));
 					}
 					

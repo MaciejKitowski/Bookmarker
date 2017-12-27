@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
 import mvc.dao.model.ISubcategoryDAO;
-import mvc.dao.model.IMainCategoryDAO;
+import mvc.dao.model.ICategoryDAO;
 import mvc.model.Subcategory;
 import mvc.model.MainCategory;
 import mvc.observer.category.CategoryUpdateListener;
@@ -21,7 +21,7 @@ public final class CategoryController implements CategoryUpdateSubject {
 	private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
 	
 	private List<CategoryUpdateListener> catUpdateListeners = new LinkedList<>();
-	private IMainCategoryDAO mainDao = null;
+	private ICategoryDAO mainDao = null;
 	private ISubcategoryDAO catDao = null;
 	
 	public CategoryController() {

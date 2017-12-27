@@ -4,7 +4,7 @@ import java.util.List;
 
 import mvc.model.MainCategory;
 
-public interface IMainCategoryDAO {
+public interface ICategoryDAO {
 	public int INSERT_FAIL = -1;
 	
 	public void createTable();
