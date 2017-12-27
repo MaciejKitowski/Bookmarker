@@ -6,6 +6,6 @@ import mvc.model.Subcategory;
 import mvc.model.Category;
 
 public interface CategorySelectListener {
-	public void onSelectMainCategory(List<Category> categories);
-	public void onSelectCategory(List<Subcategory> subcategories);
+	public void onSelectCategory(List<Category> categories);
+	public void onSelectSubcategory(List<Subcategory> subcategories);
 }

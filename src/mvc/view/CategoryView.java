@@ -84,7 +84,7 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 					Object obj = node.getUserObject();
 					
 					if(obj instanceof Category) {
-						log.debug("Selected main category: {}", path.getLastPathComponent().toString());
+						log.debug("Selected category: {}", path.getLastPathComponent().toString());
 						categories.add((Category) obj);
 					}
 					else if(obj instanceof Subcategory) {
@@ -96,8 +96,8 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 					}
 				}
 				
-				if(subcategories.size() > 0) selectCategory(subcategories);
-				else selectMainCategory(categories);
+				if(subcategories.size() > 0) selectSubcategory(subcategories);
+				else selectCategory(categories);
 			}
 		});
 	}
@@ -130,12 +130,12 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 		log.debug("Add {} nodes to tree list", categories.size());
 		
 		for(Map.Entry<Category, List<Subcategory>> entry : categories.entrySet()) {
-			log.debug("Add main subcategory (ID={} name={}) as node", entry.getKey().getID(), entry.getKey().getName());
+			log.debug("Add category (ID={} name={}) as node", entry.getKey().getID(), entry.getKey().getName());
 			
 			DefaultMutableTreeNode main = new DefaultMutableTreeNode(entry.getKey());
 			
 			for(Subcategory cat : entry.getValue()) {
-				log.debug("Add subcategory (ID={} name={}) to subcategory (ID={} name={})", cat.getID(), cat.getName(), entry.getKey().getID(), entry.getKey().getName());
+				log.debug("Add subcategory (ID={} name={}) to category (ID={} name={})", cat.getID(), cat.getName(), entry.getKey().getID(), entry.getKey().getName());
 				
 				DefaultMutableTreeNode child = new DefaultMutableTreeNode(cat);
 				main.add(child);
@@ -165,15 +165,15 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 	}
 
 	@Override
-	public void selectMainCategory(List<Category> categories) {
-		log.debug("Call listeners with {} main categories", categories.size());
-		for(CategorySelectListener listener : listeners) listener.onSelectMainCategory(categories);
+	public void selectCategory(List<Category> categories) {
+		log.debug("Call listeners with {} categories", categories.size());
+		for(CategorySelectListener listener : listeners) listener.onSelectCategory(categories);
 	}
 
 	@Override
-	public void selectCategory(List<Subcategory> subcategories) {
-		log.debug("Call listeners with {} categories", subcategories.size());
-		for(CategorySelectListener listener : listeners) listener.onSelectCategory(subcategories);
+	public void selectSubcategory(List<Subcategory> subcategories) {
+		log.debug("Call listeners with {} subcategories", subcategories.size());
+		for(CategorySelectListener listener : listeners) listener.onSelectSubcategory(subcategories);
 	}
 
 	@Override

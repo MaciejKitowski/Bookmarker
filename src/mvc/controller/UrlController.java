@@ -32,7 +32,7 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	}
 
 	@Override
-	public void onSelectMainCategory(List<Category> categories) {
+	public void onSelectCategory(List<Category> categories) {
 		log.debug("Main categories selected");
 		
 		List<Url> urls = new LinkedList<>();
@@ -55,7 +55,7 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	}
 
 	@Override
-	public void onSelectCategory(List<Subcategory> subcategories) {
+	public void onSelectSubcategory(List<Subcategory> subcategories) {
 		log.debug("Main categories selected");
 		
 		List<Url> urls = new LinkedList<>();
