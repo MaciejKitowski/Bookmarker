@@ -11,17 +11,7 @@ public final class Url {
 	private String title = null;
 	private String description = null;
 	Subcategory subcategory = null;
-	
-	public Url(int ID, String url, String title, String description, Subcategory subcategory) {
-		log.debug("New Url: ID={} url={} title={} description={} subcategory: ID={} name={}", ID, url, title, description, subcategory.getID(), subcategory.getName());
 		
-		this.ID = ID;
-		this.url = url;
-		this.title = title;
-		this.description = description;
-		this.subcategory = subcategory;
-	}
-	
 	public Url(String url, String title, String description, Subcategory subcategory) {
 		log.debug("New Url: ID={} url={} title={} description={} subcategory: ID={} name={}", null, url, title, description, subcategory.getID(), subcategory.getName());
 		
@@ -70,17 +60,7 @@ public final class Url {
 		this.url = url;
 		this.title = title;
 	}
-	
-	public Url() {
-		log.debug("New Url: ID={} url={} title={} description={} subcategory: ID={} name={}", null, null, null, null, null, null);
 		
-		ID = 0;
-		url = "http://localhost";
-		title = "EMPTY";
-		description = "EMPTY";
-		subcategory = new Subcategory();
-	}
-	
 	public void setID(int ID) {
 		log.debug("Set ID: {}", ID);
 		this.ID = ID;
