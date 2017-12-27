@@ -16,6 +16,13 @@ public final class UrlTableModel extends AbstractTableModel {
 	private static final String[] columnNames = {"ID", "Title", "Url", "Description"};
 	
 	private List<Url> urls = new ArrayList<>();
+	
+	public void setList(List<Url> urls) {
+		log.debug("Set new list with {} values", urls.size());
+		this.urls = urls;
+		
+		fireTableDataChanged();
+	}
 
 	@Override
 	public int getColumnCount() {
