@@ -83,7 +83,7 @@ public class CategoryDAOTest {
 			dao.createTable();
 			List<String> tableList = Utilities.getTableNames(databaseType);
 			
-			assertTrue(tableList.contains("Category") || tableList.contains("maincategory"));
+			assertTrue(tableList.contains("Category") || tableList.contains("category"));
 		}
 		catch(Exception ex) {
 			log.error("Failed test - create table", ex);
