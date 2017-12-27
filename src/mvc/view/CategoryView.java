@@ -25,11 +25,11 @@ import org.slf4j.LoggerFactory;
 
 import mvc.model.Category;
 import mvc.model.MainCategory;
-import mvc.observer.category.CategorySelectedCaller;
+import mvc.observer.category.CategorySelectSubject;
 import mvc.observer.category.CategorySelectListener;
 import mvc.observer.category.CategoryUpdateListener;
 
-public final class CategoryView extends JPanel implements CategorySelectedCaller, CategoryUpdateListener {
+public final class CategoryView extends JPanel implements CategorySelectSubject, CategoryUpdateListener {
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
 	private static final boolean rootVisible = false;
@@ -95,8 +95,8 @@ public final class CategoryView extends JPanel implements CategorySelectedCaller
 					}
 				}
 				
-				if(categories.size() > 0) callListenersCategory(categories);
-				else callListenersMainCategory(mainCategories);
+				if(categories.size() > 0) selectCategory(categories);
+				else selectMainCategory(mainCategories);
 			}
 		});
 	}
@@ -154,25 +154,25 @@ public final class CategoryView extends JPanel implements CategorySelectedCaller
 	private List<CategorySelectListener> listeners = new LinkedList<>();
 
 	@Override
-	public void addListener(CategorySelectListener listener) {
+	public void addCategorySelectListener(CategorySelectListener listener) {
 		log.debug("Add new listener");
 		listeners.add(listener);
 	}
 
 	@Override
-	public void removeListener(CategorySelectListener listener) {
+	public void removeCategorySelectListener(CategorySelectListener listener) {
 		log.debug("Remove listener");
 		listeners.remove(listener);
 	}
 
 	@Override
-	public void callListenersMainCategory(List<MainCategory> categories) {
+	public void selectMainCategory(List<MainCategory> categories) {
 		log.debug("Call listeners with {} main categories", categories.size());
 		for(CategorySelectListener listener : listeners) listener.onSelectMainCategory(categories);
 	}
 
 	@Override
-	public void callListenersCategory(List<Category> categories) {
+	public void selectCategory(List<Category> categories) {
 		log.debug("Call listeners with {} categories", categories.size());
 		for(CategorySelectListener listener : listeners) listener.onSelectCategory(categories);
 	}

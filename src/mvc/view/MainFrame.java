@@ -77,7 +77,7 @@ public final class MainFrame extends JFrame {
 		
 		categoryController.addCategoryUpdateListener(categoryView);
 		
-		categoryView.addListener(urlController);
+		categoryView.addCategorySelectListener(urlController);
 		
 		urlController.addUrlUpdateListener(urlView);
 		
