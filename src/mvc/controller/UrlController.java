@@ -14,11 +14,14 @@ import mvc.dao.model.IUrlDAO;
 import mvc.model.Category;
 import mvc.model.MainCategory;
 import mvc.model.Url;
+import mvc.observer.url.UrlUpdateListener;
+import mvc.observer.url.UrlUpdateSubject;
 import mvc.view.observer.category.CategorySelectedListener;
 
-public final class UrlController implements CategorySelectedListener, UrlChangedCaller {
+public final class UrlController implements CategorySelectedListener, UrlChangedCaller, UrlUpdateSubject {
 	private static final Logger log = LoggerFactory.getLogger(UrlController.class);
 	
+	private List<UrlUpdateListener> urlUpdateListeners = new LinkedList<>();
 	private IUrlDAO urlDao = null;
 	private ICategoryDAO catDao = null;
 	
@@ -68,23 +71,41 @@ public final class UrlController implements CategorySelectedListener, UrlChanged
 		callListeners(urls);
 	}
 	
-	private List<UrlChangedListener> listeners = new LinkedList<>();
+	private List<UrlChangedListener> oldListeners = new LinkedList<>();
 
 	@Override
 	public void addListener(UrlChangedListener listener) {
 		log.debug("Add new listener");
-		listeners.add(listener);
+		oldListeners.add(listener);
 	}
 
 	@Override
 	public void removeListener(UrlChangedListener listener) {
 		log.debug("Remove listener");
-		listeners.remove(listener);
+		oldListeners.remove(listener);
 	}
 
 	@Override
 	public void callListeners(List<Url> urls) {
-		log.debug("Call {} url changed listeners", listeners.size());
-		for(UrlChangedListener listener : listeners) listener.onUrlChanged(urls);
+		log.debug("Call {} url changed oldListeners", oldListeners.size());
+		for(UrlChangedListener listener : oldListeners) listener.onUrlChanged(urls);
+	}
+
+	@Override
+	public void addUrlUpdateListener(UrlUpdateListener listener) {
+		log.debug("Add new listener");
+		urlUpdateListeners.add(listener);
+	}
+
+	@Override
+	public void removeUrlUpdateListener(UrlUpdateListener listener) {
+		log.debug("Remove listener");
+		urlUpdateListeners.remove(listener);
+	}
+
+	@Override
+	public void updateUrls(List<Url> urls) {
+		log.debug("Call {} url update listeners", oldListeners.size());
+		for(UrlUpdateListener listener : urlUpdateListeners) listener.onUrlUpdate(urls);
 	}
 }
