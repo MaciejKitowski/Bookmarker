@@ -24,7 +24,6 @@ public final class ToolbarPanel extends JToolBar {
 	private JButton addButton = null;
 	private JButton editButton = null;
 	private JButton deleteButton = null;
-	private JButton databaseButton = null;
 	private SelectDatabaseButton selectDb = null;
 	
 	public ToolbarPanel(int width, int height) {
@@ -45,9 +44,7 @@ public final class ToolbarPanel extends JToolBar {
 		selectDb = new SelectDatabaseButton(buttonSize);
 		add(selectDb);
 		
-		
-		//databaseButton = generateButton("toolbar_database.png", 30);
-		//selectDb = (SelectDatabaseButton) generateButton("toolbar_database.png", 30);
+	
 		
 		initializeButtonListeners();
 	}
@@ -110,21 +107,5 @@ public final class ToolbarPanel extends JToolBar {
 				log.debug("Pressed delete button");
 			}
 		});
-		
-		/*databaseButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				log.debug("Pressed database selection button");
-				
-				JPopupMenu popup = new JPopupMenu();
-				
-				popup.add(new JMenuItem("SqLite"));
-				popup.add(new JMenuItem("My-SQL"));
-				popup.add(new JMenuItem("PostgreSQL"));
-				
-				popup.show(databaseButton, 0, 25);
-			}
-		});*/
 	}
 }

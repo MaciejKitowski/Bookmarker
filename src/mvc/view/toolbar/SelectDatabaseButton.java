@@ -7,6 +7,8 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +18,14 @@ public final class SelectDatabaseButton extends JButton implements ActionListene
 	private static final Logger log = LoggerFactory.getLogger(SelectDatabaseButton.class);
 	private static final String iconName = "toolbar_database.png";
 	
+	private JPopupMenu popup = null;
+	
 	public SelectDatabaseButton(Dimension size) {
 		log.info("Create select database button");
 		
 		initializeSize(size);
 		initializeIcon();
+		initializePopup();
 		
 		addActionListener(this);
 	}
@@ -45,9 +50,20 @@ public final class SelectDatabaseButton extends JButton implements ActionListene
 			log.error("Failed to set icon", ex);
 		}
 	}
+	
+	private void initializePopup() {
+		log.debug("Initialize popup");
+		
+		popup = new JPopupMenu();
+		
+		popup.add(new JMenuItem("SqLite"));
+		popup.add(new JMenuItem("My-SQL"));
+		popup.add(new JMenuItem("PostgreSQL"));
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		log.debug("Pressed button");
+		popup.show(this, 0, 25);
 	}
 }
