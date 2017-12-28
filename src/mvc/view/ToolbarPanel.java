@@ -36,6 +36,7 @@ public final class ToolbarPanel extends JPanel {
 		generateButton("toolbar_addnew.png");
 		generateButton("toolbar_edit.png");
 		generateButton("toolbar_database.png");
+		generateButton("toolbar_settings.png");
 	}
 	
 	private JButton generateButton(String iconName) {
