@@ -34,6 +34,7 @@ public final class ToolbarPanel extends JPanel {
 		buttonSize = new Dimension(height - 5, height - 5);
 		
 		generateButton("toolbar_addnew.png");
+		generateButton("toolbar_edit.png");
 		generateButton("toolbar_database.png");
 	}
 	
