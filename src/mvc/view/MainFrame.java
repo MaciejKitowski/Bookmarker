@@ -9,6 +9,7 @@ import mvc.controller.CategoryController;
 import mvc.controller.UrlController;
 import mvc.view.model.CategoryView;
 import mvc.view.model.UrlView;
+import mvc.view.toolbar.SelectDatabaseButton;
 import mvc.view.toolbar.ToolbarPanel;
 
 public final class MainFrame extends JFrame {
@@ -77,6 +78,10 @@ public final class MainFrame extends JFrame {
 		categoryController.addCategoryUpdateListener(categoryView);
 		categoryView.addCategorySelectListener(urlController);
 		urlController.addUrlUpdateListener(urlView);
+		
+		SelectDatabaseButton dbSelect = toolbarPanel.getSelectDatabaseButton();
+		dbSelect.addDatabaseChangeListener(categoryController);
+		dbSelect.addDatabaseChangeListener(urlController);
 		
 		categoryController.updateCategories();
 	}

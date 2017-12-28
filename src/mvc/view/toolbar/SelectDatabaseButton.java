@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import mvc.dao.DAOFactory;
 import mvc.observer.toolbar.DatabaseChangeListener;
 import mvc.observer.toolbar.DatabaseChangeSubject;
-import mvc.observer.url.UrlUpdateListener;
 
 public final class SelectDatabaseButton extends JButton implements ActionListener, DatabaseChangeSubject {
 	private static final long serialVersionUID = -3802417046411311406L;

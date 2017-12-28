@@ -29,6 +29,13 @@ public final class UrlTableModel extends AbstractTableModel {
 		
 		fireTableDataChanged();
 	}
+	
+	public void removeAll() {
+		log.debug("Remove all values");
+		this.urls = new LinkedList<>();
+		
+		fireTableDataChanged();
+	}
 
 	@Override
 	public int getColumnCount() {

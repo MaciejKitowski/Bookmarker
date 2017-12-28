@@ -108,4 +108,8 @@ public final class ToolbarPanel extends JToolBar {
 			}
 		});
 	}
+	
+	public SelectDatabaseButton getSelectDatabaseButton() {
+		return selectDb;
+	}
 }
