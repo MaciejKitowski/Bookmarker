@@ -79,20 +79,22 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 				List<Category> categories = new LinkedList<>();
 				List<Subcategory> subcategories = new LinkedList<>();
 				
-				for(TreePath path : paths) {
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode)path.getLastPathComponent();
-					Object obj = node.getUserObject();
-					
-					if(obj instanceof Category) {
-						log.debug("Selected category: {}", path.getLastPathComponent().toString());
-						categories.add((Category) obj);
-					}
-					else if(obj instanceof Subcategory) {
-						log.debug("Selected subcategory: {}", path.getLastPathComponent().toString());
-						subcategories.add((Subcategory) obj);
-					}
-					else {
-						log.warn("Unwanted object class type: {}", obj.getClass().getName());
+				if(paths != null) {
+					for(TreePath path : paths) {
+						DefaultMutableTreeNode node = (DefaultMutableTreeNode)path.getLastPathComponent();
+						Object obj = node.getUserObject();
+						
+						if(obj instanceof Category) {
+							log.debug("Selected category: {}", path.getLastPathComponent().toString());
+							categories.add((Category) obj);
+						}
+						else if(obj instanceof Subcategory) {
+							log.debug("Selected subcategory: {}", path.getLastPathComponent().toString());
+							subcategories.add((Subcategory) obj);
+						}
+						else {
+							log.warn("Unwanted object class type: {}", obj.getClass().getName());
+						}
 					}
 				}
 				
