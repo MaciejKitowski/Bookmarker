@@ -92,7 +92,7 @@ public final class ToolbarPanel extends JToolBar {
 			}
 		});
 		
-		deleteButton.addActionListener(new ActionListener() {
+		databaseButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
