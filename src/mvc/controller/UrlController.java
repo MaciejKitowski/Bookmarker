@@ -13,10 +13,11 @@ import mvc.model.Subcategory;
 import mvc.model.Category;
 import mvc.model.Url;
 import mvc.observer.category.CategorySelectListener;
+import mvc.observer.toolbar.DatabaseChangeListener;
 import mvc.observer.url.UrlUpdateListener;
 import mvc.observer.url.UrlUpdateSubject;
 
-public final class UrlController implements CategorySelectListener, UrlUpdateSubject {
+public final class UrlController implements CategorySelectListener, UrlUpdateSubject, DatabaseChangeListener {
 	private static final Logger log = LoggerFactory.getLogger(UrlController.class);
 	
 	private List<UrlUpdateListener> urlUpdateListeners = new LinkedList<>();
@@ -26,9 +27,14 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	public UrlController() {
 		log.info("Initialize url controller");
 		
-		//TODO add posibility to get dao factory without parameter (load selected database index from file)
-		urlDao = DAOFactory.get(DAOFactory.SQLITE).getUrl();
-		catDao = DAOFactory.get(DAOFactory.SQLITE).getCategory();
+		initializeDAO();
+	}
+	
+	private void initializeDAO() {
+		log.debug("Initialize dao");
+		
+		urlDao = DAOFactory.get().getUrl();
+		catDao = DAOFactory.get().getCategory();
 	}
 
 	@Override
@@ -86,5 +92,12 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	public void updateUrls(List<Url> urls) {
 		log.debug("Call {} url update listeners", urlUpdateListeners.size());
 		for(UrlUpdateListener listener : urlUpdateListeners) listener.onUrlUpdate(urls);
+	}
+
+	@Override
+	public void onDatabaseChange() {
+		log.debug("Database changed");
+		initializeDAO();
+		updateUrls(null);
 	}
 }

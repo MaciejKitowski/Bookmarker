@@ -76,9 +76,12 @@ public final class UrlView extends JPanel implements UrlUpdateListener {
 	
 	@Override
 	public void onUrlUpdate(List<Url> urls) {
-		log.debug("Update url list, received {} values", urls.size());
-		for(Url url : urls) log.debug("{} {} {} {}", url.getID(), url.getTitle(), url.getUrl(), url.getDescription());
-		
-		tableModel.setList(urls);
+		if(urls != null) {
+			log.debug("Update url list, received {} values", urls.size());
+			for(Url url : urls) log.debug("{} {} {} {}", url.getID(), url.getTitle(), url.getUrl(), url.getDescription());
+			
+			tableModel.setList(urls);
+		}
+		else tableModel.removeAll();
 	}
 }

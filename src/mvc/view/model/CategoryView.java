@@ -131,6 +131,8 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 	private void setTreeList(Map<Category, List<Subcategory>> categories) {
 		log.debug("Add {} nodes to tree list", categories.size());
 		
+		treeRoot.removeAllChildren();
+		
 		for(Map.Entry<Category, List<Subcategory>> entry : categories.entrySet()) {
 			log.debug("Add category (ID={} name={}) as node", entry.getKey().getID(), entry.getKey().getName());
 			
