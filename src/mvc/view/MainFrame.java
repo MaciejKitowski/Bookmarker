@@ -28,6 +28,8 @@ public final class MainFrame extends JFrame {
 	private final int layoutHorizontalGap = 5;
 	private final int layoutVerticalGap = 5;
 	
+	private ToolbarPanel toolbarPanel = null;
+	
 	private CategoryView categoryView = null;
 	private CategoryController categoryController = null;
 	
@@ -45,7 +47,6 @@ public final class MainFrame extends JFrame {
 		initializeViews();
 		initializeControllers();
 		initializeObservers();
-		testPanels();
 		
 		addViewsToFrame();
 	}
@@ -65,6 +66,7 @@ public final class MainFrame extends JFrame {
 		
 		categoryView = new CategoryView(150, defaultHeight);
 		urlView = new UrlView(400,  defaultHeight);
+		toolbarPanel = new ToolbarPanel(defaultWidth, 50);
 	}
 	
 	private void initializeControllers() {
@@ -87,18 +89,8 @@ public final class MainFrame extends JFrame {
 	private void addViewsToFrame() {
 		log.info("Add views to frame");
 		
+		add(toolbarPanel, BorderLayout.PAGE_START);
 		add(categoryView, BorderLayout.LINE_START);
 		add(urlView, BorderLayout.CENTER);
-	}
-	
-	private void testPanels() {
-		log.warn("Create test JPanels");
-		
-		JPanel toolbar = new JPanel();
-		toolbar.setBackground(Color.CYAN);
-		toolbar.setPreferredSize(new Dimension(defaultWidth, 50));
-		toolbar.setBorder(new TitledBorder("Toolbar"));
-								
-		add(toolbar, BorderLayout.PAGE_START);
 	}
 }
