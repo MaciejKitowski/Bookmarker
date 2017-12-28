@@ -27,9 +27,8 @@ public final class CategoryController implements CategoryUpdateSubject {
 	public CategoryController() {
 		log.info("Initialize subcategory controller");
 		
-		//TODO add posibility to get dao factory without parameter (load selected database index from file)
-		mainDao = DAOFactory.get(DAOFactory.SQLITE).getMainCategory();
-		catDao = DAOFactory.get(DAOFactory.SQLITE).getCategory();
+		mainDao = DAOFactory.get().getMainCategory();
+		catDao = DAOFactory.get().getCategory();
 	}
 			
 	private Map<Category, List<Subcategory>> getCategories() {

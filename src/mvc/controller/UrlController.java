@@ -26,9 +26,8 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	public UrlController() {
 		log.info("Initialize url controller");
 		
-		//TODO add posibility to get dao factory without parameter (load selected database index from file)
-		urlDao = DAOFactory.get(DAOFactory.SQLITE).getUrl();
-		catDao = DAOFactory.get(DAOFactory.SQLITE).getCategory();
+		urlDao = DAOFactory.get().getUrl();
+		catDao = DAOFactory.get().getCategory();
 	}
 
 	@Override
