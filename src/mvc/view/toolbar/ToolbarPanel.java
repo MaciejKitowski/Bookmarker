@@ -1,4 +1,4 @@
-package mvc.view;
+package mvc.view.toolbar;
 
 import java.awt.Color;
 import java.awt.Dimension;
