@@ -58,14 +58,25 @@ public final class SelectDatabaseButton extends JButton implements ActionListene
 	private void initializePopup() {
 		log.debug("Initialize popup");
 		
+		ActionListener radioAction = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String source = e.getActionCommand();
+				log.debug("Selected radio: {}", source);
+			}
+		};
+		
 		JRadioButton sqlite = new JRadioButton("SqLite", true);
 		sqlite.setActionCommand(String.valueOf(DAOFactory.SQLITE));
+		sqlite.addActionListener(radioAction);
 		
 		JRadioButton mysql = new JRadioButton("My-SQL");
-		sqlite.setActionCommand(String.valueOf(DAOFactory.MYSQL));
+		mysql.setActionCommand(String.valueOf(DAOFactory.MYSQL));
+		mysql.addActionListener(radioAction);
 		
 		JRadioButton postg = new JRadioButton("PostgreSQL");
-		sqlite.setActionCommand(String.valueOf(DAOFactory.POSTGRES));
+		postg.setActionCommand(String.valueOf(DAOFactory.POSTGRES));
+		postg.addActionListener(radioAction);
 		
 		ButtonGroup group = new ButtonGroup();
 		group.add(sqlite);
@@ -76,12 +87,6 @@ public final class SelectDatabaseButton extends JButton implements ActionListene
 		popup.add(sqlite);
 		popup.add(mysql);
 		popup.add(postg);
-		
-		
-		
-		/*popup.add(new JMenuItem("SqLite"));
-		popup.add(new JMenuItem("My-SQL"));
-		popup.add(new JMenuItem("PostgreSQL"));*/
 	}
 
 	@Override
