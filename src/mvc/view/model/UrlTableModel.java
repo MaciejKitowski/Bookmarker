@@ -39,6 +39,7 @@ public final class UrlTableModel extends AbstractTableModel {
 	public int getRowCount() {
 		return urls.size();
 	}
+	
 	@Override
 	public String getColumnName(int col) {
 	    return columnNames[col];
