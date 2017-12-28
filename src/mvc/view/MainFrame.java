@@ -60,7 +60,7 @@ public final class MainFrame extends JFrame {
 		
 		categoryView = new CategoryView(150, defaultHeight);
 		urlView = new UrlView(400,  defaultHeight);
-		toolbarPanel = new ToolbarPanel(defaultWidth, 30);
+		toolbarPanel = new ToolbarPanel(defaultWidth, 25);
 	}
 	
 	private void initializeControllers() {

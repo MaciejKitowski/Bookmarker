@@ -31,9 +31,10 @@ public final class ToolbarPanel extends JPanel {
 		setPreferredSize(new Dimension(width, height));
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
-		buttonSize = new Dimension(height - 10, height - 10);
+		buttonSize = new Dimension(height - 5, height - 5);
 		
 		generateButton("toolbar_addnew.png");
+		generateButton("toolbar_database.png");
 	}
 	
 	private JButton generateButton(String iconName) {
