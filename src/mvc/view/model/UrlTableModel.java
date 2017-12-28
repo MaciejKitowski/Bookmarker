@@ -1,10 +1,8 @@
 package mvc.view.model;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.print.DocFlavor.URL;
 import javax.swing.table.AbstractTableModel;
 
 import org.slf4j.Logger;
