@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -15,12 +17,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
+import mvc.observer.toolbar.DatabaseChangeListener;
+import mvc.observer.toolbar.DatabaseChangeSubject;
+import mvc.observer.url.UrlUpdateListener;
 
-public final class SelectDatabaseButton extends JButton implements ActionListener {
+public final class SelectDatabaseButton extends JButton implements ActionListener, DatabaseChangeSubject {
 	private static final long serialVersionUID = -3802417046411311406L;
 	private static final Logger log = LoggerFactory.getLogger(SelectDatabaseButton.class);
 	private static final String iconName = "toolbar_database.png";
 	
+	private List<DatabaseChangeListener> dbChangedListeners = new LinkedList<>();
 	private JPopupMenu popup = null;
 	
 	public SelectDatabaseButton(Dimension size) {
@@ -62,6 +68,8 @@ public final class SelectDatabaseButton extends JButton implements ActionListene
 			public void actionPerformed(ActionEvent e) {
 				String source = e.getActionCommand();
 				log.debug("Selected radio: {}", source);
+				DAOFactory.setDefaultFactory(Integer.parseInt(source));
+				databaseChanged();
 			}
 		};
 		
@@ -92,5 +100,23 @@ public final class SelectDatabaseButton extends JButton implements ActionListene
 	public void actionPerformed(ActionEvent e) {
 		log.debug("Pressed button");
 		popup.show(this, 0, 25);
+	}
+
+	@Override
+	public void addDatabaseChangeListener(DatabaseChangeListener listener) {
+		log.debug("Add new listener");
+		dbChangedListeners.add(listener);
+	}
+
+	@Override
+	public void removeDatabaseChangeListener(DatabaseChangeListener listener) {
+		log.debug("Remove listener");
+		dbChangedListeners.remove(listener);
+	}
+
+	@Override
+	public void databaseChanged() {
+		log.debug("Call {} database changed listeners", dbChangedListeners.size());
+		for(DatabaseChangeListener listener : dbChangedListeners) listener.onDatabaseChange();
 	}
 }
