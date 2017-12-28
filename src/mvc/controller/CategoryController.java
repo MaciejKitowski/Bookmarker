@@ -16,8 +16,9 @@ import mvc.model.Subcategory;
 import mvc.model.Category;
 import mvc.observer.category.CategoryUpdateListener;
 import mvc.observer.category.CategoryUpdateSubject;
+import mvc.observer.toolbar.DatabaseChangeListener;
 
-public final class CategoryController implements CategoryUpdateSubject {
+public final class CategoryController implements CategoryUpdateSubject, DatabaseChangeListener {
 	private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
 	
 	private List<CategoryUpdateListener> catUpdateListeners = new LinkedList<>();
@@ -26,6 +27,12 @@ public final class CategoryController implements CategoryUpdateSubject {
 	
 	public CategoryController() {
 		log.info("Initialize subcategory controller");
+		
+		initializeDAO();
+	}
+	
+	private void initializeDAO() {
+		log.debug("Initialize dao");
 		
 		mainDao = DAOFactory.get().getMainCategory();
 		catDao = DAOFactory.get().getCategory();
@@ -67,5 +74,12 @@ public final class CategoryController implements CategoryUpdateSubject {
 		
 		Map<Category, List<Subcategory>> categories = getCategories();
 		for(CategoryUpdateListener listener : catUpdateListeners) listener.onCategoryUpdate(categories);
+	}
+
+	@Override
+	public void onDatabaseChange() {
+		log.debug("Database changed");
+		initializeDAO();
+		updateCategories();
 	}
 }
