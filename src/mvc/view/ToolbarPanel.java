@@ -2,6 +2,8 @@ package mvc.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.BorderFactory;
@@ -17,6 +19,10 @@ public final class ToolbarPanel extends JToolBar {
 	private static final Logger log = LoggerFactory.getLogger(ToolbarPanel.class);
 	
 	private final Dimension buttonSize;
+	private JButton addButton = null;
+	private JButton editButton = null;
+	private JButton deleteButton = null;
+	private JButton databaseButton = null;
 	
 	public ToolbarPanel(int width, int height) {
 		log.info("Initialize toolbar");
@@ -28,14 +34,17 @@ public final class ToolbarPanel extends JToolBar {
 		setFloatable(false);
 		setBorder(BorderFactory.createEmptyBorder());
 
-		generateButton("toolbar_addnew.png", 10);
-		generateButton("toolbar_edit.png", 5);
-		generateButton("toolbar_delete.png", 5);
-		generateButton("toolbar_database.png", 30);
-		//generateButton("toolbar_settings.png");
+		addButton = generateButton("toolbar_addnew.png", 10);
+		editButton = generateButton("toolbar_edit.png", 5);
+		deleteButton = generateButton("toolbar_delete.png", 5);
+		databaseButton = generateButton("toolbar_database.png", 30);
+		
+		initializeButtonListeners();
 	}
-	
+		
 	private JButton generateButton(String iconName, int spaceBefore) {
+		log.debug("Initialize button with {} icon image", iconName);
+		
 		try {
 			URL icon = getClass().getResource(String.format("/icons/%s", iconName));
 			JButton button = new JButton(new ImageIcon(icon));
@@ -54,5 +63,41 @@ public final class ToolbarPanel extends JToolBar {
 			log.error("Failed to generate button", ex);
 			return null;
 		}
+	}
+	
+	private void initializeButtonListeners() {
+		log.debug("Initialize button listeners");
+		
+		addButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				log.debug("Pressed add new button");
+			}
+		});
+		
+		editButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				log.debug("Pressed edit button");
+			}
+		});
+		
+		deleteButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				log.debug("Pressed delete button");
+			}
+		});
+		
+		deleteButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				log.debug("Pressed database selection button");
+			}
+		});
 	}
 }
