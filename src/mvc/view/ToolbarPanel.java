@@ -10,6 +10,8 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +75,15 @@ public final class ToolbarPanel extends JToolBar {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				log.debug("Pressed add new button");
+				
+				JPopupMenu popup = new JPopupMenu();
+				
+				popup.add(new JMenuItem("Category"));
+				popup.add(new JMenuItem("Subcategory"));
+				popup.addSeparator();
+				popup.add(new JMenuItem("Url"));
+				
+				popup.show(addButton, 0, 25);
 			}
 		});
 		
@@ -97,6 +108,14 @@ public final class ToolbarPanel extends JToolBar {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				log.debug("Pressed database selection button");
+				
+				JPopupMenu popup = new JPopupMenu();
+				
+				popup.add(new JMenuItem("SqLite"));
+				popup.add(new JMenuItem("My-SQL"));
+				popup.add(new JMenuItem("PostgreSQL"));
+				
+				popup.show(databaseButton, 0, 25);
 			}
 		});
 	}
