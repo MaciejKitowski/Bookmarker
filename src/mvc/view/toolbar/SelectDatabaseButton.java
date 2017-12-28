@@ -21,6 +21,8 @@ public final class SelectDatabaseButton extends JButton implements ActionListene
 		
 		initializeSize(size);
 		initializeIcon();
+		
+		addActionListener(this);
 	}
 	
 	private void initializeSize(Dimension size) {
@@ -42,8 +44,6 @@ public final class SelectDatabaseButton extends JButton implements ActionListene
 		catch(Exception ex) {
 			log.error("Failed to set icon", ex);
 		}
-		
-		addActionListener(this);
 	}
 
 	@Override
