@@ -14,11 +14,12 @@ import mvc.dao.model.ISubcategoryDAO;
 import mvc.dao.model.ICategoryDAO;
 import mvc.model.Subcategory;
 import mvc.model.Category;
+import mvc.observer.category.CategoryEditListener;
 import mvc.observer.category.CategoryUpdateListener;
 import mvc.observer.category.CategoryUpdateSubject;
 import mvc.observer.toolbar.DatabaseChangeListener;
 
-public final class CategoryController implements CategoryUpdateSubject, DatabaseChangeListener {
+public final class CategoryController implements CategoryUpdateSubject, DatabaseChangeListener, CategoryEditListener {
 	private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
 	
 	private List<CategoryUpdateListener> catUpdateListeners = new LinkedList<>();
@@ -80,6 +81,36 @@ public final class CategoryController implements CategoryUpdateSubject, Database
 	public void onDatabaseChange() {
 		log.debug("Database changed");
 		initializeDAO();
+		updateCategories();
+	}
+
+	@Override
+	public void onCategoryDelete(List<Category> categories) {
+		log.debug("Delete {} categories", categories.size());
+		
+		for(Category cat : categories) {
+			log.debug("Delete category: ID={} name={}", cat.getID(), cat.getName());
+			
+			if(!mainDao.delete(cat.getID())) {
+				log.warn("Failed to delete category");
+			}
+		}
+		
+		updateCategories();
+	}
+
+	@Override
+	public void onSubcategoryDelete(List<Subcategory> subcategories) {
+		log.debug("Delete {} subcategories", subcategories.size());
+		
+		for(Subcategory cat : subcategories) {
+			log.debug("Delete category: ID={} name={}", cat.getID(), cat.getName());
+			
+			if(!catDao.delete(cat.getID())) {
+				log.warn("Failed to delete category");
+			}
+		}
+		
 		updateCategories();
 	}
 }
