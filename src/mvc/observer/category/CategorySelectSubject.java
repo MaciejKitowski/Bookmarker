@@ -11,4 +11,5 @@ public interface CategorySelectSubject {
 	
 	public void selectCategory(List<Category> categories);
 	public void selectSubcategory(List<Subcategory> subcategories);
+	public void selectNothing();
 }

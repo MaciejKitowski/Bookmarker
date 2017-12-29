@@ -56,6 +56,14 @@ public final class UrlTableModel extends AbstractTableModel {
 	public Class<?> getColumnClass(int columnIndex) {
 		return getValueAt(0, columnIndex).getClass();
 	}
+	
+	public Url getValue(int row) {
+		if(urls == null || row >= urls.size() || row < 0) {
+			log.warn("Wrong getValue row index: {}", row);
+			return null;
+		}
+		else return urls.get(row);
+	}
 
 	@Override
 	public Object getValueAt(int row, int col) {

@@ -14,13 +14,16 @@ import mvc.model.Category;
 import mvc.model.Url;
 import mvc.observer.category.CategorySelectListener;
 import mvc.observer.toolbar.DatabaseChangeListener;
+import mvc.observer.url.UrlEditListener;
 import mvc.observer.url.UrlUpdateListener;
 import mvc.observer.url.UrlUpdateSubject;
 
-public final class UrlController implements CategorySelectListener, UrlUpdateSubject, DatabaseChangeListener {
+public final class UrlController implements CategorySelectListener, UrlUpdateSubject, DatabaseChangeListener, UrlEditListener {
 	private static final Logger log = LoggerFactory.getLogger(UrlController.class);
 	
 	private List<UrlUpdateListener> urlUpdateListeners = new LinkedList<>();
+	private List<Category> selectedCategories = null;
+	private List<Subcategory> selectedSubcategories = null;
 	private IUrlDAO urlDao = null;
 	private ISubcategoryDAO catDao = null;
 	
@@ -39,8 +42,10 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 
 	@Override
 	public void onSelectCategory(List<Category> categories) {
-		log.debug("Main categories selected");
+		log.debug("Categories selected");
 		
+		selectedCategories = categories;
+		selectedSubcategories = null;
 		List<Url> urls = new LinkedList<>();
 		
 		for(Category cat : categories) {
@@ -62,8 +67,10 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 
 	@Override
 	public void onSelectSubcategory(List<Subcategory> subcategories) {
-		log.debug("Main categories selected");
+		log.debug("Subcategories selected");
 		
+		selectedCategories = null;
+		selectedSubcategories = subcategories;
 		List<Url> urls = new LinkedList<>();
 		
 		for(Subcategory subcat : subcategories) {
@@ -74,6 +81,14 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 		
 		log.debug("Found {} urls", urls.size());
 		updateUrls(urls);
+	}
+	
+	@Override
+	public void onUnselectAllCategories() {
+		log.debug("All categories unselected");
+		selectedCategories = null;
+		selectedSubcategories = null;
+		updateUrls(null);
 	}
 	
 	@Override
@@ -99,5 +114,24 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 		log.debug("Database changed");
 		initializeDAO();
 		updateUrls(null);
+	}
+
+	@Override
+	public void onUrlDelete(List<Url> urls) {
+		log.debug("Delete {} urls", urls.size());
+		
+		for(Url url : urls) {
+			log.debug("Delete url: ID={} title={} url={}", url.getID(), url.getTitle(), url.getUrl());
+			
+			if(urlDao.delete(url.getID())) {
+				log.warn("Failed to delete url");
+			}
+		}
+		
+		if(selectedSubcategories != null) onSelectSubcategory(selectedSubcategories);
+		else if(selectedCategories != null) onSelectCategory(selectedCategories);
+		else {
+			log.warn("Unwanted behaviour, delete button should be disabled if categories are unselected");
+		}
 	}
 }

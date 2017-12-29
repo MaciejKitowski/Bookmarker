@@ -4,24 +4,31 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.model.Url;
+import mvc.observer.url.UrlSelectListener;
+import mvc.observer.url.UrlSelectSubject;
 import mvc.observer.url.UrlUpdateListener;
 
-public final class UrlView extends JPanel implements UrlUpdateListener {
+public final class UrlView extends JPanel implements UrlUpdateListener, UrlSelectSubject {
 	private static final long serialVersionUID = -4908801645938833417L;
 	private static final Logger log = LoggerFactory.getLogger(UrlView.class);
 	private static final String[] columnNames = {"ID", "Title", "Url", "Description"};
 	private static final int rowHeight = 20;
 	
+	private List<UrlSelectListener> urlSelectListeners = new LinkedList<>();
 	private UrlTableModel tableModel = null;
 	private JTable table = null;
 	private JScrollPane tableScroll = null;
@@ -35,6 +42,7 @@ public final class UrlView extends JPanel implements UrlUpdateListener {
 		setLayout(new BorderLayout(5,5));
 				
 		initializeTable();
+		initializeListSelectionListener();
 		setTableStyle();
 		setTableColumnsSize();
 		add(tableScroll, BorderLayout.CENTER);
@@ -46,6 +54,35 @@ public final class UrlView extends JPanel implements UrlUpdateListener {
 		tableModel = new UrlTableModel();
 		table = new JTable(tableModel);
 		tableScroll = new JScrollPane(table);
+	}
+	
+	private void initializeListSelectionListener() {
+		log.debug("Initialize list selection listener");
+		
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()) {
+					log.debug("Selected url");
+					
+					int[] selectedRows = table.getSelectedRows();
+					log.debug("Selected rows: {}", selectedRows.length);
+					
+					if(selectedRows.length > 0) {
+						List<Url> selected = new LinkedList<>();
+						
+						for(int index : selectedRows) {
+							log.debug("Selected index: {}", index);
+							selected.add(tableModel.getValue(index));
+						}
+						
+						selectUrl(selected);
+					}
+					else selectNothing();
+				}
+			}
+		});
 	}
 	
 	private void setTableStyle() {
@@ -83,5 +120,29 @@ public final class UrlView extends JPanel implements UrlUpdateListener {
 			tableModel.setList(urls);
 		}
 		else tableModel.removeAll();
+	}
+
+	@Override
+	public void addUrlSelectListener(UrlSelectListener listener) {
+		log.debug("Add new listener");
+		urlSelectListeners.add(listener);
+	}
+
+	@Override
+	public void removeUrlSelectListener(UrlSelectListener listener) {
+		log.debug("Remove listener");
+		urlSelectListeners.remove(listener);
+	}
+
+	@Override
+	public void selectUrl(List<Url> urls) {
+		log.debug("Call listeners with {} urls", urls.size());
+		for(UrlSelectListener listener : urlSelectListeners) listener.onSelectUrl(urls);
+	}
+
+	@Override
+	public void selectNothing() {
+		log.debug("Call listeners that all urls are unselected");
+		for(UrlSelectListener listener : urlSelectListeners) listener.onUnselectAllUrls();
 	}
 }
