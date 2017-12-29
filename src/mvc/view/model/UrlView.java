@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +42,7 @@ public final class UrlView extends JPanel implements UrlUpdateListener, UrlSelec
 		setLayout(new BorderLayout(5,5));
 				
 		initializeTable();
+		initializeListSelectionListener();
 		setTableStyle();
 		setTableColumnsSize();
 		add(tableScroll, BorderLayout.CENTER);
@@ -50,6 +54,22 @@ public final class UrlView extends JPanel implements UrlUpdateListener, UrlSelec
 		tableModel = new UrlTableModel();
 		table = new JTable(tableModel);
 		tableScroll = new JScrollPane(table);
+	}
+	
+	private void initializeListSelectionListener() {
+		log.debug("Initialize list selection listener");
+		
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()) {
+					log.debug("Selected url");
+					
+					
+				}
+			}
+		});
 	}
 	
 	private void setTableStyle() {
