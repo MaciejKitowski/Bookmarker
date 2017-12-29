@@ -97,6 +97,9 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 						}
 					}
 				}
+				else {
+					log.debug("Category unselected");
+				}
 				
 				if(subcategories.size() > 0) selectSubcategory(subcategories);
 				else selectCategory(categories);
