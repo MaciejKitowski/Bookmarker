@@ -79,6 +79,7 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	@Override
 	public void onUnselectAll() {
 		log.debug("All categories unselected");
+		updateUrls(null);
 	}
 	
 	@Override
