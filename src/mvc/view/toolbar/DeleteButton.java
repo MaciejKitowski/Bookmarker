@@ -23,6 +23,10 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	private static final Logger log = LoggerFactory.getLogger(DeleteButton.class);
 	private static final String iconName = "toolbar_delete.png";
 	
+	private List<Category> selectedCategories = null;
+	private List<Subcategory> selectedSubcategories = null;
+	private List<Url> selectedUrls = null;
+	
 	public DeleteButton(Dimension size) {
 		log.info("Create delete button");
 		
@@ -63,29 +67,38 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	public void onSelectCategory(List<Category> categories) {
 		log.debug("Categories selected");
 		setEnabled(true);
+		selectedCategories = categories;
 	}
 
 	@Override
 	public void onSelectSubcategory(List<Subcategory> subcategories) {
 		log.debug("Subcategories selected");
 		setEnabled(true);
+		selectedSubcategories = subcategories;
 	}
 
 	@Override
 	public void onUnselectAllCategories() {
 		log.debug("All categories unselected");
-		//setEnabled(false);
+		selectedCategories = null;
+		selectedSubcategories = null;
+		selectedUrls = null;
+		
+		setEnabled(false);
 	}
 
 	@Override
 	public void onSelectUrl(List<Url> urls) {
 		log.debug("Urls selected");
 		setEnabled(true);
+		selectedUrls = urls;
 	}
 
 	@Override
 	public void onUnselectAllUrls() {
 		log.debug("All urls unselected");
-		//setEnabled(false);
+		selectedUrls = null;
+		
+		if(selectedCategories == null && selectedSubcategories == null) setEnabled(false);
 	}
 }
