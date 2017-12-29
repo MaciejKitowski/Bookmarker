@@ -19,14 +19,18 @@ import mvc.model.Url;
 import mvc.observer.category.CategoryEditListener;
 import mvc.observer.category.CategoryEditSubject;
 import mvc.observer.category.CategorySelectListener;
+import mvc.observer.url.UrlEditListener;
+import mvc.observer.url.UrlEditSubject;
 import mvc.observer.url.UrlSelectListener;
+import mvc.observer.url.UrlSelectSubject;
 
-public final class DeleteButton extends JButton implements ActionListener, CategorySelectListener, UrlSelectListener, CategoryEditSubject {
+public final class DeleteButton extends JButton implements ActionListener, CategorySelectListener, UrlSelectListener, CategoryEditSubject, UrlEditSubject {
 	private static final long serialVersionUID = 5739651433521986611L;
 	private static final Logger log = LoggerFactory.getLogger(DeleteButton.class);
 	private static final String iconName = "toolbar_delete.png";
 	
 	private List<CategoryEditListener> categoryEditListeners = new LinkedList<>();
+	private List<UrlEditListener> urlEditListeners = new LinkedList<>();
 	private List<Category> selectedCategories = null;
 	private List<Subcategory> selectedSubcategories = null;
 	private List<Url> selectedUrls = null;
@@ -66,7 +70,7 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	public void actionPerformed(ActionEvent e) {
 		log.debug("Pressed button");
 		
-		if(selectedUrls != null) log.error("Delete urls not implemented yet");
+		if(selectedUrls != null) deleteUrls(selectedUrls);
 		else if(selectedSubcategories != null) deleteSubcategories(selectedSubcategories);
 		else if(selectedCategories != null) deleteCategories(selectedCategories);
 		else {
@@ -122,7 +126,7 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	@Override
 	public void removeCategoryEditListener(CategoryEditListener listener) {
 		log.debug("Remove listener");
-		categoryEditListeners.add(listener);
+		categoryEditListeners.remove(listener);
 	}
 
 	@Override
@@ -135,5 +139,23 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	public void deleteSubcategories(List<Subcategory> subcategories) {
 		log.debug("Delete {} subcategories", subcategories.size());
 		for(CategoryEditListener listener : categoryEditListeners) listener.onSubcategoryDelete(subcategories);
+	}
+
+	@Override
+	public void addUrlEditListener(UrlEditListener listener) {
+		log.debug("Add new listener");
+		urlEditListeners.add(listener);
+	}
+
+	@Override
+	public void removeUrlEditListener(UrlEditListener listener) {
+		log.debug("Remove listener");
+		urlEditListeners.remove(listener);
+	}
+
+	@Override
+	public void deleteUrls(List<Url> urls) {
+		log.debug("Delete {} urls", urls.size());
+		for(UrlEditListener listener : urlEditListeners) listener.onUrlDelete(urls);
 	}
 }

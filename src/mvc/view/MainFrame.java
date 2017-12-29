@@ -88,6 +88,7 @@ public final class MainFrame extends JFrame {
 		
 		DeleteButton del = toolbarPanel.getDeleteButton();
 		del.addCategoryEditListener(categoryController);
+		del.addUrlEditListener(urlController);
 		
 		categoryController.updateCategories();
 	}
