@@ -98,7 +98,8 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 					}
 				}
 				else {
-					log.debug("Category unselected");
+					log.debug("Categories unselected");
+					selectNothing();
 				}
 				
 				if(subcategories.size() > 0) selectSubcategory(subcategories);
@@ -181,6 +182,12 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 	public void selectSubcategory(List<Subcategory> subcategories) {
 		log.debug("Call listeners with {} subcategories", subcategories.size());
 		for(CategorySelectListener listener : listeners) listener.onSelectSubcategory(subcategories);
+	}
+	
+	@Override
+	public void selectNothing() {
+		log.debug("Call listeners that all categories unselected");
+		for(CategorySelectListener listener : listeners) listener.onUnselectAll();
 	}
 
 	@Override
