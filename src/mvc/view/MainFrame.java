@@ -77,6 +77,7 @@ public final class MainFrame extends JFrame {
 		
 		categoryController.addCategoryUpdateListener(categoryView);
 		categoryView.addCategorySelectListener(urlController);
+		categoryView.addCategorySelectListener(toolbarPanel.getDeleteButton());
 		urlController.addUrlUpdateListener(urlView);
 		
 		SelectDatabaseButton dbSelect = toolbarPanel.getSelectDatabaseButton();

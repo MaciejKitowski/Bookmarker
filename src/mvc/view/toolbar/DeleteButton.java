@@ -26,7 +26,8 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 		
 		initializeSize(size);
 		initializeIcon();
-				
+		
+		setEnabled(false);
 		addActionListener(this);
 	}
 	
@@ -59,17 +60,18 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	@Override
 	public void onSelectCategory(List<Category> categories) {
 		log.debug("Categories selected");
-		
+		setEnabled(true);
 	}
 
 	@Override
 	public void onSelectSubcategory(List<Subcategory> subcategories) {
 		log.debug("Subcategories selected");
+		setEnabled(true);
 	}
 
 	@Override
 	public void onUnselectAll() {
 		log.debug("All categories unselected");
-		
+		setEnabled(false);
 	}
 }

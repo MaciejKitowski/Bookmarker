@@ -107,4 +107,8 @@ public final class ToolbarPanel extends JToolBar {
 	public SelectDatabaseButton getSelectDatabaseButton() {
 		return selectDb;
 	}
+	
+	public DeleteButton getDeleteButton() {
+		return delete;
+	}
 }
