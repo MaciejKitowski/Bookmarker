@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -14,14 +15,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.model.Url;
+import mvc.observer.url.UrlSelectListener;
+import mvc.observer.url.UrlSelectSubject;
 import mvc.observer.url.UrlUpdateListener;
 
-public final class UrlView extends JPanel implements UrlUpdateListener {
+public final class UrlView extends JPanel implements UrlUpdateListener, UrlSelectSubject {
 	private static final long serialVersionUID = -4908801645938833417L;
 	private static final Logger log = LoggerFactory.getLogger(UrlView.class);
 	private static final String[] columnNames = {"ID", "Title", "Url", "Description"};
 	private static final int rowHeight = 20;
 	
+	private List<UrlSelectListener> urlSelectListeners = new LinkedList<>();
 	private UrlTableModel tableModel = null;
 	private JTable table = null;
 	private JScrollPane tableScroll = null;
@@ -83,5 +87,29 @@ public final class UrlView extends JPanel implements UrlUpdateListener {
 			tableModel.setList(urls);
 		}
 		else tableModel.removeAll();
+	}
+
+	@Override
+	public void addUrlSelectListener(UrlSelectListener listener) {
+		log.debug("Add new listener");
+		urlSelectListeners.add(listener);
+	}
+
+	@Override
+	public void removeUrlSelectListener(UrlSelectListener listener) {
+		log.debug("Remove listener");
+		urlSelectListeners.remove(listener);
+	}
+
+	@Override
+	public void selectUrl(List<Url> urls) {
+		log.debug("Call listeners with {} urls", urls.size());
+		for(UrlSelectListener listener : urlSelectListeners) listener.onSelectUrl(urls);
+	}
+
+	@Override
+	public void selectNothing() {
+		log.debug("Call listeners that all urls are unselected");
+		for(UrlSelectListener listener : urlSelectListeners) listener.onUnselectAllUrls();
 	}
 }
