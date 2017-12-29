@@ -66,7 +66,20 @@ public final class UrlView extends JPanel implements UrlUpdateListener, UrlSelec
 				if(!e.getValueIsAdjusting()) {
 					log.debug("Selected url");
 					
+					int[] selectedRows = table.getSelectedRows();
+					log.debug("Selected rows: {}", selectedRows.length);
 					
+					if(selectedRows.length > 0) {
+						List<Url> selected = new LinkedList<>();
+						
+						for(int index : selectedRows) {
+							log.debug("Selected index: {}", index);
+							selected.add(tableModel.getValue(index));
+						}
+						
+						selectUrl(selected);
+					}
+					else selectNothing();
 				}
 			}
 		});
