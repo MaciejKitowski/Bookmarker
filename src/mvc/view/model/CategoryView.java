@@ -184,7 +184,7 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 	@Override
 	public void selectNothing() {
 		log.debug("Call listeners that all categories unselected");
-		for(CategorySelectListener listener : listeners) listener.onUnselectAll();
+		for(CategorySelectListener listener : listeners) listener.onUnselectAllCategories();
 	}
 
 	@Override

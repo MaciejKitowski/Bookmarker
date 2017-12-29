@@ -6,5 +6,5 @@ import mvc.model.Url;
 
 public interface UrlSelectListener {
 	public void onSelectUrl(List<Url> urls);
-	public void onUnselectAll();
+	public void onUnselectAllUrls();
 }

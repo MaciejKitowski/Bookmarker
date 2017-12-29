@@ -14,9 +14,11 @@ import org.slf4j.LoggerFactory;
 
 import mvc.model.Category;
 import mvc.model.Subcategory;
+import mvc.model.Url;
 import mvc.observer.category.CategorySelectListener;
+import mvc.observer.url.UrlSelectListener;
 
-public final class DeleteButton extends JButton implements ActionListener, CategorySelectListener {
+public final class DeleteButton extends JButton implements ActionListener, CategorySelectListener, UrlSelectListener {
 	private static final long serialVersionUID = 5739651433521986611L;
 	private static final Logger log = LoggerFactory.getLogger(DeleteButton.class);
 	private static final String iconName = "toolbar_delete.png";
@@ -70,8 +72,20 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	}
 
 	@Override
-	public void onUnselectAll() {
+	public void onUnselectAllCategories() {
 		log.debug("All categories unselected");
-		setEnabled(false);
+		//setEnabled(false);
+	}
+
+	@Override
+	public void onSelectUrl(List<Url> urls) {
+		log.debug("Urls selected");
+		setEnabled(true);
+	}
+
+	@Override
+	public void onUnselectAllUrls() {
+		log.debug("All urls unselected");
+		//setEnabled(false);
 	}
 }
