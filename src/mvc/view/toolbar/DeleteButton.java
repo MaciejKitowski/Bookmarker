@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -15,14 +16,17 @@ import org.slf4j.LoggerFactory;
 import mvc.model.Category;
 import mvc.model.Subcategory;
 import mvc.model.Url;
+import mvc.observer.category.CategoryEditListener;
+import mvc.observer.category.CategoryEditSubject;
 import mvc.observer.category.CategorySelectListener;
 import mvc.observer.url.UrlSelectListener;
 
-public final class DeleteButton extends JButton implements ActionListener, CategorySelectListener, UrlSelectListener {
+public final class DeleteButton extends JButton implements ActionListener, CategorySelectListener, UrlSelectListener, CategoryEditSubject {
 	private static final long serialVersionUID = 5739651433521986611L;
 	private static final Logger log = LoggerFactory.getLogger(DeleteButton.class);
 	private static final String iconName = "toolbar_delete.png";
 	
+	private List<CategoryEditListener> categoryEditListeners = new LinkedList<>();
 	private List<Category> selectedCategories = null;
 	private List<Subcategory> selectedSubcategories = null;
 	private List<Url> selectedUrls = null;
@@ -61,6 +65,13 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		log.debug("Pressed button");
+		
+		if(selectedUrls != null) log.error("Delete urls not implemented yet");
+		else if(selectedSubcategories != null) deleteSubcategories(selectedSubcategories);
+		else if(selectedCategories != null) deleteCategories(selectedCategories);
+		else {
+			log.warn("Unwanted behaviour, delete button should be disabled if everything is unselected");
+		}
 	}
 
 	@Override
@@ -100,5 +111,29 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 		selectedUrls = null;
 		
 		if(selectedCategories == null && selectedSubcategories == null) setEnabled(false);
+	}
+
+	@Override
+	public void addCategoryEditListener(CategoryEditListener listener) {
+		log.debug("Add new listener");
+		categoryEditListeners.add(listener);
+	}
+
+	@Override
+	public void removeCategoryEditListener(CategoryEditListener listener) {
+		log.debug("Remove listener");
+		categoryEditListeners.add(listener);
+	}
+
+	@Override
+	public void deleteCategories(List<Category> categories) {
+		log.debug("Delete {} categories", categories.size());
+		for(CategoryEditListener listener : categoryEditListeners) listener.onCategoryDelete(categories);
+	}
+
+	@Override
+	public void deleteSubcategories(List<Subcategory> subcategories) {
+		log.debug("Delete {} subcategories", subcategories.size());
+		for(CategoryEditListener listener : categoryEditListeners) listener.onSubcategoryDelete(subcategories);
 	}
 }

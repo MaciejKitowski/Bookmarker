@@ -9,6 +9,7 @@ import mvc.controller.CategoryController;
 import mvc.controller.UrlController;
 import mvc.view.model.CategoryView;
 import mvc.view.model.UrlView;
+import mvc.view.toolbar.DeleteButton;
 import mvc.view.toolbar.SelectDatabaseButton;
 import mvc.view.toolbar.ToolbarPanel;
 
@@ -84,6 +85,9 @@ public final class MainFrame extends JFrame {
 		SelectDatabaseButton dbSelect = toolbarPanel.getSelectDatabaseButton();
 		dbSelect.addDatabaseChangeListener(categoryController);
 		dbSelect.addDatabaseChangeListener(urlController);
+		
+		DeleteButton del = toolbarPanel.getDeleteButton();
+		del.addCategoryEditListener(categoryController);
 		
 		categoryController.updateCategories();
 	}
