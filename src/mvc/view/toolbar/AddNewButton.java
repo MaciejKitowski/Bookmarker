@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -20,6 +21,8 @@ import javax.swing.JTextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import mvc.dao.DAOFactory;
+import mvc.dao.model.ICategoryDAO;
 import mvc.model.Category;
 import mvc.model.Subcategory;
 import mvc.observer.category.CategoryEditListener;
@@ -74,6 +77,7 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 				log.debug("Selected option: {}", source);
 				
 				if(source.equalsIgnoreCase("cat")) addNewCategory();
+				else if(source.equalsIgnoreCase("subcat")) addNewSubcategory();
 			}
 		};
 		
@@ -114,6 +118,33 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 		}
 		else {
 			log.debug("Add new category canceled");
+		}
+	}
+	
+	private void addNewSubcategory() {
+		log.debug("Add new subcategory");
+		
+		JLabel subcatNameLabel = new JLabel("Name");
+		JTextField subcatName = new JTextField();
+		
+		JLabel catSelectLabel = new JLabel("Select category");
+		List<Category> catList = DAOFactory.get().getMainCategory().getAll();
+		JComboBox<Category> catSelect = new JComboBox<>(catList.toArray(new Category[catList.size()]));
+		
+		JPanel panel = new JPanel(new GridLayout(0, 1));
+		panel.add(catSelectLabel);
+		panel.add(catSelect);
+		panel.add(subcatNameLabel);
+		panel.add(subcatName);
+		
+		int result = JOptionPane.showConfirmDialog(this, panel, "Add new subcategory", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		
+		if(result == JOptionPane.OK_OPTION) {
+			log.debug("Add new subcategory with name: {}", subcatNameLabel.getText());
+			//addCategory(new Category(catName.getText()));
+		}
+		else {
+			log.debug("Add new subcategory canceled");
 		}
 	}
 
