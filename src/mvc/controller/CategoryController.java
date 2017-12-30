@@ -121,7 +121,16 @@ public final class CategoryController implements CategoryUpdateSubject, Database
 		if(mainDao.insert(category) == ICategoryDAO.INSERT_FAIL) {
 			log.warn("Failed to add new category");
 		}
+		else updateCategories();
+	}
+
+	@Override
+	public void onSubcategoryAdd(Subcategory subcategory) {
+		log.debug("Add new subcategory: name={}, category: ID={}, name={}", subcategory.getName(), subcategory.getParent().getID(), subcategory.getParent().getName());
 		
-		updateCategories();
+		if(catDao.insert(subcategory) == ISubcategoryDAO.INSERT_FAIL) {
+			log.warn("Failed to add new subcategory");
+		}
+		else updateCategories();
 	}
 }

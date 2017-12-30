@@ -181,4 +181,10 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 		log.debug("Add new category with name: {}", category.getName());
 		for(CategoryEditListener listener : categoryEditListeners) listener.onCategoryAdd(category);
 	}
+
+	@Override
+	public void addSubcategory(Subcategory subcategory) {
+		// TODO Auto-generated method stub
+		
+	}
 }
