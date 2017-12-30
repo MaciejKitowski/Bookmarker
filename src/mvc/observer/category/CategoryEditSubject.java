@@ -13,4 +13,5 @@ public interface CategoryEditSubject {
 	public void deleteSubcategories(List<Subcategory> subcategories);
 	
 	public void addCategory(Category category);
+	public void addSubcategory(Subcategory subcategory);
 }

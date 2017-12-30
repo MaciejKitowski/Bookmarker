@@ -162,4 +162,9 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	public void addCategory(Category category) {
 		log.warn("Unwanted behaviour, delete button shouldn't add new category");
 	}
+
+	@Override
+	public void addSubcategory(Subcategory subcategory) {
+		log.warn("Unwanted behaviour, delete button shouldn't add new subcategory");
+	}
 }
