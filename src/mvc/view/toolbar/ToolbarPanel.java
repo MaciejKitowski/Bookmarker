@@ -25,6 +25,7 @@ public final class ToolbarPanel extends JToolBar {
 	private JButton editButton = null;
 	private SelectDatabaseButton selectDb = null;
 	private DeleteButton delete = null;
+	private AddNewButton addNew = null;
 	
 	public ToolbarPanel(int width, int height) {
 		log.info("Initialize toolbar");
@@ -36,7 +37,10 @@ public final class ToolbarPanel extends JToolBar {
 		setFloatable(false);
 		setBorder(BorderFactory.createEmptyBorder());
 
-		addButton = generateButton("toolbar_addnew.png", 10);
+		add(Box.createHorizontalStrut(5));
+		addNew = new AddNewButton(buttonSize);
+		add(addNew);
+		
 		editButton = generateButton("toolbar_edit.png", 5);
 		
 		add(Box.createHorizontalStrut(5));
@@ -78,7 +82,7 @@ public final class ToolbarPanel extends JToolBar {
 	private void initializeButtonListeners() {
 		log.debug("Initialize button listeners");
 		
-		addButton.addActionListener(new ActionListener() {
+		/*addButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -93,7 +97,7 @@ public final class ToolbarPanel extends JToolBar {
 				
 				popup.show(addButton, 0, 25);
 			}
-		});
+		});*/
 		
 		editButton.addActionListener(new ActionListener() {
 			
