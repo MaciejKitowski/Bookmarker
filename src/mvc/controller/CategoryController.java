@@ -119,5 +119,7 @@ public final class CategoryController implements CategoryUpdateSubject, Database
 		log.debug("Add new category: name={}", category.getName());
 		
 		if(mainDao.insert(category) == ICategoryDAO.INSERT_FAIL) log.warn("Failed to add new category");
+		
+		updateCategories();
 	}
 }

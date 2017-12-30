@@ -5,8 +5,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,11 +20,17 @@ import javax.swing.JTextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class AddNewButton extends JButton implements ActionListener {
+import mvc.model.Category;
+import mvc.model.Subcategory;
+import mvc.observer.category.CategoryEditListener;
+import mvc.observer.category.CategoryEditSubject;
+
+public final class AddNewButton extends JButton implements ActionListener, CategoryEditSubject {
 	private static final long serialVersionUID = 3821107696744652502L;
 	private static final Logger log = LoggerFactory.getLogger(AddNewButton.class);
 	private static final String iconName = "toolbar_addnew.png";
 	
+	private List<CategoryEditListener> categoryEditListeners = new LinkedList<>();
 	private JPopupMenu popup = null;
 	
 	public AddNewButton(Dimension size) {
@@ -103,6 +110,7 @@ public final class AddNewButton extends JButton implements ActionListener {
 		
 		if(result == JOptionPane.OK_OPTION) {
 			log.debug("Add new category with name: {}", catName.getText());
+			addCategory(new Category(catName.getText()));
 		}
 		else {
 			log.debug("Add new category canceled");
@@ -113,5 +121,33 @@ public final class AddNewButton extends JButton implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		log.debug("Pressed button");	
 		popup.show(this, 0, 25);
+	}
+
+	@Override
+	public void addCategoryEditListener(CategoryEditListener listener) {
+		log.debug("Add new listener");
+		categoryEditListeners.add(listener);
+	}
+
+	@Override
+	public void removeCategoryEditListener(CategoryEditListener listener) {
+		log.debug("Remove listener");
+		categoryEditListeners.remove(listener);
+	}
+
+	@Override
+	public void deleteCategories(List<Category> categories) {
+		log.warn("Unwanted behaviour, add new button shouldn't delete categories");
+	}
+
+	@Override
+	public void deleteSubcategories(List<Subcategory> subcategories) {
+		log.warn("Unwanted behaviour, add new button shouldn't delete subcategories");
+	}
+
+	@Override
+	public void addCategory(Category category) {
+		log.debug("Add new category with name: {}", category.getName());
+		for(CategoryEditListener listener : categoryEditListeners) listener.onCategoryAdd(category);
 	}
 }
