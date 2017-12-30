@@ -1,10 +1,12 @@
 package mvc.view.toolbar;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,6 +14,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,8 +92,12 @@ public final class AddNewButton extends JButton implements ActionListener {
 	private void addNewCategory() {
 		log.debug("Add new category");
 		
-		JPanel panel = new JPanel();
-		panel.add(new JLabel("Add new category"));
+		JLabel catNameLabel = new JLabel("Name");
+		JTextField catName = new JTextField();
+		
+		JPanel panel = new JPanel(new GridLayout(0, 1));
+		panel.add(catNameLabel);
+		panel.add(catName);
 		
 		int result = JOptionPane.showConfirmDialog(this, panel, "Add new category", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
