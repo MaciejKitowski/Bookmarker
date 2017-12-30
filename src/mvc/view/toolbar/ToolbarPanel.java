@@ -95,4 +95,8 @@ public final class ToolbarPanel extends JToolBar {
 	public DeleteButton getDeleteButton() {
 		return delete;
 	}
+	
+	public AddNewButton getAddNewButton() {
+		return addNew;
+	}
 }
