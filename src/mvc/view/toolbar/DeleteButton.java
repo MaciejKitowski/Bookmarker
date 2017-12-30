@@ -157,4 +157,9 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 		log.debug("Delete {} urls", urls.size());
 		for(UrlEditListener listener : urlEditListeners) listener.onUrlDelete(urls);
 	}
+
+	@Override
+	public void addCategory(Category category) {
+		log.warn("Unwanted behaviour, delete button shouldn't add new category");
+	}
 }
