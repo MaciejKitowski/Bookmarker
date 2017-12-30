@@ -7,7 +7,10 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import org.slf4j.Logger;
@@ -59,6 +62,8 @@ public final class AddNewButton extends JButton implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				String source = e.getActionCommand();
 				log.debug("Selected option: {}", source);
+				
+				if(source.equalsIgnoreCase("cat")) addNewCategory();
 			}
 		};
 		
@@ -79,6 +84,15 @@ public final class AddNewButton extends JButton implements ActionListener {
 		popup.add(subcat);
 		popup.addSeparator();
 		popup.add(url);
+	}
+	
+	private void addNewCategory() {
+		log.debug("Add new category");
+		
+		JPanel panel = new JPanel();
+		panel.add(new JLabel("Add new category"));
+		
+		int result = JOptionPane.showConfirmDialog(this, panel, "Add new category", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 
 	@Override
