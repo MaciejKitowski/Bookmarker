@@ -22,7 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.dao.DAOFactory;
-import mvc.dao.model.ICategoryDAO;
 import mvc.model.Category;
 import mvc.model.Subcategory;
 import mvc.observer.category.CategoryEditListener;
@@ -141,7 +140,7 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 		
 		if(result == JOptionPane.OK_OPTION) {
 			log.debug("Add new subcategory with name: {}", subcatNameLabel.getText());
-			//addCategory(new Category(catName.getText()));
+			addSubcategory(new Subcategory(subcatName.getText(), (Category) catSelect.getSelectedItem()));
 		}
 		else {
 			log.debug("Add new subcategory canceled");
@@ -184,7 +183,7 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 
 	@Override
 	public void addSubcategory(Subcategory subcategory) {
-		// TODO Auto-generated method stub
-		
+		log.debug("Add new subcategory with name: {}", subcategory.getName());
+		for(CategoryEditListener listener : categoryEditListeners) listener.onSubcategoryAdd(subcategory);
 	}
 }
