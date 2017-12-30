@@ -35,7 +35,7 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	private List<Url> selectedUrls = null;
 	
 	public DeleteButton(Dimension size) {
-		log.info("Create delete button");
+		log.info("Initialize delete button");
 		
 		initializeSize(size);
 		initializeIcon();
