@@ -18,11 +18,14 @@ public final class AddNewButton extends JButton implements ActionListener {
 	private static final Logger log = LoggerFactory.getLogger(AddNewButton.class);
 	private static final String iconName = "toolbar_addnew.png";
 	
+	private JPopupMenu popup = null;
+	
 	public AddNewButton(Dimension size) {
 		log.info("Initialize add new button");
 		
 		initializeSize(size);
 		initializeIcon();
+		initializePopup();
 		
 		addActionListener(this);
 	}
@@ -47,19 +50,40 @@ public final class AddNewButton extends JButton implements ActionListener {
 			log.error("Failed to set icon", ex);
 		}
 	}
+	
+	private void initializePopup() {
+		log.debug("Initialize popup");
+		
+		ActionListener optionSelectedAction = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String source = e.getActionCommand();
+				log.debug("Selected option: {}", source);
+			}
+		};
+		
+		JMenuItem cat = new JMenuItem("Category");
+		cat.setActionCommand("cat");
+		cat.addActionListener(optionSelectedAction);
+		
+		JMenuItem subcat = new JMenuItem("Subcategory");
+		subcat.setActionCommand("subcat");
+		subcat.addActionListener(optionSelectedAction);
+		
+		JMenuItem url = new JMenuItem("Url");
+		url.setActionCommand("url");
+		url.addActionListener(optionSelectedAction);
+		
+		popup = new JPopupMenu();
+		popup.add(cat);
+		popup.add(subcat);
+		popup.addSeparator();
+		popup.add(url);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		log.debug("Pressed button");
-		
-		JPopupMenu popup = new JPopupMenu();
-		
-		popup.add(new JMenuItem("Category"));
-		popup.add(new JMenuItem("Subcategory"));
-		popup.addSeparator();
-		popup.add(new JMenuItem("Url"));
-		
+		log.debug("Pressed button");	
 		popup.show(this, 0, 25);
-		
 	}
 }
