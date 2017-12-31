@@ -21,6 +21,9 @@ public final class EditButton extends JButton implements ActionListener, Categor
 	private static final Logger log = LoggerFactory.getLogger(EditButton.class);
 	private static final String iconName = "toolbar_edit.png";
 	
+	private List<Category> selectedCategories = null;
+	private List<Subcategory> selectedSubcategories = null;
+	
 	public EditButton(Dimension size) {
 		log.info("Initialize edit button");
 		
@@ -62,17 +65,21 @@ public final class EditButton extends JButton implements ActionListener, Categor
 	public void onSelectCategory(List<Category> categories) {
 		log.debug("Categories selected");
 		setEnabled(true);
+		selectedCategories = categories;
 	}
 
 	@Override
 	public void onSelectSubcategory(List<Subcategory> subcategories) {
 		log.debug("Subcategories selected");
 		setEnabled(true);
+		selectedSubcategories = subcategories;
 	}
 
 	@Override
 	public void onUnselectAllCategories() {
 		log.debug("All categories unselected");
+		selectedCategories = null;
+		selectedSubcategories = null;
 		
 		setEnabled(false);
 	}
