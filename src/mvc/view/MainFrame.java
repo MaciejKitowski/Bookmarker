@@ -11,6 +11,7 @@ import mvc.view.model.CategoryView;
 import mvc.view.model.UrlView;
 import mvc.view.toolbar.AddNewButton;
 import mvc.view.toolbar.DeleteButton;
+import mvc.view.toolbar.EditButton;
 import mvc.view.toolbar.SelectDatabaseButton;
 import mvc.view.toolbar.ToolbarPanel;
 
@@ -95,6 +96,9 @@ public final class MainFrame extends JFrame {
 		AddNewButton add = toolbarPanel.getAddNewButton();
 		add.addCategoryEditListener(categoryController);
 		add.addUrlEditListener(urlController);
+		
+		EditButton ed = toolbarPanel.getEditButton();
+		ed.addCategoryEditListener(categoryController);
 		
 		categoryController.updateCategories();
 	}
