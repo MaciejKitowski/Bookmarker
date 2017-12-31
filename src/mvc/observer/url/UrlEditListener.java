@@ -6,4 +6,6 @@ import mvc.model.Url;
 
 public interface UrlEditListener {
 	public void onUrlDelete(List<Url> urls);
+	
+	public void onUrlAdd(Url url);
 }

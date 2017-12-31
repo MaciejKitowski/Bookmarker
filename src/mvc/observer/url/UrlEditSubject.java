@@ -9,4 +9,6 @@ public interface UrlEditSubject {
 	public void removeUrlEditListener(UrlEditListener listener);
 	
 	public void deleteUrls(List<Url> urls);
+	
+	public void addUrl(Url url);
 }
