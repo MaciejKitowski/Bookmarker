@@ -25,15 +25,19 @@ import org.slf4j.LoggerFactory;
 import mvc.dao.DAOFactory;
 import mvc.model.Category;
 import mvc.model.Subcategory;
+import mvc.model.Url;
 import mvc.observer.category.CategoryEditListener;
 import mvc.observer.category.CategoryEditSubject;
+import mvc.observer.url.UrlEditListener;
+import mvc.observer.url.UrlEditSubject;
 
-public final class AddNewButton extends JButton implements ActionListener, CategoryEditSubject {
+public final class AddNewButton extends JButton implements ActionListener, CategoryEditSubject, UrlEditSubject {
 	private static final long serialVersionUID = 3821107696744652502L;
 	private static final Logger log = LoggerFactory.getLogger(AddNewButton.class);
 	private static final String iconName = "toolbar_addnew.png";
 	
 	private List<CategoryEditListener> categoryEditListeners = new LinkedList<>();
+	private List<UrlEditListener> urlEditListeners = new LinkedList<>();
 	private JPopupMenu popup = null;
 	
 	public AddNewButton(Dimension size) {
@@ -178,8 +182,11 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 		int result = JOptionPane.showConfirmDialog(this, panel, "Add new url", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
 		if(result == JOptionPane.OK_OPTION) {
-			log.debug("Add new url: title={} url={} subcategory={}", title.getText(), url.getText(), ((Subcategory)(subcategory.getSelectedItem())).getName());
-			//addSubcategory(new Subcategory(subcatName.getText(), (Category) catSelect.getSelectedItem()));
+			log.debug("Add new url: title={} url={} subcategory: name={}", title.getText(), url.getText(), ((Subcategory)(subcategory.getSelectedItem())).getName());
+			Subcategory subcat = (Subcategory) subcategory.getSelectedItem();
+			
+			if(!description.getText().trim().isEmpty()) addUrl(new Url(url.getText(), title.getText(), description.getText(), subcat));
+			else  addUrl(new Url(url.getText(), title.getText(), subcat));
 		}
 		else {
 			log.debug("Add new url canceled");
@@ -224,5 +231,28 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 	public void addSubcategory(Subcategory subcategory) {
 		log.debug("Add new subcategory with name: {}", subcategory.getName());
 		for(CategoryEditListener listener : categoryEditListeners) listener.onSubcategoryAdd(subcategory);
+	}
+
+	@Override
+	public void addUrlEditListener(UrlEditListener listener) {
+		log.debug("Add new listener");
+		urlEditListeners.add(listener);
+	}
+
+	@Override
+	public void removeUrlEditListener(UrlEditListener listener) {
+		log.debug("Remove listener");
+		urlEditListeners.remove(listener);
+	}
+
+	@Override
+	public void deleteUrls(List<Url> urls) {
+		log.warn("Unwanted behaviour, add new button shouldn't delete urls");
+	}
+
+	@Override
+	public void addUrl(Url url) {
+		log.debug("Add new url: title={} url={}", url.getTitle(), url.getUrl());
+		for(UrlEditListener listener : urlEditListeners) listener.onUrlAdd(url);
 	}
 }

@@ -93,6 +93,7 @@ public final class MainFrame extends JFrame {
 		
 		AddNewButton add = toolbarPanel.getAddNewButton();
 		add.addCategoryEditListener(categoryController);
+		add.addUrlEditListener(urlController);
 		
 		categoryController.updateCategories();
 	}
