@@ -16,6 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.slf4j.Logger;
@@ -24,15 +25,19 @@ import org.slf4j.LoggerFactory;
 import mvc.dao.DAOFactory;
 import mvc.model.Category;
 import mvc.model.Subcategory;
+import mvc.model.Url;
 import mvc.observer.category.CategoryEditListener;
 import mvc.observer.category.CategoryEditSubject;
+import mvc.observer.url.UrlEditListener;
+import mvc.observer.url.UrlEditSubject;
 
-public final class AddNewButton extends JButton implements ActionListener, CategoryEditSubject {
+public final class AddNewButton extends JButton implements ActionListener, CategoryEditSubject, UrlEditSubject {
 	private static final long serialVersionUID = 3821107696744652502L;
 	private static final Logger log = LoggerFactory.getLogger(AddNewButton.class);
 	private static final String iconName = "toolbar_addnew.png";
 	
 	private List<CategoryEditListener> categoryEditListeners = new LinkedList<>();
+	private List<UrlEditListener> urlEditListeners = new LinkedList<>();
 	private JPopupMenu popup = null;
 	
 	public AddNewButton(Dimension size) {
@@ -77,6 +82,7 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 				
 				if(source.equalsIgnoreCase("cat")) addNewCategory();
 				else if(source.equalsIgnoreCase("subcat")) addNewSubcategory();
+				else if(source.equalsIgnoreCase("url")) addNewUrl();
 			}
 		};
 		
@@ -146,6 +152,46 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 			log.debug("Add new subcategory canceled");
 		}
 	}
+	
+	private void addNewUrl() {
+		log.debug("Add new url");
+		
+		JLabel titleLabel = new JLabel("Title");
+		JTextField title = new JTextField();
+		
+		JLabel urlLabel = new JLabel("Url");
+		JTextField url = new JTextField();
+		
+		JLabel descriptionLabel = new JLabel("Description");
+		JTextArea description = new JTextArea();
+		
+		JLabel subcategoryLabel = new JLabel("Select subcategory");
+		List<Subcategory> subList = DAOFactory.get().getCategory().getAll();
+		JComboBox<Subcategory> subcategory = new JComboBox<>(subList.toArray(new Subcategory[subList.size()]));
+		
+		JPanel panel = new JPanel(new GridLayout(0, 1));
+		panel.add(titleLabel);
+		panel.add(title);
+		panel.add(urlLabel);
+		panel.add(url);
+		panel.add(descriptionLabel);
+		panel.add(description);
+		panel.add(subcategoryLabel);
+		panel.add(subcategory);
+		
+		int result = JOptionPane.showConfirmDialog(this, panel, "Add new url", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		
+		if(result == JOptionPane.OK_OPTION) {
+			log.debug("Add new url: title={} url={} subcategory: name={}", title.getText(), url.getText(), ((Subcategory)(subcategory.getSelectedItem())).getName());
+			Subcategory subcat = (Subcategory) subcategory.getSelectedItem();
+			
+			if(!description.getText().trim().isEmpty()) addUrl(new Url(url.getText(), title.getText(), description.getText(), subcat));
+			else  addUrl(new Url(url.getText(), title.getText(), subcat));
+		}
+		else {
+			log.debug("Add new url canceled");
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -185,5 +231,28 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 	public void addSubcategory(Subcategory subcategory) {
 		log.debug("Add new subcategory with name: {}", subcategory.getName());
 		for(CategoryEditListener listener : categoryEditListeners) listener.onSubcategoryAdd(subcategory);
+	}
+
+	@Override
+	public void addUrlEditListener(UrlEditListener listener) {
+		log.debug("Add new listener");
+		urlEditListeners.add(listener);
+	}
+
+	@Override
+	public void removeUrlEditListener(UrlEditListener listener) {
+		log.debug("Remove listener");
+		urlEditListeners.remove(listener);
+	}
+
+	@Override
+	public void deleteUrls(List<Url> urls) {
+		log.warn("Unwanted behaviour, add new button shouldn't delete urls");
+	}
+
+	@Override
+	public void addUrl(Url url) {
+		log.debug("Add new url: title={} url={}", url.getTitle(), url.getUrl());
+		for(UrlEditListener listener : urlEditListeners) listener.onUrlAdd(url);
 	}
 }
