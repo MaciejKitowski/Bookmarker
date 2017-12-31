@@ -56,4 +56,8 @@ public final class ToolbarPanel extends JToolBar {
 	public AddNewButton getAddNewButton() {
 		return addNew;
 	}
+	
+	public EditButton getEditButton() {
+		return edit;
+	}
 }
