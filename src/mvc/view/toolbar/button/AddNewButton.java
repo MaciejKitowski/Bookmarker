@@ -135,41 +135,17 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 		}
 	}
 	
-	//TODO Group subcategories using unselectable categories
 	private void addNewUrl() {
 		log.debug("Add new url");
 		
-		JLabel titleLabel = new JLabel("Title");
-		JTextField title = new JTextField();
-		
-		JLabel urlLabel = new JLabel("Url");
-		JTextField url = new JTextField();
-		
-		JLabel descriptionLabel = new JLabel("Description");
-		JTextArea description = new JTextArea();
-		
-		JLabel subcategoryLabel = new JLabel("Select subcategory");
-		List<Subcategory> subList = DAOFactory.get().getCategory().getAll();
-		JComboBox<Subcategory> subcategory = new JComboBox<>(subList.toArray(new Subcategory[subList.size()]));
-		
-		JPanel panel = new JPanel(new GridLayout(0, 1));
-		panel.add(titleLabel);
-		panel.add(title);
-		panel.add(urlLabel);
-		panel.add(url);
-		panel.add(descriptionLabel);
-		panel.add(description);
-		panel.add(subcategoryLabel);
-		panel.add(subcategory);
-		
+		UrlPanel panel = new UrlPanel();
 		int result = JOptionPane.showConfirmDialog(this, panel, "Add new url", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
 		if(result == JOptionPane.OK_OPTION) {
-			log.debug("Add new url: title={} url={} subcategory: name={}", title.getText(), url.getText(), ((Subcategory)(subcategory.getSelectedItem())).getName());
-			Subcategory subcat = (Subcategory) subcategory.getSelectedItem();
+			log.debug("Add new url: title={} url={} subcategory: name={}", panel.getUrl(), panel.getSubcategory().getName());
 			
-			if(!description.getText().trim().isEmpty()) addUrl(new Url(url.getText(), title.getText(), description.getText(), subcat));
-			else  addUrl(new Url(url.getText(), title.getText(), subcat));
+			if(!panel.isDescriptionEmpty()) addUrl(new Url(panel.getUrl(), panel.getTitle(), panel.getDescription(), panel.getSubcategory())); 
+			else addUrl(new Url(panel.getUrl(), panel.getTitle(), panel.getSubcategory()));
 		}
 		else {
 			log.debug("Add new url canceled");
