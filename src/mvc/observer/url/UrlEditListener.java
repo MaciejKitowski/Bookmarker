@@ -8,4 +8,6 @@ public interface UrlEditListener {
 	public void onUrlDelete(List<Url> urls);
 	
 	public void onUrlAdd(Url url);
+	
+	public void onUrlEdit(List<Url> urls);
 }

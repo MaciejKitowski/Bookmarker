@@ -11,4 +11,6 @@ public interface UrlEditSubject {
 	public void deleteUrls(List<Url> urls);
 	
 	public void addUrl(Url url);
+	
+	public void editUrls(List<Url> urls);
 }

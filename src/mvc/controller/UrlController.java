@@ -147,4 +147,10 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 			else if(selectedCategories != null) onSelectCategory(selectedCategories);
 		}
 	}
+
+	@Override
+	public void onUrlEdit(List<Url> urls) {
+		log.debug("Edit {} urls", urls.size());
+		
+	}
 }
