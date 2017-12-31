@@ -153,7 +153,7 @@ public final class CategoryController implements CategoryUpdateSubject, Database
 		
 		for(Subcategory cat : subcategories) {
 			if(!catDao.update(cat)) {
-				log.warn("Failed to edit category");
+				log.warn("Failed to edit subcategory");
 			}
 		}
 		

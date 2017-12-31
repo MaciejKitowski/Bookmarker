@@ -152,5 +152,13 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	public void onUrlEdit(List<Url> urls) {
 		log.debug("Edit {} urls", urls.size());
 		
+		for(Url url : urls) {
+			if(!urlDao.update(url)) {
+				log.warn("Failed to edit url");
+			}
+		}
+		
+		if(selectedSubcategories != null) onSelectSubcategory(selectedSubcategories);
+		else if(selectedCategories != null) onSelectCategory(selectedCategories);
 	}
 }
