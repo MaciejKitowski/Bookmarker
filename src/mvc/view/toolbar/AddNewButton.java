@@ -16,6 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.slf4j.Logger;
@@ -77,6 +78,7 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 				
 				if(source.equalsIgnoreCase("cat")) addNewCategory();
 				else if(source.equalsIgnoreCase("subcat")) addNewSubcategory();
+				else if(source.equalsIgnoreCase("url")) addNewUrl();
 			}
 		};
 		
@@ -144,6 +146,43 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 		}
 		else {
 			log.debug("Add new subcategory canceled");
+		}
+	}
+	
+	private void addNewUrl() {
+		log.debug("Add new url");
+		
+		JLabel titleLabel = new JLabel("Title");
+		JTextField title = new JTextField();
+		
+		JLabel urlLabel = new JLabel("Url");
+		JTextField url = new JTextField();
+		
+		JLabel descriptionLabel = new JLabel("Description");
+		JTextArea description = new JTextArea();
+		
+		JLabel subcategoryLabel = new JLabel("Select subcategory");
+		List<Subcategory> subList = DAOFactory.get().getCategory().getAll();
+		JComboBox<Subcategory> subcategory = new JComboBox<>(subList.toArray(new Subcategory[subList.size()]));
+		
+		JPanel panel = new JPanel(new GridLayout(0, 1));
+		panel.add(titleLabel);
+		panel.add(title);
+		panel.add(urlLabel);
+		panel.add(url);
+		panel.add(descriptionLabel);
+		panel.add(description);
+		panel.add(subcategoryLabel);
+		panel.add(subcategory);
+		
+		int result = JOptionPane.showConfirmDialog(this, panel, "Add new url", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		
+		if(result == JOptionPane.OK_OPTION) {
+			log.debug("Add new url: title={} url={} subcategory={}", title.getText(), url.getText(), ((Subcategory)(subcategory.getSelectedItem())).getName());
+			//addSubcategory(new Subcategory(subcatName.getText(), (Category) catSelect.getSelectedItem()));
+		}
+		else {
+			log.debug("Add new url canceled");
 		}
 	}
 
