@@ -9,11 +9,11 @@ import mvc.controller.CategoryController;
 import mvc.controller.UrlController;
 import mvc.view.model.CategoryView;
 import mvc.view.model.UrlView;
-import mvc.view.toolbar.AddNewButton;
-import mvc.view.toolbar.DeleteButton;
-import mvc.view.toolbar.EditButton;
-import mvc.view.toolbar.SelectDatabaseButton;
 import mvc.view.toolbar.ToolbarPanel;
+import mvc.view.toolbar.button.AddNewButton;
+import mvc.view.toolbar.button.DeleteButton;
+import mvc.view.toolbar.button.EditButton;
+import mvc.view.toolbar.button.SelectDatabaseButton;
 
 public final class MainFrame extends JFrame {
 	private static final long serialVersionUID = 4785143357028575468L;

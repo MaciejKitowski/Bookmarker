@@ -8,6 +8,11 @@ import javax.swing.JToolBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import mvc.view.toolbar.button.AddNewButton;
+import mvc.view.toolbar.button.DeleteButton;
+import mvc.view.toolbar.button.EditButton;
+import mvc.view.toolbar.button.SelectDatabaseButton;
+
 public final class ToolbarPanel extends JToolBar {
 	private static final long serialVersionUID = 1071937589387532800L;
 	private static final Logger log = LoggerFactory.getLogger(ToolbarPanel.class);
