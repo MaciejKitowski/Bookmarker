@@ -75,7 +75,10 @@ public final class UrlTableModel extends AbstractTableModel {
 			if(col == 0) toReturn = url.getID();
 			else if(col == 1) toReturn = url.getTitle();
 			else if(col == 2) toReturn = url.getUrl();
-			else if(col == 3) toReturn = url.getDescription();
+			else if(col == 3) {
+				if(url.getDescription() == null) toReturn = "";
+				else toReturn = url.getDescription();
+			}
 		}
 		
 		return toReturn;

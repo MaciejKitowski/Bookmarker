@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.slf4j.Logger;
@@ -26,13 +27,17 @@ import mvc.model.Url;
 import mvc.observer.category.CategoryEditListener;
 import mvc.observer.category.CategoryEditSubject;
 import mvc.observer.category.CategorySelectListener;
+import mvc.observer.url.UrlEditListener;
+import mvc.observer.url.UrlEditSubject;
+import mvc.observer.url.UrlSelectListener;
 
-public final class EditButton extends JButton implements ActionListener, CategorySelectListener, CategoryEditSubject {
+public final class EditButton extends JButton implements ActionListener, CategorySelectListener, CategoryEditSubject, UrlSelectListener, UrlEditSubject {
 	private static final long serialVersionUID = 2452055567420326318L;
 	private static final Logger log = LoggerFactory.getLogger(EditButton.class);
 	private static final String iconName = "toolbar_edit.png";
 	
 	private List<CategoryEditListener> categoryEditListeners = new LinkedList<>();
+	private List<UrlEditListener> urlEditListeners = new LinkedList<>();
 	private List<Category> selectedCategories = null;
 	private List<Subcategory> selectedSubcategories = null;
 	private List<Url> selectedUrls = null;
@@ -72,7 +77,7 @@ public final class EditButton extends JButton implements ActionListener, Categor
 	public void actionPerformed(ActionEvent e) {
 		log.debug("Pressed button");
 		
-		if(selectedUrls != null) log.warn("Url edition not implemented yet");
+		if(selectedUrls != null) editUrls(selectedUrls);
 		else if(selectedSubcategories != null) editSubcategories(selectedSubcategories);
 		else if(selectedCategories != null) editCategories(selectedCategories);
 		else {
@@ -101,6 +106,21 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		selectedSubcategories = null;
 		
 		setEnabled(false);
+	}
+	
+	@Override
+	public void onSelectUrl(List<Url> urls) {
+		log.debug("Urls selected");
+		setEnabled(true);
+		selectedUrls = urls;
+	}
+
+	@Override
+	public void onUnselectAllUrls() {
+		log.debug("All urls unselected");
+		selectedUrls = null;
+		
+		if(selectedCategories == null && selectedSubcategories == null) setEnabled(false);
 	}
 
 	@Override
@@ -211,10 +231,98 @@ public final class EditButton extends JButton implements ActionListener, Categor
 				subcategory.setParent((Category) catSelect.getSelectedItem());
 			}
 			else {
-				log.debug("Add new subcategory canceled");
+				log.debug("Edit subcategory canceled");
 			}
 		}
 		
 		for(CategoryEditListener listener : categoryEditListeners) listener.onSubcategoryEdit(subcategories);
+	}
+
+	@Override
+	public void addUrlEditListener(UrlEditListener listener) {
+		log.debug("Add new listener");
+		urlEditListeners.add(listener);
+	}
+
+	@Override
+	public void removeUrlEditListener(UrlEditListener listener) {
+		log.debug("Remove listener");
+		urlEditListeners.remove(listener);
+	}
+
+	@Override
+	public void deleteUrls(List<Url> urls) {
+		log.warn("Unwanted behaviour, edit button shouldn't delete urls");
+	}
+
+	@Override
+	public void addUrl(Url url) {
+		log.warn("Unwanted behaviour, edit button shouldn't add new urls");
+	}
+
+	@Override
+	public void editUrls(List<Url> urls) {
+		log.debug("Edit urls");
+		
+		for(Url url : urls) {
+			log.debug("Edit subcategory: ID={}, title={}, url={}", url.getID(), url.getTitle(), url.getUrl());
+			
+			JLabel idLabel = new JLabel("ID");
+			JTextField id = new JTextField(String.valueOf(url.getID()));
+			id.setEnabled(false);
+			
+			JLabel titleLabel = new JLabel("Title");
+			JTextField title = new JTextField(url.getTitle());
+			
+			JLabel urlLabel = new JLabel("Url");
+			JTextField urlField = new JTextField(url.getUrl());
+			
+			JLabel descriptionLabel = new JLabel("Description");
+			JTextArea description = new JTextArea();
+			if(url.getDescription() != null) description.setText(url.getDescription());
+			
+			JLabel subcategoryLabel = new JLabel("Select subcategory");
+			List<Subcategory> subList = DAOFactory.get().getCategory().getAll();
+			JComboBox<Subcategory> subcategory = new JComboBox<>(subList.toArray(new Subcategory[subList.size()]));
+			Subcategory current = null;
+			for(Subcategory cat : subList) {
+				if(url.getCategory().getID() == cat.getID()) {
+					current = cat;
+					break;
+				}
+			}
+			subcategory.setSelectedItem(current);
+			
+			JPanel panel = new JPanel(new GridLayout(0, 1));
+			panel.add(idLabel);
+			panel.add(id);
+			panel.add(titleLabel);
+			panel.add(title);
+			panel.add(urlLabel);
+			panel.add(urlField);
+			panel.add(descriptionLabel);
+			panel.add(description);
+			panel.add(subcategoryLabel);
+			panel.add(subcategory);
+			
+			int result = JOptionPane.showConfirmDialog(this, panel, "Edit url", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			
+			if(result == JOptionPane.OK_OPTION) {
+				log.debug("Edit url");
+				
+				url.setTitle(title.getText());
+				url.setUrl(urlField.getText());
+
+				if(!description.getText().trim().isEmpty()) url.setDescription(description.getText());
+				else url.setDescription(null);
+				
+				url.setCategory((Subcategory) subcategory.getSelectedItem());
+			}
+			else {
+				log.debug("Edit url canceled");
+			}
+		}
+		
+		for(UrlEditListener listener : urlEditListeners) listener.onUrlEdit(urls);
 	}
 }
