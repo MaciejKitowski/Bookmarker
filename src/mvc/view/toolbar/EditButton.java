@@ -1,6 +1,7 @@
 package mvc.view.toolbar;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -9,6 +10,10 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,8 +71,8 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		log.debug("Pressed button");
 		
 		if(selectedUrls != null) log.warn("Url edition not implemented yet");
-		else if(selectedSubcategories != null) log.warn("Subcategory edition not implemented yet");
-		else if(selectedCategories != null) log.warn("Category edition not implemented yet");
+		else if(selectedSubcategories != null) editSubcategories(selectedSubcategories);
+		else if(selectedCategories != null) editCategories(selectedCategories);
 		else {
 			log.warn("Unwanted behaviour, edit button should be disabled if everything is unselected");
 		}
@@ -131,7 +136,33 @@ public final class EditButton extends JButton implements ActionListener, Categor
 	@Override
 	public void editCategories(List<Category> categories) {
 		log.debug("Edit categories");
-		
+			
+		for(Category category : categories) {
+			log.debug("Edit category: ID={}, name={}", category.getID(), category.getName());
+			
+			JLabel idLabel = new JLabel("ID");
+			JTextField id = new JTextField(String.valueOf(category.getID()));
+			id.setEnabled(false);
+			
+			JLabel catNameLabel = new JLabel("Name");
+			JTextField catName = new JTextField(category.getName());
+			
+			JPanel panel = new JPanel(new GridLayout(0, 1));
+			panel.add(idLabel);
+			panel.add(id);
+			panel.add(catNameLabel);
+			panel.add(catName);
+			
+			int result = JOptionPane.showConfirmDialog(this, panel, "Edit category", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			
+			if(result == JOptionPane.OK_OPTION) {
+				//log.debug("Add new category with name: {}", catName.getText());
+				//addCategory(new Category(catName.getText()));
+			}
+			else {
+				log.debug("Edit category canceled");
+			}
+		}
 	}
 
 	@Override
