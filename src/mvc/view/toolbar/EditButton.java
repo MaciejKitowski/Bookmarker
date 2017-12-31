@@ -22,6 +22,7 @@ public final class EditButton extends JButton implements ActionListener {
 		initializeSize(size);
 		initializeIcon();
 		
+		setEnabled(false);
 		addActionListener(this);
 	}
 	
