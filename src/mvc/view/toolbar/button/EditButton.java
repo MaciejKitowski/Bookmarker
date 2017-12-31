@@ -228,57 +228,20 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		
 		for(Url url : urls) {
 			log.debug("Edit subcategory: ID={}, title={}, url={}", url.getID(), url.getTitle(), url.getUrl());
-			
-			JLabel idLabel = new JLabel("ID");
-			JTextField id = new JTextField(String.valueOf(url.getID()));
-			id.setEnabled(false);
-			
-			JLabel titleLabel = new JLabel("Title");
-			JTextField title = new JTextField(url.getTitle());
-			
-			JLabel urlLabel = new JLabel("Url");
-			JTextField urlField = new JTextField(url.getUrl());
-			
-			JLabel descriptionLabel = new JLabel("Description");
-			JTextArea description = new JTextArea();
-			if(url.getDescription() != null) description.setText(url.getDescription());
-			
-			JLabel subcategoryLabel = new JLabel("Select subcategory");
-			List<Subcategory> subList = DAOFactory.get().getCategory().getAll();
-			JComboBox<Subcategory> subcategory = new JComboBox<>(subList.toArray(new Subcategory[subList.size()]));
-			Subcategory current = null;
-			for(Subcategory cat : subList) {
-				if(url.getCategory().getID() == cat.getID()) {
-					current = cat;
-					break;
-				}
-			}
-			subcategory.setSelectedItem(current);
-			
-			JPanel panel = new JPanel(new GridLayout(0, 1));
-			panel.add(idLabel);
-			panel.add(id);
-			panel.add(titleLabel);
-			panel.add(title);
-			panel.add(urlLabel);
-			panel.add(urlField);
-			panel.add(descriptionLabel);
-			panel.add(description);
-			panel.add(subcategoryLabel);
-			panel.add(subcategory);
-			
+						
+			UrlPanel panel = new UrlPanel(url);
 			int result = JOptionPane.showConfirmDialog(this, panel, "Edit url", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			
 			if(result == JOptionPane.OK_OPTION) {
 				log.debug("Edit url");
 				
-				url.setTitle(title.getText());
-				url.setUrl(urlField.getText());
-
-				if(!description.getText().trim().isEmpty()) url.setDescription(description.getText());
+				url.setTitle(panel.getTitle());
+				url.setUrl(panel.getUrl());
+				
+				if(!panel.isDescriptionEmpty()) url.setDescription(panel.getDescription());
 				else url.setDescription(null);
 				
-				url.setCategory((Subcategory) subcategory.getSelectedItem());
+				url.setCategory(panel.getSubcategory());
 			}
 			else {
 				log.debug("Edit url canceled");
