@@ -1,7 +1,6 @@
 package mvc.view.toolbar.button;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -10,19 +9,12 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mvc.dao.DAOFactory;
 import mvc.model.Category;
 import mvc.model.Subcategory;
 import mvc.model.Url;
