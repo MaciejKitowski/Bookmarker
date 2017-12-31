@@ -156,13 +156,14 @@ public final class EditButton extends JButton implements ActionListener, Categor
 			int result = JOptionPane.showConfirmDialog(this, panel, "Edit category", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			
 			if(result == JOptionPane.OK_OPTION) {
-				//log.debug("Add new category with name: {}", catName.getText());
-				//addCategory(new Category(catName.getText()));
+				category.setName(catName.getText());
 			}
 			else {
 				log.debug("Edit category canceled");
 			}
 		}
+		
+		for(CategoryEditListener listener : categoryEditListeners) listener.onCategoryEdit(categories);
 	}
 
 	@Override

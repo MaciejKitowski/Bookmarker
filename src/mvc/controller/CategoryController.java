@@ -136,13 +136,27 @@ public final class CategoryController implements CategoryUpdateSubject, Database
 
 	@Override
 	public void onCategoryEdit(List<Category> categories) {
-		// TODO Auto-generated method stub
+		log.debug("Edit {} categories", categories.size());
 		
+		for(Category cat : categories) {
+			if(!mainDao.update(cat)) {
+				log.warn("Failed to edit category");
+			}
+		}
+		
+		updateCategories();
 	}
 
 	@Override
 	public void onSubcategoryEdit(List<Subcategory> subcategories) {
-		// TODO Auto-generated method stub
+		log.debug("Edit {} subcategories", subcategories.size());
 		
+		for(Subcategory cat : subcategories) {
+			if(!catDao.update(cat)) {
+				log.warn("Failed to edit category");
+			}
+		}
+		
+		updateCategories();
 	}
 }
