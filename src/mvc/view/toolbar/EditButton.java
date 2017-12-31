@@ -26,13 +26,16 @@ import mvc.model.Url;
 import mvc.observer.category.CategoryEditListener;
 import mvc.observer.category.CategoryEditSubject;
 import mvc.observer.category.CategorySelectListener;
+import mvc.observer.url.UrlEditListener;
+import mvc.observer.url.UrlEditSubject;
 
-public final class EditButton extends JButton implements ActionListener, CategorySelectListener, CategoryEditSubject {
+public final class EditButton extends JButton implements ActionListener, CategorySelectListener, CategoryEditSubject, UrlEditSubject {
 	private static final long serialVersionUID = 2452055567420326318L;
 	private static final Logger log = LoggerFactory.getLogger(EditButton.class);
 	private static final String iconName = "toolbar_edit.png";
 	
 	private List<CategoryEditListener> categoryEditListeners = new LinkedList<>();
+	private List<UrlEditListener> urlEditListeners = new LinkedList<>();
 	private List<Category> selectedCategories = null;
 	private List<Subcategory> selectedSubcategories = null;
 	private List<Url> selectedUrls = null;
@@ -216,5 +219,33 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		}
 		
 		for(CategoryEditListener listener : categoryEditListeners) listener.onSubcategoryEdit(subcategories);
+	}
+
+	@Override
+	public void addUrlEditListener(UrlEditListener listener) {
+		log.debug("Add new listener");
+		urlEditListeners.add(listener);
+	}
+
+	@Override
+	public void removeUrlEditListener(UrlEditListener listener) {
+		log.debug("Remove listener");
+		urlEditListeners.remove(listener);
+	}
+
+	@Override
+	public void deleteUrls(List<Url> urls) {
+		log.warn("Unwanted behaviour, edit button shouldn't delete urls");
+	}
+
+	@Override
+	public void addUrl(Url url) {
+		log.warn("Unwanted behaviour, edit button shouldn't add new urls");
+	}
+
+	@Override
+	public void editUrls(List<Url> urls) {
+		// TODO Auto-generated method stub
+		
 	}
 }
