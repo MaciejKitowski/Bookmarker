@@ -99,7 +99,8 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 				}
 				
 				if(subcategories.size() > 0) selectSubcategory(subcategories);
-				else selectCategory(categories);
+				else if(categories.size() > 0) selectCategory(categories);
+				else selectNothing();
 			}
 		});
 	}
@@ -130,6 +131,8 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 	
 	private void setTreeList(Map<Category, List<Subcategory>> categories) {
 		log.debug("Add {} nodes to tree list", categories.size());
+		
+		treeRoot.removeAllChildren();
 		
 		for(Map.Entry<Category, List<Subcategory>> entry : categories.entrySet()) {
 			log.debug("Add category (ID={} name={}) as node", entry.getKey().getID(), entry.getKey().getName());
@@ -176,6 +179,12 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 	public void selectSubcategory(List<Subcategory> subcategories) {
 		log.debug("Call listeners with {} subcategories", subcategories.size());
 		for(CategorySelectListener listener : listeners) listener.onSelectSubcategory(subcategories);
+	}
+	
+	@Override
+	public void selectNothing() {
+		log.debug("Call listeners that all categories are unselected");
+		for(CategorySelectListener listener : listeners) listener.onUnselectAllCategories();
 	}
 
 	@Override

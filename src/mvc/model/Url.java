@@ -77,7 +77,7 @@ public final class Url {
 	}
 
 	public void setDescription(String description) {
-		log.debug("Set description: {}", description);
+		if(description != null) log.debug("Set description: {}", description);
 		this.description = description;
 	}
 

@@ -11,10 +11,12 @@ import mvc.dao.model.IUrlDAO;
 
 public abstract class DAOFactory {
 	private static final Logger log = LoggerFactory.getLogger(DAOFactory.class);
-	
+
 	public static final int SQLITE = 1;
 	public static final int MYSQL = 2;
 	public static final int POSTGRES = 3;
+	
+	private static int defaultFactory = SQLITE;
 	
 	public abstract ICategoryDAO getMainCategory();
 	public abstract ISubcategoryDAO getCategory();
@@ -22,6 +24,11 @@ public abstract class DAOFactory {
 	
 	public abstract String getName();
 	public abstract Connection getConnection();
+	
+	public static DAOFactory get() {
+		log.debug("Get default database factory");
+		return get(defaultFactory);
+	}
 
 	public static DAOFactory get(int database) {
 		if(database == SQLITE) {
@@ -40,5 +47,10 @@ public abstract class DAOFactory {
 			log.warn("Wrong database selection");
 			return null;
 		}
+	}
+	
+	public static void setDefaultFactory(int factory) {
+		log.debug("Set new default factory: {}", get(factory).getName());
+		defaultFactory = factory;
 	}
 }

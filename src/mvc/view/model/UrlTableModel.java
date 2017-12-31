@@ -29,6 +29,13 @@ public final class UrlTableModel extends AbstractTableModel {
 		
 		fireTableDataChanged();
 	}
+	
+	public void removeAll() {
+		log.debug("Remove all values");
+		this.urls = new LinkedList<>();
+		
+		fireTableDataChanged();
+	}
 
 	@Override
 	public int getColumnCount() {
@@ -49,6 +56,14 @@ public final class UrlTableModel extends AbstractTableModel {
 	public Class<?> getColumnClass(int columnIndex) {
 		return getValueAt(0, columnIndex).getClass();
 	}
+	
+	public Url getValue(int row) {
+		if(urls == null || row >= urls.size() || row < 0) {
+			log.warn("Wrong getValue row index: {}", row);
+			return null;
+		}
+		else return urls.get(row);
+	}
 
 	@Override
 	public Object getValueAt(int row, int col) {
@@ -60,7 +75,10 @@ public final class UrlTableModel extends AbstractTableModel {
 			if(col == 0) toReturn = url.getID();
 			else if(col == 1) toReturn = url.getTitle();
 			else if(col == 2) toReturn = url.getUrl();
-			else if(col == 3) toReturn = url.getDescription();
+			else if(col == 3) {
+				if(url.getDescription() == null) toReturn = "";
+				else toReturn = url.getDescription();
+			}
 		}
 		
 		return toReturn;

@@ -13,28 +13,39 @@ import mvc.model.Subcategory;
 import mvc.model.Category;
 import mvc.model.Url;
 import mvc.observer.category.CategorySelectListener;
+import mvc.observer.toolbar.DatabaseChangeListener;
+import mvc.observer.url.UrlEditListener;
 import mvc.observer.url.UrlUpdateListener;
 import mvc.observer.url.UrlUpdateSubject;
 
-public final class UrlController implements CategorySelectListener, UrlUpdateSubject {
+public final class UrlController implements CategorySelectListener, UrlUpdateSubject, DatabaseChangeListener, UrlEditListener {
 	private static final Logger log = LoggerFactory.getLogger(UrlController.class);
 	
 	private List<UrlUpdateListener> urlUpdateListeners = new LinkedList<>();
+	private List<Category> selectedCategories = null;
+	private List<Subcategory> selectedSubcategories = null;
 	private IUrlDAO urlDao = null;
 	private ISubcategoryDAO catDao = null;
 	
 	public UrlController() {
 		log.info("Initialize url controller");
 		
-		//TODO add posibility to get dao factory without parameter (load selected database index from file)
-		urlDao = DAOFactory.get(DAOFactory.SQLITE).getUrl();
-		catDao = DAOFactory.get(DAOFactory.SQLITE).getCategory();
+		initializeDAO();
+	}
+	
+	private void initializeDAO() {
+		log.debug("Initialize dao");
+		
+		urlDao = DAOFactory.get().getUrl();
+		catDao = DAOFactory.get().getCategory();
 	}
 
 	@Override
 	public void onSelectCategory(List<Category> categories) {
-		log.debug("Main categories selected");
+		log.debug("Categories selected");
 		
+		selectedCategories = categories;
+		selectedSubcategories = null;
 		List<Url> urls = new LinkedList<>();
 		
 		for(Category cat : categories) {
@@ -56,8 +67,10 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 
 	@Override
 	public void onSelectSubcategory(List<Subcategory> subcategories) {
-		log.debug("Main categories selected");
+		log.debug("Subcategories selected");
 		
+		selectedCategories = null;
+		selectedSubcategories = subcategories;
 		List<Url> urls = new LinkedList<>();
 		
 		for(Subcategory subcat : subcategories) {
@@ -68,6 +81,14 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 		
 		log.debug("Found {} urls", urls.size());
 		updateUrls(urls);
+	}
+	
+	@Override
+	public void onUnselectAllCategories() {
+		log.debug("All categories unselected");
+		selectedCategories = null;
+		selectedSubcategories = null;
+		updateUrls(null);
 	}
 	
 	@Override
@@ -86,5 +107,58 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	public void updateUrls(List<Url> urls) {
 		log.debug("Call {} url update listeners", urlUpdateListeners.size());
 		for(UrlUpdateListener listener : urlUpdateListeners) listener.onUrlUpdate(urls);
+	}
+
+	@Override
+	public void onDatabaseChange() {
+		log.debug("Database changed");
+		initializeDAO();
+		updateUrls(null);
+	}
+
+	@Override
+	public void onUrlDelete(List<Url> urls) {
+		log.debug("Delete {} urls", urls.size());
+		
+		for(Url url : urls) {
+			log.debug("Delete url: ID={} title={} url={}", url.getID(), url.getTitle(), url.getUrl());
+			
+			if(urlDao.delete(url.getID())) {
+				log.warn("Failed to delete url");
+			}
+		}
+		
+		if(selectedSubcategories != null) onSelectSubcategory(selectedSubcategories);
+		else if(selectedCategories != null) onSelectCategory(selectedCategories);
+		else {
+			log.warn("Unwanted behaviour, delete button should be disabled if categories are unselected");
+		}
+	}
+
+	@Override
+	public void onUrlAdd(Url url) {
+		log.debug("Add new url: title={}, url={}", url.getTitle(), url.getUrl());
+		
+		if(urlDao.insert(url) == IUrlDAO.INSERT_FAIL) {
+			log.warn("Failed to add new subcategory");
+		}
+		else {
+			if(selectedSubcategories != null) onSelectSubcategory(selectedSubcategories);
+			else if(selectedCategories != null) onSelectCategory(selectedCategories);
+		}
+	}
+
+	@Override
+	public void onUrlEdit(List<Url> urls) {
+		log.debug("Edit {} urls", urls.size());
+		
+		for(Url url : urls) {
+			if(!urlDao.update(url)) {
+				log.warn("Failed to edit url");
+			}
+		}
+		
+		if(selectedSubcategories != null) onSelectSubcategory(selectedSubcategories);
+		else if(selectedCategories != null) onSelectCategory(selectedCategories);
 	}
 }
