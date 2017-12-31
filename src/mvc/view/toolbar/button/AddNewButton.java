@@ -123,7 +123,7 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 	private void addNewSubcategory() {
 		log.debug("Add new subcategory");
 		
-		JLabel subcatNameLabel = new JLabel("Name");
+		/*JLabel subcatNameLabel = new JLabel("Name");
 		JTextField subcatName = new JTextField();
 		
 		JLabel catSelectLabel = new JLabel("Select category");
@@ -134,13 +134,14 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 		panel.add(catSelectLabel);
 		panel.add(catSelect);
 		panel.add(subcatNameLabel);
-		panel.add(subcatName);
+		panel.add(subcatName);*/
 		
+		SubcategoryPanel panel = new SubcategoryPanel();
 		int result = JOptionPane.showConfirmDialog(this, panel, "Add new subcategory", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
 		if(result == JOptionPane.OK_OPTION) {
-			log.debug("Add new subcategory with name: {}", subcatNameLabel.getText());
-			addSubcategory(new Subcategory(subcatName.getText(), (Category) catSelect.getSelectedItem()));
+			log.debug("Add new subcategory with name: {}", panel.getName());
+			addSubcategory(new Subcategory(panel.getName(), panel.getCategory()));
 		}
 		else {
 			log.debug("Add new subcategory canceled");

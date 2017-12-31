@@ -48,11 +48,13 @@ final class SubcategoryPanel extends JPanel {
 		
 		setLayout(new GridLayout(0, 1));
 		
+		List<Category> categories = DAOFactory.get().getMainCategory().getAll();
+		selectCategoryField = new JComboBox<>(categories.toArray(new Category[categories.size()]));
+		
 		if(subcategory != null) {
 			idField.setText(String.valueOf(subcategory.getID()));
 			nameField.setText(subcategory.getName());
 			
-			List<Category> categories = DAOFactory.get().getMainCategory().getAll();
 			Category current = null;
 			for(Category cat : categories) {
 				if(subcategory.getParent().getID() == cat.getID()) {
@@ -61,7 +63,6 @@ final class SubcategoryPanel extends JPanel {
 				}
 			}
 			
-			selectCategoryField = new JComboBox<>(categories.toArray(new Category[categories.size()]));
 			selectCategoryField.setSelectedItem(current);
 		}
 		
@@ -75,5 +76,13 @@ final class SubcategoryPanel extends JPanel {
 		add(selectCategoryField);
 		add(nameLabel);
 		add(nameField);
+	}
+	
+	public String getName() {
+		return nameField.getText();
+	}
+	
+	public Category getCategory() {
+		return (Category) selectCategoryField.getSelectedItem();
 	}
 }
