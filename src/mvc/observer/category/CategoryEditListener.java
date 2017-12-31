@@ -11,4 +11,7 @@ public interface CategoryEditListener {
 	
 	public void onCategoryAdd(Category category);
 	public void onSubcategoryAdd(Subcategory subcategory);
+	
+	public void onCategoryEdit(List<Category> categories);
+	public void onSubcategoryEdit(List<Subcategory> subcategories);
 }

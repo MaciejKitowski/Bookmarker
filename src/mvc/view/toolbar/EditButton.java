@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -15,13 +16,16 @@ import org.slf4j.LoggerFactory;
 import mvc.model.Category;
 import mvc.model.Subcategory;
 import mvc.model.Url;
+import mvc.observer.category.CategoryEditListener;
+import mvc.observer.category.CategoryEditSubject;
 import mvc.observer.category.CategorySelectListener;
 
-public final class EditButton extends JButton implements ActionListener, CategorySelectListener {
+public final class EditButton extends JButton implements ActionListener, CategorySelectListener, CategoryEditSubject {
 	private static final long serialVersionUID = 2452055567420326318L;
 	private static final Logger log = LoggerFactory.getLogger(EditButton.class);
 	private static final String iconName = "toolbar_edit.png";
 	
+	private List<CategoryEditListener> categoryEditListeners = new LinkedList<>();
 	private List<Category> selectedCategories = null;
 	private List<Subcategory> selectedSubcategories = null;
 	private List<Url> selectedUrls = null;
@@ -90,5 +94,49 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		selectedSubcategories = null;
 		
 		setEnabled(false);
+	}
+
+	@Override
+	public void addCategoryEditListener(CategoryEditListener listener) {
+		log.debug("Add new listener");
+		categoryEditListeners.add(listener);
+	}
+
+	@Override
+	public void removeCategoryEditListener(CategoryEditListener listener) {
+		log.debug("Remove listener");
+		categoryEditListeners.remove(listener);
+	}
+
+	@Override
+	public void deleteCategories(List<Category> categories) {
+		log.warn("Unwanted behaviour, edit button shouldn't delete categories");
+	}
+
+	@Override
+	public void deleteSubcategories(List<Subcategory> subcategories) {
+		log.warn("Unwanted behaviour, edit button shouldn't delete subcategories");
+	}
+
+	@Override
+	public void addCategory(Category category) {
+		log.warn("Unwanted behaviour, edit button shouldn't add new categories");
+	}
+
+	@Override
+	public void addSubcategory(Subcategory subcategory) {
+		log.warn("Unwanted behaviour, edit button shouldn't delete subcategories");
+	}
+
+	@Override
+	public void editCategories(List<Category> categories) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void editSubcategories(List<Subcategory> subcategories) {
+		// TODO Auto-generated method stub
+		
 	}
 }

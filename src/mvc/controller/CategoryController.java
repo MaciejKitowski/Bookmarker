@@ -133,4 +133,16 @@ public final class CategoryController implements CategoryUpdateSubject, Database
 		}
 		else updateCategories();
 	}
+
+	@Override
+	public void onCategoryEdit(List<Category> categories) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSubcategoryEdit(List<Subcategory> subcategories) {
+		// TODO Auto-generated method stub
+		
+	}
 }
