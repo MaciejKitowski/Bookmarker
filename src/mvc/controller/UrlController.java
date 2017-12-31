@@ -134,4 +134,10 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 			log.warn("Unwanted behaviour, delete button should be disabled if categories are unselected");
 		}
 	}
+
+	@Override
+	public void onUrlAdd(Url url) {
+		log.debug("Add new url: title={}, url={}", url.getTitle(), url.getUrl());
+		
+	}
 }
