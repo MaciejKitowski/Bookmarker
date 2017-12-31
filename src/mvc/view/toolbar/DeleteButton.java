@@ -35,7 +35,7 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	private List<Url> selectedUrls = null;
 	
 	public DeleteButton(Dimension size) {
-		log.info("Create delete button");
+		log.info("Initialize delete button");
 		
 		initializeSize(size);
 		initializeIcon();
@@ -156,5 +156,20 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	public void deleteUrls(List<Url> urls) {
 		log.debug("Delete {} urls", urls.size());
 		for(UrlEditListener listener : urlEditListeners) listener.onUrlDelete(urls);
+	}
+
+	@Override
+	public void addCategory(Category category) {
+		log.warn("Unwanted behaviour, delete button shouldn't add new category");
+	}
+
+	@Override
+	public void addSubcategory(Subcategory subcategory) {
+		log.warn("Unwanted behaviour, delete button shouldn't add new subcategory");
+	}
+
+	@Override
+	public void addUrl(Url url) {
+		log.warn("Unwanted behaviour, delete button shouldn't add new url");
 	}
 }

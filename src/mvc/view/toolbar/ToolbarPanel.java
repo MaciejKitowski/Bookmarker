@@ -10,8 +10,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +19,10 @@ public final class ToolbarPanel extends JToolBar {
 	private static final Logger log = LoggerFactory.getLogger(ToolbarPanel.class);
 	
 	private final Dimension buttonSize;
-	private JButton addButton = null;
 	private JButton editButton = null;
 	private SelectDatabaseButton selectDb = null;
 	private DeleteButton delete = null;
+	private AddNewButton addNew = null;
 	
 	public ToolbarPanel(int width, int height) {
 		log.info("Initialize toolbar");
@@ -36,7 +34,10 @@ public final class ToolbarPanel extends JToolBar {
 		setFloatable(false);
 		setBorder(BorderFactory.createEmptyBorder());
 
-		addButton = generateButton("toolbar_addnew.png", 10);
+		add(Box.createHorizontalStrut(5));
+		addNew = new AddNewButton(buttonSize);
+		add(addNew);
+		
 		editButton = generateButton("toolbar_edit.png", 5);
 		
 		add(Box.createHorizontalStrut(5));
@@ -77,24 +78,7 @@ public final class ToolbarPanel extends JToolBar {
 	
 	private void initializeButtonListeners() {
 		log.debug("Initialize button listeners");
-		
-		addButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				log.debug("Pressed add new button");
 				
-				JPopupMenu popup = new JPopupMenu();
-				
-				popup.add(new JMenuItem("Category"));
-				popup.add(new JMenuItem("Subcategory"));
-				popup.addSeparator();
-				popup.add(new JMenuItem("Url"));
-				
-				popup.show(addButton, 0, 25);
-			}
-		});
-		
 		editButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -110,5 +94,9 @@ public final class ToolbarPanel extends JToolBar {
 	
 	public DeleteButton getDeleteButton() {
 		return delete;
+	}
+	
+	public AddNewButton getAddNewButton() {
+		return addNew;
 	}
 }
