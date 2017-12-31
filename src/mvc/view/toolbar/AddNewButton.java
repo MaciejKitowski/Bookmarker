@@ -256,4 +256,14 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 		log.debug("Add new url: title={} url={}", url.getTitle(), url.getUrl());
 		for(UrlEditListener listener : urlEditListeners) listener.onUrlAdd(url);
 	}
+
+	@Override
+	public void editCategories(List<Category> categories) {
+		log.warn("Unwanted behaviour, add new button shouldn't edit categories");
+	}
+
+	@Override
+	public void editSubcategories(List<Subcategory> subcategories) {
+		log.warn("Unwanted behaviour, add new button shouldn't edit subcategories");
+	}
 }

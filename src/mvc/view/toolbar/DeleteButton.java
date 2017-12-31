@@ -172,4 +172,14 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 	public void addUrl(Url url) {
 		log.warn("Unwanted behaviour, delete button shouldn't add new url");
 	}
+
+	@Override
+	public void editCategories(List<Category> categories) {
+		log.warn("Unwanted behaviour, delete button shouldn't edit categories");
+	}
+
+	@Override
+	public void editSubcategories(List<Subcategory> subcategories) {
+		log.warn("Unwanted behaviour, delete button shouldn't edit subcategories");
+	}
 }

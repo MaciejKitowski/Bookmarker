@@ -2,14 +2,8 @@ package mvc.view.toolbar;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.URL;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JToolBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +13,10 @@ public final class ToolbarPanel extends JToolBar {
 	private static final Logger log = LoggerFactory.getLogger(ToolbarPanel.class);
 	
 	private final Dimension buttonSize;
-	private JButton editButton = null;
 	private SelectDatabaseButton selectDb = null;
 	private DeleteButton delete = null;
 	private AddNewButton addNew = null;
+	private EditButton edit = null;
 	
 	public ToolbarPanel(int width, int height) {
 		log.info("Initialize toolbar");
@@ -38,7 +32,9 @@ public final class ToolbarPanel extends JToolBar {
 		addNew = new AddNewButton(buttonSize);
 		add(addNew);
 		
-		editButton = generateButton("toolbar_edit.png", 5);
+		add(Box.createHorizontalStrut(5));
+		edit = new EditButton(buttonSize);
+		add(edit);
 		
 		add(Box.createHorizontalStrut(5));
 		delete = new DeleteButton(buttonSize);
@@ -47,47 +43,8 @@ public final class ToolbarPanel extends JToolBar {
 		add(Box.createHorizontalStrut(30));
 		selectDb = new SelectDatabaseButton(buttonSize);
 		add(selectDb);
-		
-	
-		
-		initializeButtonListeners();
 	}
-		
-	private JButton generateButton(String iconName, int spaceBefore) {
-		log.debug("Initialize button with {} icon image", iconName);
-		
-		try {
-			URL icon = getClass().getResource(String.format("/icons/%s", iconName));
-			JButton button = new JButton(new ImageIcon(icon));
 			
-			button.setPreferredSize(buttonSize);
-			button.setMaximumSize(buttonSize);
-			button.setMinimumSize(buttonSize);
-			button.setSize(buttonSize);
-			
-			add(Box.createHorizontalStrut(spaceBefore));
-			add(button);
-			
-			return button;
-		}
-		catch(Exception ex) {
-			log.error("Failed to generate button", ex);
-			return null;
-		}
-	}
-	
-	private void initializeButtonListeners() {
-		log.debug("Initialize button listeners");
-				
-		editButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				log.debug("Pressed edit button");
-			}
-		});
-	}
-	
 	public SelectDatabaseButton getSelectDatabaseButton() {
 		return selectDb;
 	}
@@ -98,5 +55,9 @@ public final class ToolbarPanel extends JToolBar {
 	
 	public AddNewButton getAddNewButton() {
 		return addNew;
+	}
+	
+	public EditButton getEditButton() {
+		return edit;
 	}
 }
