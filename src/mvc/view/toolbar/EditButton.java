@@ -130,13 +130,13 @@ public final class EditButton extends JButton implements ActionListener, Categor
 
 	@Override
 	public void editCategories(List<Category> categories) {
-		// TODO Auto-generated method stub
+		log.debug("Edit categories");
 		
 	}
 
 	@Override
 	public void editSubcategories(List<Subcategory> subcategories) {
-		// TODO Auto-generated method stub
+		log.debug("Edit subcategories");
 		
 	}
 }

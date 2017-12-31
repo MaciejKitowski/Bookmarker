@@ -175,13 +175,11 @@ public final class DeleteButton extends JButton implements ActionListener, Categ
 
 	@Override
 	public void editCategories(List<Category> categories) {
-		// TODO Auto-generated method stub
-		
+		log.warn("Unwanted behaviour, delete button shouldn't edit categories");
 	}
 
 	@Override
 	public void editSubcategories(List<Subcategory> subcategories) {
-		// TODO Auto-generated method stub
-		
+		log.warn("Unwanted behaviour, delete button shouldn't edit subcategories");
 	}
 }
