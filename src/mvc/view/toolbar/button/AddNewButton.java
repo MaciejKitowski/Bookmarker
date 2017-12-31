@@ -123,19 +123,6 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 	private void addNewSubcategory() {
 		log.debug("Add new subcategory");
 		
-		/*JLabel subcatNameLabel = new JLabel("Name");
-		JTextField subcatName = new JTextField();
-		
-		JLabel catSelectLabel = new JLabel("Select category");
-		List<Category> catList = DAOFactory.get().getMainCategory().getAll();
-		JComboBox<Category> catSelect = new JComboBox<>(catList.toArray(new Category[catList.size()]));
-		
-		JPanel panel = new JPanel(new GridLayout(0, 1));
-		panel.add(catSelectLabel);
-		panel.add(catSelect);
-		panel.add(subcatNameLabel);
-		panel.add(subcatName);*/
-		
 		SubcategoryPanel panel = new SubcategoryPanel();
 		int result = JOptionPane.showConfirmDialog(this, panel, "Add new subcategory", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
