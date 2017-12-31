@@ -153,6 +153,7 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 		}
 	}
 	
+	//TODO Group subcategories using unselectable categories
 	private void addNewUrl() {
 		log.debug("Add new url");
 		
