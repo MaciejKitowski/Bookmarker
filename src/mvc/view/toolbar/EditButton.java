@@ -231,7 +231,7 @@ public final class EditButton extends JButton implements ActionListener, Categor
 				subcategory.setParent((Category) catSelect.getSelectedItem());
 			}
 			else {
-				log.debug("Add new subcategory canceled");
+				log.debug("Edit subcategory canceled");
 			}
 		}
 		
@@ -272,13 +272,13 @@ public final class EditButton extends JButton implements ActionListener, Categor
 			id.setEnabled(false);
 			
 			JLabel titleLabel = new JLabel("Title");
-			JTextField title = new JTextField();
+			JTextField title = new JTextField(url.getTitle());
 			
 			JLabel urlLabel = new JLabel("Url");
-			JTextField urlField = new JTextField();
+			JTextField urlField = new JTextField(url.getUrl());
 			
 			JLabel descriptionLabel = new JLabel("Description");
-			JTextArea description = new JTextArea();
+			JTextArea description = new JTextArea(url.getDescription());
 			
 			JLabel subcategoryLabel = new JLabel("Select subcategory");
 			List<Subcategory> subList = DAOFactory.get().getCategory().getAll();
@@ -293,6 +293,8 @@ public final class EditButton extends JButton implements ActionListener, Categor
 			subcategory.setSelectedItem(current);
 			
 			JPanel panel = new JPanel(new GridLayout(0, 1));
+			panel.add(idLabel);
+			panel.add(id);
 			panel.add(titleLabel);
 			panel.add(title);
 			panel.add(urlLabel);
@@ -303,6 +305,20 @@ public final class EditButton extends JButton implements ActionListener, Categor
 			panel.add(subcategory);
 			
 			int result = JOptionPane.showConfirmDialog(this, panel, "Edit url", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			
+			if(result == JOptionPane.OK_OPTION) {
+				log.debug("Edit url");
+				
+				url.setTitle(title.getText());
+				url.setUrl(urlField.getText());
+				url.setDescription(description.getText());
+				url.setCategory((Subcategory) subcategory.getSelectedItem());
+			}
+			else {
+				log.debug("Edit url canceled");
+			}
 		}
+		
+		for(UrlEditListener listener : urlEditListeners) listener.onUrlEdit(urls);
 	}
 }
