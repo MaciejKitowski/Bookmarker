@@ -108,18 +108,12 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 	private void addNewCategory() {
 		log.debug("Add new category");
 		
-		JLabel catNameLabel = new JLabel("Name");
-		JTextField catName = new JTextField();
-		
-		JPanel panel = new JPanel(new GridLayout(0, 1));
-		panel.add(catNameLabel);
-		panel.add(catName);
-		
+		CategoryPanel panel = new CategoryPanel();
 		int result = JOptionPane.showConfirmDialog(this, panel, "Add new category", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
 		if(result == JOptionPane.OK_OPTION) {
-			log.debug("Add new category with name: {}", catName.getText());
-			addCategory(new Category(catName.getText()));
+			log.debug("Add new category with name: {}", panel.getName());
+			addCategory(new Category(panel.getName()));
 		}
 		else {
 			log.debug("Add new category canceled");
