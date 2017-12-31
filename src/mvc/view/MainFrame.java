@@ -46,6 +46,7 @@ public final class MainFrame extends JFrame {
 		initializeViews();
 		initializeControllers();
 		initializeObservers();
+		initializeToolbar();
 		
 		addViewsToFrame();
 	}
@@ -65,7 +66,6 @@ public final class MainFrame extends JFrame {
 		
 		categoryView = new CategoryView(150, defaultHeight);
 		urlView = new UrlView(400,  defaultHeight);
-		toolbarPanel = new ToolbarPanel(defaultWidth, 30);
 	}
 	
 	private void initializeControllers() {
@@ -80,29 +80,35 @@ public final class MainFrame extends JFrame {
 		
 		categoryController.addCategoryUpdateListener(categoryView);
 		categoryView.addCategorySelectListener(urlController);
-		categoryView.addCategorySelectListener(toolbarPanel.getDeleteButton());
-		categoryView.addCategorySelectListener(toolbarPanel.getEditButton());
-		urlView.addUrlSelectListener(toolbarPanel.getDeleteButton());
-		urlView.addUrlSelectListener(toolbarPanel.getEditButton());
 		urlController.addUrlUpdateListener(urlView);
 		
-		SelectDatabaseButton dbSelect = toolbarPanel.getSelectDatabaseButton();
-		dbSelect.addDatabaseChangeListener(categoryController);
-		dbSelect.addDatabaseChangeListener(urlController);
+		categoryController.updateCategories();
+	}
+	
+	private void initializeToolbar() {
+		log.info("Initialize toolbar");
 		
-		DeleteButton del = toolbarPanel.getDeleteButton();
-		del.addCategoryEditListener(categoryController);
-		del.addUrlEditListener(urlController);
+		toolbarPanel = new ToolbarPanel(defaultWidth, 30);
 		
 		AddNewButton add = toolbarPanel.getAddNewButton();
 		add.addCategoryEditListener(categoryController);
 		add.addUrlEditListener(urlController);
 		
-		EditButton ed = toolbarPanel.getEditButton();
-		ed.addCategoryEditListener(categoryController);
-		ed.addUrlEditListener(urlController);
+		EditButton edit = toolbarPanel.getEditButton();
+		edit.addCategoryEditListener(categoryController);
+		edit.addUrlEditListener(urlController);
+		categoryView.addCategorySelectListener(edit);
+		urlView.addUrlSelectListener(edit);
 		
-		categoryController.updateCategories();
+		DeleteButton delete = toolbarPanel.getDeleteButton();
+		delete.addCategoryEditListener(categoryController);
+		delete.addUrlEditListener(urlController);
+		categoryView.addCategorySelectListener(delete);
+		urlView.addUrlSelectListener(delete);
+		
+		SelectDatabaseButton dbSelect = toolbarPanel.getSelectDatabaseButton();
+		dbSelect.addDatabaseChangeListener(categoryController);
+		dbSelect.addDatabaseChangeListener(urlController);		
 	}
 	
 	private void addViewsToFrame() {
