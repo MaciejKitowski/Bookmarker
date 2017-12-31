@@ -162,23 +162,11 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		for(Category category : categories) {
 			log.debug("Edit category: ID={}, name={}", category.getID(), category.getName());
 			
-			JLabel idLabel = new JLabel("ID");
-			JTextField id = new JTextField(String.valueOf(category.getID()));
-			id.setEnabled(false);
-			
-			JLabel catNameLabel = new JLabel("Name");
-			JTextField catName = new JTextField(category.getName());
-			
-			JPanel panel = new JPanel(new GridLayout(0, 1));
-			panel.add(idLabel);
-			panel.add(id);
-			panel.add(catNameLabel);
-			panel.add(catName);
-			
+			CategoryPanel panel = new CategoryPanel(category);
 			int result = JOptionPane.showConfirmDialog(this, panel, "Edit category", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			
 			if(result == JOptionPane.OK_OPTION) {
-				category.setName(catName.getText());
+				category.setName(panel.getName());
 			}
 			else {
 				log.debug("Edit category canceled");
