@@ -278,7 +278,8 @@ public final class EditButton extends JButton implements ActionListener, Categor
 			JTextField urlField = new JTextField(url.getUrl());
 			
 			JLabel descriptionLabel = new JLabel("Description");
-			JTextArea description = new JTextArea(url.getDescription());
+			JTextArea description = new JTextArea();
+			if(url.getDescription() != null) description.setText(url.getDescription());
 			
 			JLabel subcategoryLabel = new JLabel("Select subcategory");
 			List<Subcategory> subList = DAOFactory.get().getCategory().getAll();
@@ -311,7 +312,10 @@ public final class EditButton extends JButton implements ActionListener, Categor
 				
 				url.setTitle(title.getText());
 				url.setUrl(urlField.getText());
-				url.setDescription(description.getText());
+
+				if(!description.getText().trim().isEmpty()) url.setDescription(description.getText());
+				else url.setDescription(null);
+				
 				url.setCategory((Subcategory) subcategory.getSelectedItem());
 			}
 			else {
