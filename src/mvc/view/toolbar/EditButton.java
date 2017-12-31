@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,6 +19,7 @@ import javax.swing.JTextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import mvc.dao.DAOFactory;
 import mvc.model.Category;
 import mvc.model.Subcategory;
 import mvc.model.Url;
@@ -170,5 +172,49 @@ public final class EditButton extends JButton implements ActionListener, Categor
 	public void editSubcategories(List<Subcategory> subcategories) {
 		log.debug("Edit subcategories");
 		
+		for(Subcategory subcategory : subcategories) {
+			log.debug("Edit subcategory: ID={}, name={}", subcategory.getID(), subcategory.getName());
+			
+			JLabel idLabel = new JLabel("ID");
+			JTextField id = new JTextField(String.valueOf(subcategory.getID()));
+			id.setEnabled(false);
+			
+			JLabel subcatNameLabel = new JLabel("Name");
+			JTextField subcatName = new JTextField(subcategory.getName());
+			
+			JLabel catSelectLabel = new JLabel("Select category");
+			List<Category> catList = DAOFactory.get().getMainCategory().getAll();
+			JComboBox<Category> catSelect = new JComboBox<>(catList.toArray(new Category[catList.size()]));
+			Category current = null;
+			for(Category cat : catList) {
+				if(subcategory.getParent().getID() == cat.getID()) {
+					current = cat;
+					break;
+				}
+			}
+			catSelect.setSelectedItem(current);
+			
+			JPanel panel = new JPanel(new GridLayout(0, 1));
+			panel.add(idLabel);
+			panel.add(id);
+			panel.add(catSelectLabel);
+			panel.add(catSelect);
+			panel.add(subcatNameLabel);
+			panel.add(subcatName);
+			
+			int result = JOptionPane.showConfirmDialog(this, panel, "Edit subcategory", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			
+			if(result == JOptionPane.OK_OPTION) {
+				log.debug("Edit subcategories");
+				
+				subcategory.setName(subcatName.getText());
+				subcategory.setParent((Category) catSelect.getSelectedItem());
+			}
+			else {
+				log.debug("Add new subcategory canceled");
+			}
+		}
+		
+		for(CategoryEditListener listener : categoryEditListeners) listener.onSubcategoryEdit(subcategories);
 	}
 }
