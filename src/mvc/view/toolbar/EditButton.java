@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import mvc.model.Category;
 import mvc.model.Subcategory;
+import mvc.model.Url;
 import mvc.observer.category.CategorySelectListener;
 
 public final class EditButton extends JButton implements ActionListener, CategorySelectListener {
@@ -23,6 +24,7 @@ public final class EditButton extends JButton implements ActionListener, Categor
 	
 	private List<Category> selectedCategories = null;
 	private List<Subcategory> selectedSubcategories = null;
+	private List<Url> selectedUrls = null;
 	
 	public EditButton(Dimension size) {
 		log.info("Initialize edit button");
@@ -59,6 +61,12 @@ public final class EditButton extends JButton implements ActionListener, Categor
 	public void actionPerformed(ActionEvent e) {
 		log.debug("Pressed button");
 		
+		if(selectedUrls != null) log.warn("Url edition not implemented yet");
+		else if(selectedSubcategories != null) log.warn("Subcategory edition not implemented yet");
+		else if(selectedCategories != null) log.warn("Category edition not implemented yet");
+		else {
+			log.warn("Unwanted behaviour, edit button should be disabled if everything is unselected");
+		}
 	}
 
 	@Override
