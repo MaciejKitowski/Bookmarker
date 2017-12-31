@@ -1,6 +1,8 @@
 package mvc.view.toolbar;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -9,7 +11,7 @@ import javax.swing.JButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class EditButton extends JButton {
+public final class EditButton extends JButton implements ActionListener {
 	private static final long serialVersionUID = 2452055567420326318L;
 	private static final Logger log = LoggerFactory.getLogger(EditButton.class);
 	private static final String iconName = "toolbar_edit.png";
@@ -19,6 +21,8 @@ public final class EditButton extends JButton {
 		
 		initializeSize(size);
 		initializeIcon();
+		
+		addActionListener(this);
 	}
 	
 	private void initializeSize(Dimension size) {
@@ -40,5 +44,11 @@ public final class EditButton extends JButton {
 		catch(Exception ex) {
 			log.error("Failed to set icon", ex);
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		log.debug("Pressed button");
+		
 	}
 }
