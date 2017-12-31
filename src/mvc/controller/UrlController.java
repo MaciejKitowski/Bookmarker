@@ -139,5 +139,12 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 	public void onUrlAdd(Url url) {
 		log.debug("Add new url: title={}, url={}", url.getTitle(), url.getUrl());
 		
+		if(urlDao.insert(url) == IUrlDAO.INSERT_FAIL) {
+			log.warn("Failed to add new subcategory");
+		}
+		else {
+			if(selectedSubcategories != null) onSelectSubcategory(selectedSubcategories);
+			else if(selectedCategories != null) onSelectCategory(selectedCategories);
+		}
 	}
 }
