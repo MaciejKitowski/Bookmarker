@@ -90,16 +90,6 @@ public final class EditButton extends JButton implements ActionListener, Categor
 	}
 
 	@Override
-	public void addCategory(Category category) {
-		log.warn("Unwanted behaviour, edit button shouldn't add new categories");
-	}
-
-	@Override
-	public void addSubcategory(Subcategory subcategory) {
-		log.warn("Unwanted behaviour, edit button shouldn't delete subcategories");
-	}
-
-	@Override
 	public void editCategories(List<Category> categories) {
 		log.debug("Edit categories");
 			
@@ -143,17 +133,7 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		
 		for(CategoryEditListener listener : categoryEditListeners) listener.onSubcategoryEdit(subcategories);
 	}
-	
-	@Override
-	public void deleteCategories(List<Category> categories) {
-		log.warn("Unwanted behaviour, edit button shouldn't delete categories");
-	}
-
-	@Override
-	public void deleteSubcategories(List<Subcategory> subcategories) {
-		log.warn("Unwanted behaviour, edit button shouldn't delete subcategories");
-	}
-	
+		
 	@Override
 	public void addUrlEditListener(UrlEditListener listener) {
 		log.debug("Add new listener");
@@ -164,11 +144,6 @@ public final class EditButton extends JButton implements ActionListener, Categor
 	public void removeUrlEditListener(UrlEditListener listener) {
 		log.debug("Remove listener");
 		urlEditListeners.remove(listener);
-	}
-
-	@Override
-	public void addUrl(Url url) {
-		log.warn("Unwanted behaviour, edit button shouldn't add new urls");
 	}
 
 	@Override
@@ -198,11 +173,6 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		}
 		
 		for(UrlEditListener listener : urlEditListeners) listener.onUrlEdit(urls);
-	}
-	
-	@Override
-	public void deleteUrls(List<Url> urls) {
-		log.warn("Unwanted behaviour, edit button shouldn't delete urls");
 	}
 	
 	@Override
@@ -243,7 +213,10 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		if(selectedCategories == null && selectedSubcategories == null) setEnabled(false);
 	}
 
-	
-
-	
+	@Override public void addCategory(Category category) { log.warn("Wrong reference, this button cannot add new categories"); }
+	@Override public void addSubcategory(Subcategory subcategory) { log.warn("Wrong reference, this button cannot delete subcategories"); }
+	@Override public void deleteCategories(List<Category> categories) { log.warn("Wrong reference, this button cannot delete categories"); }
+	@Override public void deleteSubcategories(List<Subcategory> subcategories) { log.warn("Wrong reference, this button cannot delete subcategories"); }
+	@Override public void addUrl(Url url) { log.warn("Wrong reference, this button cannot add new urls"); }	
+	@Override public void deleteUrls(List<Url> urls) { log.warn("Wrong reference, this button cannot delete urls"); }
 }
