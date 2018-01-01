@@ -18,9 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mvc.model.Url;
-import mvc.observer.url.UrlSelectListener;
-import mvc.observer.url.UrlSelectSubject;
-import mvc.observer.url.UrlUpdateListener;
+import mvc.observer.url.select.UrlSelectListener;
+import mvc.observer.url.select.UrlSelectSubject;
+import mvc.observer.url.update.UrlUpdateListener;
 
 public final class UrlView extends JPanel implements UrlUpdateListener, UrlSelectSubject {
 	private static final long serialVersionUID = -4908801645938833417L;

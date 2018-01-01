@@ -20,8 +20,8 @@ import mvc.model.Subcategory;
 import mvc.model.Url;
 import mvc.observer.category.edit.CategoryEditListener;
 import mvc.observer.category.edit.CategoryEditSubject;
-import mvc.observer.url.UrlEditListener;
-import mvc.observer.url.UrlEditSubject;
+import mvc.observer.url.edit.UrlEditListener;
+import mvc.observer.url.edit.UrlEditSubject;
 
 public final class AddNewButton extends JButton implements ActionListener, CategoryEditSubject, UrlEditSubject {
 	private static final long serialVersionUID = 3821107696744652502L;

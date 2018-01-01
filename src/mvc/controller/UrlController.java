@@ -14,9 +14,9 @@ import mvc.model.Category;
 import mvc.model.Url;
 import mvc.observer.category.select.CategorySelectListener;
 import mvc.observer.toolbar.DatabaseChangeListener;
-import mvc.observer.url.UrlEditListener;
-import mvc.observer.url.UrlUpdateListener;
-import mvc.observer.url.UrlUpdateSubject;
+import mvc.observer.url.edit.UrlEditListener;
+import mvc.observer.url.update.UrlUpdateListener;
+import mvc.observer.url.update.UrlUpdateSubject;
 
 public final class UrlController implements CategorySelectListener, UrlUpdateSubject, DatabaseChangeListener, UrlEditListener {
 	private static final Logger log = LoggerFactory.getLogger(UrlController.class);

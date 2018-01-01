@@ -19,9 +19,9 @@ import mvc.model.Url;
 import mvc.observer.category.edit.CategoryEditListener;
 import mvc.observer.category.edit.CategoryEditSubject;
 import mvc.observer.category.select.CategorySelectListener;
-import mvc.observer.url.UrlEditListener;
-import mvc.observer.url.UrlEditSubject;
-import mvc.observer.url.UrlSelectListener;
+import mvc.observer.url.edit.UrlEditListener;
+import mvc.observer.url.edit.UrlEditSubject;
+import mvc.observer.url.select.UrlSelectListener;
 
 public final class DeleteButton extends JButton implements ActionListener, CategorySelectListener, UrlSelectListener, CategoryEditSubject, UrlEditSubject {
 	private static final long serialVersionUID = 5739651433521986611L;
