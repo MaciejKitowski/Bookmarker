@@ -154,6 +154,15 @@ public final class CategoryDAO implements ICategoryDAO {
 				log.error("Close connection failed", ex);
 			}
 		}
+		
+		if(category == null) {
+			log.debug("Try to create table and get again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				category = get(ID);
+			}
+		}
 
 		return category;
 	}
@@ -162,7 +171,7 @@ public final class CategoryDAO implements ICategoryDAO {
 	public List<Category> getAll() {
 		log.debug("Get all categories");
 		
-		List<Category> categories = new ArrayList<>();
+		List<Category> categories = null;
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet result = null;
@@ -177,6 +186,7 @@ public final class CategoryDAO implements ICategoryDAO {
 					int foundID = result.getInt(1);
 					String foundName = result.getString(2);
 					
+					categories = new ArrayList<>();
 					categories.add(new Category(foundID, foundName));
 				}
 			}
@@ -192,6 +202,15 @@ public final class CategoryDAO implements ICategoryDAO {
 			}
 			catch(Exception ex) {
 				log.error("Close connection failed", ex);
+			}
+		}
+		
+		if(categories == null) {
+			log.debug("Try to create table and get all again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				categories = getAll();
 			}
 		}
 		

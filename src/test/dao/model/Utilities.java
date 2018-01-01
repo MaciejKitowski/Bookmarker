@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 import mvc.dao.DAOFactory;
 
-public class Utilities {
+class Utilities {
 	private Utilities() {}
 	
 	public static List<String> getTableNames(int database) throws Exception {

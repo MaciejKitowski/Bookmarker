@@ -135,8 +135,8 @@ public class CategoryDAOTest {
 		
 		try {
 			List<Category> result = dao.getAll();
-			
-			assertTrue(result != null && result.size() == Utilities.count("Category", databaseType));
+			log.warn("{}", Utilities.count("category", databaseType));
+			assertTrue(result != null && result.size() == Utilities.count("category", databaseType));
 		}
 		catch(Exception ex) {
 			log.error("Failed test - Get all", ex);
