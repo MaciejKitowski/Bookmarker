@@ -1,7 +1,6 @@
-package mvc.view.toolbar;
+package mvc.view.toolbar.button;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -10,17 +9,10 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mvc.dao.DAOFactory;
 import mvc.model.Category;
 import mvc.model.Subcategory;
 import mvc.model.Url;
@@ -162,23 +154,11 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		for(Category category : categories) {
 			log.debug("Edit category: ID={}, name={}", category.getID(), category.getName());
 			
-			JLabel idLabel = new JLabel("ID");
-			JTextField id = new JTextField(String.valueOf(category.getID()));
-			id.setEnabled(false);
-			
-			JLabel catNameLabel = new JLabel("Name");
-			JTextField catName = new JTextField(category.getName());
-			
-			JPanel panel = new JPanel(new GridLayout(0, 1));
-			panel.add(idLabel);
-			panel.add(id);
-			panel.add(catNameLabel);
-			panel.add(catName);
-			
+			CategoryPanel panel = new CategoryPanel(category);
 			int result = JOptionPane.showConfirmDialog(this, panel, "Edit category", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			
 			if(result == JOptionPane.OK_OPTION) {
-				category.setName(catName.getText());
+				category.setName(panel.getName());
 			}
 			else {
 				log.debug("Edit category canceled");
@@ -194,41 +174,15 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		
 		for(Subcategory subcategory : subcategories) {
 			log.debug("Edit subcategory: ID={}, name={}", subcategory.getID(), subcategory.getName());
-			
-			JLabel idLabel = new JLabel("ID");
-			JTextField id = new JTextField(String.valueOf(subcategory.getID()));
-			id.setEnabled(false);
-			
-			JLabel subcatNameLabel = new JLabel("Name");
-			JTextField subcatName = new JTextField(subcategory.getName());
-			
-			JLabel catSelectLabel = new JLabel("Select category");
-			List<Category> catList = DAOFactory.get().getMainCategory().getAll();
-			JComboBox<Category> catSelect = new JComboBox<>(catList.toArray(new Category[catList.size()]));
-			Category current = null;
-			for(Category cat : catList) {
-				if(subcategory.getParent().getID() == cat.getID()) {
-					current = cat;
-					break;
-				}
-			}
-			catSelect.setSelectedItem(current);
-			
-			JPanel panel = new JPanel(new GridLayout(0, 1));
-			panel.add(idLabel);
-			panel.add(id);
-			panel.add(catSelectLabel);
-			panel.add(catSelect);
-			panel.add(subcatNameLabel);
-			panel.add(subcatName);
-			
+						
+			SubcategoryPanel panel = new SubcategoryPanel(subcategory);
 			int result = JOptionPane.showConfirmDialog(this, panel, "Edit subcategory", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			
 			if(result == JOptionPane.OK_OPTION) {
 				log.debug("Edit subcategories");
 				
-				subcategory.setName(subcatName.getText());
-				subcategory.setParent((Category) catSelect.getSelectedItem());
+				subcategory.setName(panel.getName());
+				subcategory.setParent(panel.getCategory());
 			}
 			else {
 				log.debug("Edit subcategory canceled");
@@ -266,57 +220,20 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		
 		for(Url url : urls) {
 			log.debug("Edit subcategory: ID={}, title={}, url={}", url.getID(), url.getTitle(), url.getUrl());
-			
-			JLabel idLabel = new JLabel("ID");
-			JTextField id = new JTextField(String.valueOf(url.getID()));
-			id.setEnabled(false);
-			
-			JLabel titleLabel = new JLabel("Title");
-			JTextField title = new JTextField(url.getTitle());
-			
-			JLabel urlLabel = new JLabel("Url");
-			JTextField urlField = new JTextField(url.getUrl());
-			
-			JLabel descriptionLabel = new JLabel("Description");
-			JTextArea description = new JTextArea();
-			if(url.getDescription() != null) description.setText(url.getDescription());
-			
-			JLabel subcategoryLabel = new JLabel("Select subcategory");
-			List<Subcategory> subList = DAOFactory.get().getCategory().getAll();
-			JComboBox<Subcategory> subcategory = new JComboBox<>(subList.toArray(new Subcategory[subList.size()]));
-			Subcategory current = null;
-			for(Subcategory cat : subList) {
-				if(url.getCategory().getID() == cat.getID()) {
-					current = cat;
-					break;
-				}
-			}
-			subcategory.setSelectedItem(current);
-			
-			JPanel panel = new JPanel(new GridLayout(0, 1));
-			panel.add(idLabel);
-			panel.add(id);
-			panel.add(titleLabel);
-			panel.add(title);
-			panel.add(urlLabel);
-			panel.add(urlField);
-			panel.add(descriptionLabel);
-			panel.add(description);
-			panel.add(subcategoryLabel);
-			panel.add(subcategory);
-			
+						
+			UrlPanel panel = new UrlPanel(url);
 			int result = JOptionPane.showConfirmDialog(this, panel, "Edit url", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			
 			if(result == JOptionPane.OK_OPTION) {
 				log.debug("Edit url");
 				
-				url.setTitle(title.getText());
-				url.setUrl(urlField.getText());
-
-				if(!description.getText().trim().isEmpty()) url.setDescription(description.getText());
+				url.setTitle(panel.getTitle());
+				url.setUrl(panel.getUrl());
+				
+				if(!panel.isDescriptionEmpty()) url.setDescription(panel.getDescription());
 				else url.setDescription(null);
 				
-				url.setCategory((Subcategory) subcategory.getSelectedItem());
+				url.setCategory(panel.getSubcategory());
 			}
 			else {
 				log.debug("Edit url canceled");

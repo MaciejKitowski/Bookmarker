@@ -8,11 +8,15 @@ import javax.swing.JToolBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import mvc.view.toolbar.button.AddNewButton;
+import mvc.view.toolbar.button.DeleteButton;
+import mvc.view.toolbar.button.EditButton;
+import mvc.view.toolbar.button.SelectDatabaseButton;
+
 public final class ToolbarPanel extends JToolBar {
 	private static final long serialVersionUID = 1071937589387532800L;
 	private static final Logger log = LoggerFactory.getLogger(ToolbarPanel.class);
 	
-	private final Dimension buttonSize;
 	private SelectDatabaseButton selectDb = null;
 	private DeleteButton delete = null;
 	private AddNewButton addNew = null;
@@ -21,27 +25,34 @@ public final class ToolbarPanel extends JToolBar {
 	public ToolbarPanel(int width, int height) {
 		log.info("Initialize toolbar");
 		
-		buttonSize = new Dimension(height - 5, height - 5);
-		
 		setBackground(Color.CYAN);
 		setPreferredSize(new Dimension(width, height));
-		setFloatable(false);
 		setBorder(BorderFactory.createEmptyBorder());
-
-		add(Box.createHorizontalStrut(5));
+		setFloatable(false);
+		
+		Dimension buttonSize = new Dimension(height - 5, height - 5);
+		
 		addNew = new AddNewButton(buttonSize);
+		edit = new EditButton(buttonSize);
+		delete = new DeleteButton(buttonSize);
+		selectDb = new SelectDatabaseButton(buttonSize);
+
+		addButtonsToPanel();
+	}
+	
+	private void addButtonsToPanel() {
+		log.debug("Add buttons to panel");
+		
+		add(Box.createHorizontalStrut(5));
 		add(addNew);
 		
 		add(Box.createHorizontalStrut(5));
-		edit = new EditButton(buttonSize);
 		add(edit);
 		
 		add(Box.createHorizontalStrut(5));
-		delete = new DeleteButton(buttonSize);
 		add(delete);
 		
 		add(Box.createHorizontalStrut(30));
-		selectDb = new SelectDatabaseButton(buttonSize);
 		add(selectDb);
 	}
 			

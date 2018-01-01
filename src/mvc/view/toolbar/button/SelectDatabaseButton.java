@@ -1,4 +1,4 @@
-package mvc.view.toolbar;
+package mvc.view.toolbar.button;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
