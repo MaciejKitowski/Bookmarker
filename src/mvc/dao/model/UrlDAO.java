@@ -172,6 +172,15 @@ public final class UrlDAO implements IUrlDAO {
 			}
 		}
 		
+		if(url == null) {
+			log.debug("Try to create table and get again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				url = get(ID);
+			}
+		}
+		
 		return url;
 	}
 
@@ -179,7 +188,7 @@ public final class UrlDAO implements IUrlDAO {
 	public List<Url> getAllWithSubcategory(Subcategory subcategory) {
 		log.debug("Get all urls with subcategory: ID={} name={}", subcategory.getID(), subcategory.getName());
 		
-		List<Url> urls = new ArrayList<>();
+		List<Url> urls = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -191,6 +200,8 @@ public final class UrlDAO implements IUrlDAO {
 			statement.setInt(1, subcategory.getID());
 			
 			result = statement.executeQuery();
+			urls = new ArrayList<>();
+					
 			if(result != null) {
 				while(result.next()) {
 					int foundID = result.getInt(1);
@@ -220,6 +231,15 @@ public final class UrlDAO implements IUrlDAO {
 			}
 		}
 		
+		if(urls == null) {
+			log.debug("Try to create table and get with subcategory again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				urls = getAllWithSubcategory(subcategory);
+			}
+		}
+		
 		return urls;
 	}
 
@@ -227,7 +247,7 @@ public final class UrlDAO implements IUrlDAO {
 	public List<Url> getAll() {
 		log.debug("Get all urls");
 		
-		List<Url> urls = new ArrayList<>();
+		List<Url> urls = null;
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet result = null;
@@ -237,6 +257,8 @@ public final class UrlDAO implements IUrlDAO {
 			statement = connection.createStatement();
 			
 			result = statement.executeQuery(GET_ALL);
+			urls = new ArrayList<>();
+					
 			if(result != null) {
 				while(result.next()) {
 					int foundID = result.getInt(1);
@@ -251,7 +273,6 @@ public final class UrlDAO implements IUrlDAO {
 						ISubcategoryDAO category = database.getSubcategory();
 						url.setCategory(category.get(foundCatID));
 					}
-					
 					
 					urls.add(url);
 				}
@@ -269,6 +290,15 @@ public final class UrlDAO implements IUrlDAO {
 			}
 			catch(Exception ex) {
 				log.error("Close connection failed", ex);
+			}
+		}
+		
+		if(urls == null) {
+			log.debug("Try to create table and get all again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				urls = getAll();
 			}
 		}
 		
