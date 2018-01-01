@@ -42,20 +42,23 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 	}
 	
 	@Override
-	public void createTable() {
+	public boolean createTable() {
 		log.debug("Create table");
 		
 		Connection connection = null;
 		Statement statement = null;
+		boolean result = false;
 		
 		try {
 			connection = database.getConnection();
 			statement = connection.createStatement();
 			
 			statement.execute(CREATE_TABLE);
+			result = true;
 		}
 		catch(Exception ex) {
 			log.error("Create new table failed", ex);
+			result = false;
 		}
 		finally {
 			try {
@@ -66,6 +69,8 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 				log.error("Close connection failed", ex);
 			}
 		}
+		
+		return result;
 	}
 	
 	@Override
