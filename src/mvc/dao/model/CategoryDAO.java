@@ -19,39 +19,25 @@ public final class CategoryDAO implements ICategoryDAO {
 	private static final String queryPath = "resources/sql/Category.json";
 		
 	private DAOFactory database = null;
-	private String CREATE_TABLE = null;
-	private String INSERT = null;
-	private String GET = null;
-	private String GET_ALL = null;
-	private String UPDATE = null;
-	private String DELETE = null;
+	
+	private static int lastDatabaseType = 0;
+	private static String CREATE_TABLE = null;
+	private static String INSERT = null;
+	private static String GET = null;
+	private static String GET_ALL = null;
+	private static String UPDATE = null;
+	private static String DELETE = null;
 	
 	public CategoryDAO(int databaseType) {
 		database = DAOFactory.get(databaseType);
 		log.debug("Create CategoryDAO with database: {}", database.getName());
 		
-		try {
-			JSONObject obj = JsonLoader.getJson(queryPath, database.getName());
-			
-			CREATE_TABLE = JsonLoader.joinStringArray(obj.getJSONArray("CREATE_TABLE"));
-			INSERT = obj.getString("INSERT");
-			GET = obj.getString("GET");
-			GET_ALL = obj.getString("GET_ALL");
-			UPDATE = obj.getString("UPDATE");
-			DELETE = obj.getString("DELETE");
-			
-			log.debug("CREATE_TABLE: {}", CREATE_TABLE);
-			log.debug("INSERT: {}", INSERT);
-			log.debug("GET: {}", GET);
-			log.debug("GET_ALL: {}", GET_ALL);
-			log.debug("UPDATE: {}", UPDATE);
-			log.debug("DELETE: {}", DELETE);
-		}
-		catch(Exception ex) {
-			log.error("Load JSON file failed", ex);
+		if(CREATE_TABLE == null || databaseType != lastDatabaseType) {
+			lastDatabaseType = databaseType;
+			loadSql();
 		}
 	}
-	
+
 	@Override
 	public void createTable() {
 		log.debug("Create table");
@@ -265,5 +251,30 @@ public final class CategoryDAO implements ICategoryDAO {
 		}
 		
 		return result;
+	}
+	
+	private void loadSql() {
+		log.info("Load sql queries");
+		
+		try {
+			JSONObject obj = JsonLoader.getJson(queryPath, database.getName());
+			
+			CREATE_TABLE = JsonLoader.joinStringArray(obj.getJSONArray("CREATE_TABLE"));
+			INSERT = obj.getString("INSERT");
+			GET = obj.getString("GET");
+			GET_ALL = obj.getString("GET_ALL");
+			UPDATE = obj.getString("UPDATE");
+			DELETE = obj.getString("DELETE");
+			
+			log.debug("CREATE_TABLE: {}", CREATE_TABLE);
+			log.debug("INSERT: {}", INSERT);
+			log.debug("GET: {}", GET);
+			log.debug("GET_ALL: {}", GET_ALL);
+			log.debug("UPDATE: {}", UPDATE);
+			log.debug("DELETE: {}", DELETE);
+		}
+		catch(Exception ex) {
+			log.error("Load JSON file failed", ex);
+		}
 	}
 }
