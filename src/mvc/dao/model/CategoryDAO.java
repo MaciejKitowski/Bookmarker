@@ -104,6 +104,15 @@ public final class CategoryDAO implements ICategoryDAO {
 				log.error("Close connection failed", ex);
 			}
 		}
+		
+		if(resultBuffer == INSERT_FAIL) {
+			log.debug("Try to create table and insert again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				resultBuffer = insert(category);
+			}
+		}
 
 		return resultBuffer;
 	}
