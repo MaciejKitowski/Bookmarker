@@ -4,14 +4,14 @@ Univeristy project on Object-oriented Programming (part-time BSc studies of Comp
 # Configuration
 ## Project
 ### Resources
-Add to your project classpath reference to ***resources*** directory. <br><br>
+Add to your project classpath reference to ***resources*** directory. <br>
 
 #### Useful pages
 * [How do I add a directory to the eclipse classpath?](https://stackoverflow.com/a/25163361)
 * [how to add directory to classpath in an application run profile in intellij idea?](https://stackoverflow.com/a/24843914)
 
 ### Dependencies
-Project use maven for dependency management. <br><br>
+Project use maven for dependency management. <br>
 
 #### Used libraries
 * JSON In Java *(ver. 20171018)* - [source](https://mvnrepository.com/artifact/org.json/json/20171018)
