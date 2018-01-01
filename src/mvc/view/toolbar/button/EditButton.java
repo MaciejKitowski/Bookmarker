@@ -23,7 +23,7 @@ import mvc.observer.url.edit.UrlEditListener;
 import mvc.observer.url.edit.UrlEditSubject;
 import mvc.observer.url.select.UrlSelectListener;
 
-public final class EditButton extends JButton implements ActionListener, CategorySelectListener, CategoryEditSubject, UrlSelectListener, UrlEditSubject {
+public final class EditButton extends JButton implements ActionListener, CategoryEditSubject, UrlEditSubject, CategorySelectListener, UrlSelectListener {
 	private static final long serialVersionUID = 2452055567420326318L;
 	private static final Logger log = LoggerFactory.getLogger(EditButton.class);
 	private static final String iconName = "toolbar_edit.png";
@@ -76,45 +76,7 @@ public final class EditButton extends JButton implements ActionListener, Categor
 			log.warn("Unwanted behaviour, edit button should be disabled if everything is unselected");
 		}
 	}
-
-	@Override
-	public void onSelectCategory(List<Category> categories) {
-		log.debug("Categories selected");
-		setEnabled(true);
-		selectedCategories = categories;
-	}
-
-	@Override
-	public void onSelectSubcategory(List<Subcategory> subcategories) {
-		log.debug("Subcategories selected");
-		setEnabled(true);
-		selectedSubcategories = subcategories;
-	}
-
-	@Override
-	public void onUnselectAllCategories() {
-		log.debug("All categories unselected");
-		selectedCategories = null;
-		selectedSubcategories = null;
-		
-		setEnabled(false);
-	}
 	
-	@Override
-	public void onSelectUrl(List<Url> urls) {
-		log.debug("Urls selected");
-		setEnabled(true);
-		selectedUrls = urls;
-	}
-
-	@Override
-	public void onUnselectAllUrls() {
-		log.debug("All urls unselected");
-		selectedUrls = null;
-		
-		if(selectedCategories == null && selectedSubcategories == null) setEnabled(false);
-	}
-
 	@Override
 	public void addCategoryEditListener(CategoryEditListener listener) {
 		log.debug("Add new listener");
@@ -125,16 +87,6 @@ public final class EditButton extends JButton implements ActionListener, Categor
 	public void removeCategoryEditListener(CategoryEditListener listener) {
 		log.debug("Remove listener");
 		categoryEditListeners.remove(listener);
-	}
-
-	@Override
-	public void deleteCategories(List<Category> categories) {
-		log.warn("Unwanted behaviour, edit button shouldn't delete categories");
-	}
-
-	@Override
-	public void deleteSubcategories(List<Subcategory> subcategories) {
-		log.warn("Unwanted behaviour, edit button shouldn't delete subcategories");
 	}
 
 	@Override
@@ -191,7 +143,17 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		
 		for(CategoryEditListener listener : categoryEditListeners) listener.onSubcategoryEdit(subcategories);
 	}
+	
+	@Override
+	public void deleteCategories(List<Category> categories) {
+		log.warn("Unwanted behaviour, edit button shouldn't delete categories");
+	}
 
+	@Override
+	public void deleteSubcategories(List<Subcategory> subcategories) {
+		log.warn("Unwanted behaviour, edit button shouldn't delete subcategories");
+	}
+	
 	@Override
 	public void addUrlEditListener(UrlEditListener listener) {
 		log.debug("Add new listener");
@@ -205,11 +167,6 @@ public final class EditButton extends JButton implements ActionListener, Categor
 	}
 
 	@Override
-	public void deleteUrls(List<Url> urls) {
-		log.warn("Unwanted behaviour, edit button shouldn't delete urls");
-	}
-
-	@Override
 	public void addUrl(Url url) {
 		log.warn("Unwanted behaviour, edit button shouldn't add new urls");
 	}
@@ -219,7 +176,7 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		log.debug("Edit urls");
 		
 		for(Url url : urls) {
-			log.debug("Edit subcategory: ID={}, title={}, url={}", url.getID(), url.getTitle(), url.getUrl());
+			log.debug("Edit url: ID={}, title={}, url={}", url.getID(), url.getTitle(), url.getUrl());
 						
 			UrlPanel panel = new UrlPanel(url);
 			int result = JOptionPane.showConfirmDialog(this, panel, "Edit url", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -242,4 +199,51 @@ public final class EditButton extends JButton implements ActionListener, Categor
 		
 		for(UrlEditListener listener : urlEditListeners) listener.onUrlEdit(urls);
 	}
+	
+	@Override
+	public void deleteUrls(List<Url> urls) {
+		log.warn("Unwanted behaviour, edit button shouldn't delete urls");
+	}
+	
+	@Override
+	public void onSelectCategory(List<Category> categories) {
+		log.debug("Categories selected");
+		setEnabled(true);
+		selectedCategories = categories;
+	}
+
+	@Override
+	public void onSelectSubcategory(List<Subcategory> subcategories) {
+		log.debug("Subcategories selected");
+		setEnabled(true);
+		selectedSubcategories = subcategories;
+	}
+
+	@Override
+	public void onUnselectAllCategories() {
+		log.debug("All categories unselected");
+		selectedCategories = null;
+		selectedSubcategories = null;
+		
+		setEnabled(false);
+	}
+	
+	@Override
+	public void onSelectUrl(List<Url> urls) {
+		log.debug("Urls selected");
+		setEnabled(true);
+		selectedUrls = urls;
+	}
+
+	@Override
+	public void onUnselectAllUrls() {
+		log.debug("All urls unselected");
+		selectedUrls = null;
+		
+		if(selectedCategories == null && selectedSubcategories == null) setEnabled(false);
+	}
+
+	
+
+	
 }
