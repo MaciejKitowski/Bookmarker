@@ -383,6 +383,15 @@ public final class UrlDAO implements IUrlDAO {
 			}
 		}
 		
+		if(!result) {
+			log.debug("Try to create table and delete again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				result = delete(ID);
+			}
+		}
+		
 		return result;
 	}
 	
