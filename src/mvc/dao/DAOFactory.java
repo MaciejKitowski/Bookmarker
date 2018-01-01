@@ -18,8 +18,8 @@ public abstract class DAOFactory {
 	
 	private static int defaultFactory = SQLITE;
 	
-	public abstract ICategoryDAO getMainCategory();
-	public abstract ISubcategoryDAO getCategory();
+	public abstract ICategoryDAO getCategory();
+	public abstract ISubcategoryDAO getSubcategory();
 	public abstract IUrlDAO getUrl();
 	
 	public abstract String getName();

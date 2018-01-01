@@ -1,7 +1,6 @@
-package mvc.view.toolbar;
+package mvc.view.toolbar.button;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -10,26 +9,19 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mvc.dao.DAOFactory;
 import mvc.model.Category;
 import mvc.model.Subcategory;
 import mvc.model.Url;
-import mvc.observer.category.CategoryEditListener;
-import mvc.observer.category.CategoryEditSubject;
-import mvc.observer.url.UrlEditListener;
-import mvc.observer.url.UrlEditSubject;
+import mvc.observer.category.edit.CategoryEditListener;
+import mvc.observer.category.edit.CategoryEditSubject;
+import mvc.observer.url.edit.UrlEditListener;
+import mvc.observer.url.edit.UrlEditSubject;
 
 public final class AddNewButton extends JButton implements ActionListener, CategoryEditSubject, UrlEditSubject {
 	private static final long serialVersionUID = 3821107696744652502L;
@@ -108,18 +100,12 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 	private void addNewCategory() {
 		log.debug("Add new category");
 		
-		JLabel catNameLabel = new JLabel("Name");
-		JTextField catName = new JTextField();
-		
-		JPanel panel = new JPanel(new GridLayout(0, 1));
-		panel.add(catNameLabel);
-		panel.add(catName);
-		
+		CategoryPanel panel = new CategoryPanel();
 		int result = JOptionPane.showConfirmDialog(this, panel, "Add new category", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
 		if(result == JOptionPane.OK_OPTION) {
-			log.debug("Add new category with name: {}", catName.getText());
-			addCategory(new Category(catName.getText()));
+			log.debug("Add new category with name: {}", panel.getName());
+			addCategory(new Category(panel.getName()));
 		}
 		else {
 			log.debug("Add new category canceled");
@@ -129,65 +115,29 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 	private void addNewSubcategory() {
 		log.debug("Add new subcategory");
 		
-		JLabel subcatNameLabel = new JLabel("Name");
-		JTextField subcatName = new JTextField();
-		
-		JLabel catSelectLabel = new JLabel("Select category");
-		List<Category> catList = DAOFactory.get().getMainCategory().getAll();
-		JComboBox<Category> catSelect = new JComboBox<>(catList.toArray(new Category[catList.size()]));
-		
-		JPanel panel = new JPanel(new GridLayout(0, 1));
-		panel.add(catSelectLabel);
-		panel.add(catSelect);
-		panel.add(subcatNameLabel);
-		panel.add(subcatName);
-		
+		SubcategoryPanel panel = new SubcategoryPanel();
 		int result = JOptionPane.showConfirmDialog(this, panel, "Add new subcategory", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
 		if(result == JOptionPane.OK_OPTION) {
-			log.debug("Add new subcategory with name: {}", subcatNameLabel.getText());
-			addSubcategory(new Subcategory(subcatName.getText(), (Category) catSelect.getSelectedItem()));
+			log.debug("Add new subcategory with name: {}", panel.getName());
+			addSubcategory(new Subcategory(panel.getName(), panel.getCategory()));
 		}
 		else {
 			log.debug("Add new subcategory canceled");
 		}
 	}
 	
-	//TODO Group subcategories using unselectable categories
 	private void addNewUrl() {
 		log.debug("Add new url");
 		
-		JLabel titleLabel = new JLabel("Title");
-		JTextField title = new JTextField();
-		
-		JLabel urlLabel = new JLabel("Url");
-		JTextField url = new JTextField();
-		
-		JLabel descriptionLabel = new JLabel("Description");
-		JTextArea description = new JTextArea();
-		
-		JLabel subcategoryLabel = new JLabel("Select subcategory");
-		List<Subcategory> subList = DAOFactory.get().getCategory().getAll();
-		JComboBox<Subcategory> subcategory = new JComboBox<>(subList.toArray(new Subcategory[subList.size()]));
-		
-		JPanel panel = new JPanel(new GridLayout(0, 1));
-		panel.add(titleLabel);
-		panel.add(title);
-		panel.add(urlLabel);
-		panel.add(url);
-		panel.add(descriptionLabel);
-		panel.add(description);
-		panel.add(subcategoryLabel);
-		panel.add(subcategory);
-		
+		UrlPanel panel = new UrlPanel();
 		int result = JOptionPane.showConfirmDialog(this, panel, "Add new url", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
 		if(result == JOptionPane.OK_OPTION) {
-			log.debug("Add new url: title={} url={} subcategory: name={}", title.getText(), url.getText(), ((Subcategory)(subcategory.getSelectedItem())).getName());
-			Subcategory subcat = (Subcategory) subcategory.getSelectedItem();
+			log.debug("Add new url: title={} url={} subcategory: name={}", panel.getUrl(), panel.getSubcategory().getName());
 			
-			if(!description.getText().trim().isEmpty()) addUrl(new Url(url.getText(), title.getText(), description.getText(), subcat));
-			else  addUrl(new Url(url.getText(), title.getText(), subcat));
+			if(!panel.isDescriptionEmpty()) addUrl(new Url(panel.getUrl(), panel.getTitle(), panel.getDescription(), panel.getSubcategory())); 
+			else addUrl(new Url(panel.getUrl(), panel.getTitle(), panel.getSubcategory()));
 		}
 		else {
 			log.debug("Add new url canceled");
@@ -213,16 +163,6 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 	}
 
 	@Override
-	public void deleteCategories(List<Category> categories) {
-		log.warn("Unwanted behaviour, add new button shouldn't delete categories");
-	}
-
-	@Override
-	public void deleteSubcategories(List<Subcategory> subcategories) {
-		log.warn("Unwanted behaviour, add new button shouldn't delete subcategories");
-	}
-
-	@Override
 	public void addCategory(Category category) {
 		log.debug("Add new category with name: {}", category.getName());
 		for(CategoryEditListener listener : categoryEditListeners) listener.onCategoryAdd(category);
@@ -233,7 +173,7 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 		log.debug("Add new subcategory with name: {}", subcategory.getName());
 		for(CategoryEditListener listener : categoryEditListeners) listener.onSubcategoryAdd(subcategory);
 	}
-
+	
 	@Override
 	public void addUrlEditListener(UrlEditListener listener) {
 		log.debug("Add new listener");
@@ -247,28 +187,15 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 	}
 
 	@Override
-	public void deleteUrls(List<Url> urls) {
-		log.warn("Unwanted behaviour, add new button shouldn't delete urls");
-	}
-
-	@Override
 	public void addUrl(Url url) {
 		log.debug("Add new url: title={} url={}", url.getTitle(), url.getUrl());
 		for(UrlEditListener listener : urlEditListeners) listener.onUrlAdd(url);
 	}
-
-	@Override
-	public void editCategories(List<Category> categories) {
-		log.warn("Unwanted behaviour, add new button shouldn't edit categories");
-	}
-
-	@Override
-	public void editSubcategories(List<Subcategory> subcategories) {
-		log.warn("Unwanted behaviour, add new button shouldn't edit subcategories");
-	}
-
-	@Override
-	public void editUrls(List<Url> urls) {
-		log.warn("Unwanted behaviour, add new button shouldn't edit urls");
-	}
+	
+	@Override public void editCategories(List<Category> categories) { log.warn("Wrong reference, this button cannot edit categories."); }
+	@Override public void editSubcategories(List<Subcategory> subcategories) { log.warn("Wrong reference, this button cannot edit subcategories"); }
+	@Override public void deleteCategories(List<Category> categories) { log.warn("Wrong reference, this button cannot delete categories"); }
+	@Override public void deleteSubcategories(List<Subcategory> subcategories) { log.warn("Wrong reference, this button cannot delete subcategories"); }
+	@Override public void editUrls(List<Url> urls) { log.warn("Wrong reference, this button cannot edit urls"); }
+	@Override public void deleteUrls(List<Url> urls) { log.warn("Wrong reference, this button cannot delete urls"); }
 }

@@ -21,57 +21,44 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 	private static final String queryPath = "resources/sql/Subcategory.json";
 	
 	private DAOFactory database = null;
-	private String CREATE_TABLE = null;
-	private String INSERT = null;
-	private String GET = null;
-	private String GET_ALL = null;
-	private String GET_MAINCAT = null;
-	private String UPDATE = null;
-	private String DELETE = null;
+	
+	private static int lastDatabaseType = 0;
+	private static String CREATE_TABLE = null;
+	private static String INSERT = null;
+	private static String GET = null;
+	private static String GET_ALL = null;
+	private static String GET_MAINCAT = null;
+	private static String UPDATE = null;
+	private static String DELETE = null;
 	
 	public SubcategoryDAO(int databaseType) {
 		database = DAOFactory.get(databaseType);
 		log.debug("Create SubcategoryDAO with database: {}", database.getName());
 		
-		try {
-			JSONObject obj = JsonLoader.getJson(queryPath, database.getName());
-			
-			CREATE_TABLE = JsonLoader.joinStringArray(obj.getJSONArray("CREATE_TABLE"));
-			INSERT = obj.getString("INSERT");
-			GET = obj.getString("GET");
-			GET_ALL = obj.getString("GET_ALL");
-			GET_MAINCAT = obj.getString("GET_MAINCAT");
-			UPDATE = obj.getString("UPDATE");
-			DELETE = obj.getString("DELETE");
-			
-			log.debug("CREATE_TABLE: {}", CREATE_TABLE);
-			log.debug("INSERT: {}", INSERT);
-			log.debug("GET: {}", GET);
-			log.debug("GET_ALL: {}", GET_ALL);
-			log.debug("GET_MAINCAT: {}", GET_MAINCAT);
-			log.debug("UPDATE: {}", UPDATE);
-			log.debug("DELETE: {}", DELETE);
-		}
-		catch(Exception ex) {
-			log.error("Load JSON file failed", ex);
+		if(CREATE_TABLE == null || databaseType != lastDatabaseType) {
+			lastDatabaseType = databaseType;
+			loadSql();
 		}
 	}
 	
 	@Override
-	public void createTable() {
+	public boolean createTable() {
 		log.debug("Create table");
 		
 		Connection connection = null;
 		Statement statement = null;
+		boolean result = false;
 		
 		try {
 			connection = database.getConnection();
 			statement = connection.createStatement();
 			
 			statement.execute(CREATE_TABLE);
+			result = true;
 		}
 		catch(Exception ex) {
 			log.error("Create new table failed", ex);
+			result = false;
 		}
 		finally {
 			try {
@@ -82,6 +69,8 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 				log.error("Close connection failed", ex);
 			}
 		}
+		
+		return result;
 	}
 	
 	@Override
@@ -121,6 +110,15 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 		}
 		
+		if(resultBuffer == INSERT_FAIL) {
+			log.debug("Try to create table and insert again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				resultBuffer = insert(subcategory);
+			}
+		}
+		
 		return resultBuffer;
 	}
 	
@@ -149,7 +147,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 				subcategory = new Subcategory(foundID, foundName);
 				
 				if(foundParentID != 0) {
-					ICategoryDAO mainCategory = database.getMainCategory();
+					ICategoryDAO mainCategory = database.getCategory();
 					subcategory.setParent(mainCategory.get(foundParentID));
 				}
 			}
@@ -168,6 +166,15 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 		}
 		
+		if(subcategory == null) {
+			log.debug("Try to create table and get again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				subcategory = get(ID);
+			}
+		}
+		
 		return subcategory;
 	}
 	
@@ -175,7 +182,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 	public List<Subcategory> getWithCategory(Category category) {
 		log.debug("Get all categories with parent: ID={} name={}", category.getID(), category.getName());
 
-		List<Subcategory> subcategories = new ArrayList<>();
+		List<Subcategory> subcategories = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -187,6 +194,8 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			statement.setInt(1, category.getID());
 			
 			result = statement.executeQuery();
+			subcategories = new ArrayList<>();
+			
 			if(result != null) {
 				while(result.next()) {
 					int foundID = result.getInt(1);
@@ -210,6 +219,15 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 		}
 		
+		if(subcategories == null) {
+			log.debug("Try to create table and get with category again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				subcategories = getWithCategory(category);
+			}
+		}
+		
 		return subcategories;
 	}
 	
@@ -217,7 +235,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 	public List<Subcategory> getAll() {
 		log.debug("Get all categories");
 		
-		List<Subcategory> subcategories = new ArrayList<>();
+		List<Subcategory> subcategories = null;
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet result = null;
@@ -227,6 +245,8 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			statement = connection.createStatement();
 			
 			result = statement.executeQuery(GET_ALL);
+			subcategories = new ArrayList<>();
+			
 			if(result != null) {
 				while(result.next()) {
 					int foundID = result.getInt(1);
@@ -235,7 +255,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 					Subcategory subcategory = new Subcategory(foundID, foundName);
 					
 					if(foundParentID != 0) {
-						ICategoryDAO mainCategory = database.getMainCategory();
+						ICategoryDAO mainCategory = database.getCategory();
 						subcategory.setParent(mainCategory.get(foundParentID));
 					}
 					
@@ -254,6 +274,15 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 			catch(Exception ex) {
 				log.error("Close connection failed", ex);
+			}
+		}
+		
+		if(subcategories == null) {
+			log.debug("Try to create table and get all again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				subcategories = getAll();
 			}
 		}
 		
@@ -293,6 +322,15 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 		}
 		
+		if(!result) {
+			log.debug("Try to create table and update again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				result = update(subcategory);
+			}
+		}
+		
 		return result;
 	}
 	
@@ -327,6 +365,42 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 		}
 		
+		if(!result) {
+			log.debug("Try to create table and delete again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				result = delete(ID);
+			}
+		}
+		
 		return result;
+	}
+	
+	private void loadSql() {
+		log.info("Load sql queries");
+		
+		try {
+			JSONObject obj = JsonLoader.getJson(queryPath, database.getName());
+			
+			CREATE_TABLE = JsonLoader.joinStringArray(obj.getJSONArray("CREATE_TABLE"));
+			INSERT = obj.getString("INSERT");
+			GET = obj.getString("GET");
+			GET_ALL = obj.getString("GET_ALL");
+			GET_MAINCAT = obj.getString("GET_MAINCAT");
+			UPDATE = obj.getString("UPDATE");
+			DELETE = obj.getString("DELETE");
+			
+			log.debug("CREATE_TABLE: {}", CREATE_TABLE);
+			log.debug("INSERT: {}", INSERT);
+			log.debug("GET: {}", GET);
+			log.debug("GET_ALL: {}", GET_ALL);
+			log.debug("GET_MAINCAT: {}", GET_MAINCAT);
+			log.debug("UPDATE: {}", UPDATE);
+			log.debug("DELETE: {}", DELETE);
+		}
+		catch(Exception ex) {
+			log.error("Load JSON file failed", ex);
+		}
 	}
 }

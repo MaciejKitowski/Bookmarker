@@ -22,13 +22,13 @@ public final class MysqlFactory extends DAOFactory {
     private static final String USERPASSWORD = "admin1";
         
     @Override
-	public ICategoryDAO getMainCategory() {
+	public ICategoryDAO getCategory() {
     	log.trace("Get CategoryDAO");
 		return new CategoryDAO(MYSQL);
 	}
     
     @Override
-	public ISubcategoryDAO getCategory() {
+	public ISubcategoryDAO getSubcategory() {
     	log.trace("Get SubcategoryDAO");
 		return new SubcategoryDAO(MYSQL);
 	}

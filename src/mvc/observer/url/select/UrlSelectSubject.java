@@ -1,4 +1,4 @@
-package mvc.observer.url;
+package mvc.observer.url.select;
 
 import java.util.List;
 

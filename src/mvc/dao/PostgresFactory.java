@@ -22,13 +22,13 @@ public final class PostgresFactory extends DAOFactory {
     private static final String USERPASSWORD = "admin1";
         
     @Override
-	public ICategoryDAO getMainCategory() {
+	public ICategoryDAO getCategory() {
     	log.trace("Get CategoryDAO");
 		return new CategoryDAO(POSTGRES);
 	}
     
     @Override
-	public ISubcategoryDAO getCategory() {
+	public ISubcategoryDAO getSubcategory() {
     	log.trace("Get SubcategoryDAO");
 		return new SubcategoryDAO(POSTGRES);
 	}

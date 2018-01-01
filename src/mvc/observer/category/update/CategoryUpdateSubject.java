@@ -1,4 +1,4 @@
-package mvc.observer.category;
+package mvc.observer.category.update;
 
 public interface CategoryUpdateSubject {
 	public void addCategoryUpdateListener(CategoryUpdateListener listener);
