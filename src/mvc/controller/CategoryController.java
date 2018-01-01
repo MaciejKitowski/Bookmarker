@@ -14,9 +14,9 @@ import mvc.dao.model.ISubcategoryDAO;
 import mvc.dao.model.ICategoryDAO;
 import mvc.model.Subcategory;
 import mvc.model.Category;
-import mvc.observer.category.CategoryEditListener;
-import mvc.observer.category.CategoryUpdateListener;
-import mvc.observer.category.CategoryUpdateSubject;
+import mvc.observer.category.edit.CategoryEditListener;
+import mvc.observer.category.update.CategoryUpdateListener;
+import mvc.observer.category.update.CategoryUpdateSubject;
 import mvc.observer.toolbar.DatabaseChangeListener;
 
 public final class CategoryController implements CategoryUpdateSubject, DatabaseChangeListener, CategoryEditListener {

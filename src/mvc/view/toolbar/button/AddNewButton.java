@@ -18,8 +18,8 @@ import org.slf4j.LoggerFactory;
 import mvc.model.Category;
 import mvc.model.Subcategory;
 import mvc.model.Url;
-import mvc.observer.category.CategoryEditListener;
-import mvc.observer.category.CategoryEditSubject;
+import mvc.observer.category.edit.CategoryEditListener;
+import mvc.observer.category.edit.CategoryEditSubject;
 import mvc.observer.url.UrlEditListener;
 import mvc.observer.url.UrlEditSubject;
 

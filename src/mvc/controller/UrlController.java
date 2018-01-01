@@ -12,7 +12,7 @@ import mvc.dao.model.IUrlDAO;
 import mvc.model.Subcategory;
 import mvc.model.Category;
 import mvc.model.Url;
-import mvc.observer.category.CategorySelectListener;
+import mvc.observer.category.select.CategorySelectListener;
 import mvc.observer.toolbar.DatabaseChangeListener;
 import mvc.observer.url.UrlEditListener;
 import mvc.observer.url.UrlUpdateListener;

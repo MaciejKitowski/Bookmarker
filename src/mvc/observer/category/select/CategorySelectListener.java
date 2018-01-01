@@ -1,4 +1,4 @@
-package mvc.observer.category;
+package mvc.observer.category.select;
 
 import java.util.List;
 
