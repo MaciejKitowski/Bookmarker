@@ -322,6 +322,15 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 		}
 		
+		if(!result) {
+			log.debug("Try to create table and update again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				result = update(subcategory);
+			}
+		}
+		
 		return result;
 	}
 	
@@ -353,6 +362,15 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 			catch(Exception ex) {
 				log.error("Close connection failed", ex);
+			}
+		}
+		
+		if(!result) {
+			log.debug("Try to create table and delete again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				result = delete(ID);
 			}
 		}
 		
