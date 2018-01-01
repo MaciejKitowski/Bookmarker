@@ -340,6 +340,15 @@ public final class UrlDAO implements IUrlDAO {
 			}
 		}
 		
+		if(!result) {
+			log.debug("Try to create table and update again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				result = update(url);
+			}
+		}
+		
 		return result;
 	}
 
