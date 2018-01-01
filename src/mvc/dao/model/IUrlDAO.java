@@ -8,7 +8,7 @@ import mvc.model.Url;
 public interface IUrlDAO {
 	public int INSERT_FAIL = -1;
 	
-	public void createTable();
+	public boolean createTable();
 	public int insert(Url url);
 	
 	public Url get(int ID);
