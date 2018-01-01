@@ -29,5 +29,18 @@ Project use maven for dependency management. <br>
 
 ## Database
 ### SQLite
+SQLite database don't need any configuration.
+
 ### MySQL
+1. Instal MySQL server
+2. Add new database
+3. Add new user called *bookmarker*\* with password *admin1*\* and **grant him all permissions to created database**
+
+> \* - Username and password can be changed in *MysqlFactory* class
+
+#### Useful pages
+* [How To Install MySQL on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-16-04)
+* [Creating and Selecting a Database](https://dev.mysql.com/doc/refman/5.7/en/creating-database.html)
+* [How To Create a New User and Grant Permissions in MySQL](https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql)
+
 ### PostgreSQL
