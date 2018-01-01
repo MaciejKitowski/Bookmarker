@@ -112,6 +112,15 @@ public final class UrlDAO implements IUrlDAO {
 				log.error("Close connection failed", ex);
 			}
 		}
+		
+		if(resultBuffer == INSERT_FAIL) {
+			log.debug("Try to create table and insert again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				resultBuffer = insert(url);
+			}
+		}
 
 		return resultBuffer;
 	}
