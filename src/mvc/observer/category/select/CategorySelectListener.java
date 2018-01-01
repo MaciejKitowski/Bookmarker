@@ -8,5 +8,6 @@ import mvc.model.Category;
 public interface CategorySelectListener {
 	public void onSelectCategory(List<Category> categories);
 	public void onSelectSubcategory(List<Subcategory> subcategories);
+	
 	public void onUnselectAllCategories();
 }

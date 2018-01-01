@@ -9,12 +9,12 @@ public interface CategoryEditSubject {
 	public void addCategoryEditListener(CategoryEditListener listener);
 	public void removeCategoryEditListener(CategoryEditListener listener);
 	
-	public void deleteCategories(List<Category> categories);
-	public void deleteSubcategories(List<Subcategory> subcategories);
-	
 	public void addCategory(Category category);
 	public void addSubcategory(Subcategory subcategory);
 	
 	public void editCategories(List<Category> categories);
 	public void editSubcategories(List<Subcategory> subcategories);
+	
+	public void deleteCategories(List<Category> categories);
+	public void deleteSubcategories(List<Subcategory> subcategories);
 }
