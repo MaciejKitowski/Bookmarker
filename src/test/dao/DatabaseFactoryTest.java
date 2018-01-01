@@ -57,7 +57,7 @@ public class DatabaseFactoryTest {
 	public void getMainCategoryTest() {
 		log.debug("Get CategoryDAO test");
 		
-		ICategoryDAO dao = DAOFactory.get(databaseType).getMainCategory();
+		ICategoryDAO dao = DAOFactory.get(databaseType).getCategory();
 		
 		assertNotNull(dao);
 	}
@@ -66,7 +66,7 @@ public class DatabaseFactoryTest {
 	public void getCategoryTest() {
 		log.debug("Get SubcategoryDAO test");
 		
-		ISubcategoryDAO dao = DAOFactory.get(databaseType).getCategory();
+		ISubcategoryDAO dao = DAOFactory.get(databaseType).getSubcategory();
 		
 		assertNotNull(dao);
 	}

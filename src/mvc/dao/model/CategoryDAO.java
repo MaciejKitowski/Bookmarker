@@ -19,54 +19,43 @@ public final class CategoryDAO implements ICategoryDAO {
 	private static final String queryPath = "resources/sql/Category.json";
 		
 	private DAOFactory database = null;
-	private String CREATE_TABLE = null;
-	private String INSERT = null;
-	private String GET = null;
-	private String GET_ALL = null;
-	private String UPDATE = null;
-	private String DELETE = null;
+	
+	private static int lastDatabaseType = 0;
+	private static String CREATE_TABLE = null;
+	private static String INSERT = null;
+	private static String GET = null;
+	private static String GET_ALL = null;
+	private static String UPDATE = null;
+	private static String DELETE = null;
 	
 	public CategoryDAO(int databaseType) {
 		database = DAOFactory.get(databaseType);
 		log.debug("Create CategoryDAO with database: {}", database.getName());
 		
-		try {
-			JSONObject obj = JsonLoader.getJson(queryPath, database.getName());
-			
-			CREATE_TABLE = JsonLoader.joinStringArray(obj.getJSONArray("CREATE_TABLE"));
-			INSERT = obj.getString("INSERT");
-			GET = obj.getString("GET");
-			GET_ALL = obj.getString("GET_ALL");
-			UPDATE = obj.getString("UPDATE");
-			DELETE = obj.getString("DELETE");
-			
-			log.debug("CREATE_TABLE: {}", CREATE_TABLE);
-			log.debug("INSERT: {}", INSERT);
-			log.debug("GET: {}", GET);
-			log.debug("GET_ALL: {}", GET_ALL);
-			log.debug("UPDATE: {}", UPDATE);
-			log.debug("DELETE: {}", DELETE);
-		}
-		catch(Exception ex) {
-			log.error("Load JSON file failed", ex);
+		if(CREATE_TABLE == null || databaseType != lastDatabaseType) {
+			lastDatabaseType = databaseType;
+			loadSql();
 		}
 	}
-	
+
 	@Override
-	public void createTable() {
+	public boolean createTable() {
 		log.debug("Create table");
 		
 		Connection connection = null;
 		Statement statement = null;
+		boolean result = false;
 		
 		try {
 			connection = database.getConnection();
 			statement = connection.createStatement();
 			
 			statement.execute(CREATE_TABLE);
+			result = true;
 		}
 		catch(Exception ex) {
 			log.error("Create new table failed", ex);
+			result = false;
 		}
 		finally {
 			try {
@@ -77,6 +66,8 @@ public final class CategoryDAO implements ICategoryDAO {
 				log.error("Close connection failed", ex);
 			}
 		}
+		
+		return result;
 	}
 	
 	@Override
@@ -111,6 +102,15 @@ public final class CategoryDAO implements ICategoryDAO {
 			}
 			catch(Exception ex) {
 				log.error("Close connection failed", ex);
+			}
+		}
+		
+		if(resultBuffer == INSERT_FAIL) {
+			log.debug("Try to create table and insert again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				resultBuffer = insert(category);
 			}
 		}
 
@@ -154,6 +154,15 @@ public final class CategoryDAO implements ICategoryDAO {
 				log.error("Close connection failed", ex);
 			}
 		}
+		
+		if(category == null) {
+			log.debug("Try to create table and get again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				category = get(ID);
+			}
+		}
 
 		return category;
 	}
@@ -162,7 +171,7 @@ public final class CategoryDAO implements ICategoryDAO {
 	public List<Category> getAll() {
 		log.debug("Get all categories");
 		
-		List<Category> categories = new ArrayList<>();
+		List<Category> categories = null;
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet result = null;
@@ -172,6 +181,8 @@ public final class CategoryDAO implements ICategoryDAO {
 			statement = connection.createStatement();
 			
 			result = statement.executeQuery(GET_ALL);
+			categories = new ArrayList<>();
+			
 			if(result != null) {
 				while(result.next()) {
 					int foundID = result.getInt(1);
@@ -192,6 +203,15 @@ public final class CategoryDAO implements ICategoryDAO {
 			}
 			catch(Exception ex) {
 				log.error("Close connection failed", ex);
+			}
+		}
+		
+		if(categories == null) {
+			log.debug("Try to create table and get all again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				categories = getAll();
 			}
 		}
 		
@@ -230,6 +250,15 @@ public final class CategoryDAO implements ICategoryDAO {
 			}
 		}
 		
+		if(!result) {
+			log.debug("Try to create table and update again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				result = update(category);
+			}
+		}
+		
 		return result;
 	}
 	
@@ -264,6 +293,40 @@ public final class CategoryDAO implements ICategoryDAO {
 			}
 		}
 		
+		if(!result) {
+			log.debug("Try to create table and delete again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				result = delete(ID);
+			}
+		}
+		
 		return result;
+	}
+	
+	private void loadSql() {
+		log.info("Load sql queries");
+		
+		try {
+			JSONObject obj = JsonLoader.getJson(queryPath, database.getName());
+			
+			CREATE_TABLE = JsonLoader.joinStringArray(obj.getJSONArray("CREATE_TABLE"));
+			INSERT = obj.getString("INSERT");
+			GET = obj.getString("GET");
+			GET_ALL = obj.getString("GET_ALL");
+			UPDATE = obj.getString("UPDATE");
+			DELETE = obj.getString("DELETE");
+			
+			log.debug("CREATE_TABLE: {}", CREATE_TABLE);
+			log.debug("INSERT: {}", INSERT);
+			log.debug("GET: {}", GET);
+			log.debug("GET_ALL: {}", GET_ALL);
+			log.debug("UPDATE: {}", UPDATE);
+			log.debug("DELETE: {}", DELETE);
+		}
+		catch(Exception ex) {
+			log.error("Load JSON file failed", ex);
+		}
 	}
 }

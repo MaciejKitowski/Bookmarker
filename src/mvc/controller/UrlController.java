@@ -37,7 +37,7 @@ public final class UrlController implements CategorySelectListener, UrlUpdateSub
 		log.debug("Initialize dao");
 		
 		urlDao = DAOFactory.get().getUrl();
-		catDao = DAOFactory.get().getCategory();
+		catDao = DAOFactory.get().getSubcategory();
 	}
 
 	@Override

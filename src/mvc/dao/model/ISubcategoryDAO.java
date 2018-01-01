@@ -8,7 +8,7 @@ import mvc.model.Category;
 public interface ISubcategoryDAO {
 	public int INSERT_FAIL = -1;
 	
-	public void createTable();
+	public boolean createTable();
 	public int insert(Subcategory subcategory);
 	
 	public Subcategory get(int ID);

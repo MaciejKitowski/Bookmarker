@@ -54,7 +54,7 @@ final class UrlPanel extends JPanel {
 		
 		setLayout(new GridLayout(0, 1));
 		
-		List<Subcategory> subcategories = DAOFactory.get().getCategory().getAll();
+		List<Subcategory> subcategories = DAOFactory.get().getSubcategory().getAll();
 		selectSubcategoryField = new JComboBox<>(subcategories.toArray(new Subcategory[subcategories.size()]));
 		
 		if(url != null) {
