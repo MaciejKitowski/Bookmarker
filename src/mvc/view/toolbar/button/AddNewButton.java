@@ -163,16 +163,6 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 	}
 
 	@Override
-	public void deleteCategories(List<Category> categories) {
-		log.warn("Unwanted behaviour, add new button shouldn't delete categories");
-	}
-
-	@Override
-	public void deleteSubcategories(List<Subcategory> subcategories) {
-		log.warn("Unwanted behaviour, add new button shouldn't delete subcategories");
-	}
-
-	@Override
 	public void addCategory(Category category) {
 		log.debug("Add new category with name: {}", category.getName());
 		for(CategoryEditListener listener : categoryEditListeners) listener.onCategoryAdd(category);
@@ -182,6 +172,26 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 	public void addSubcategory(Subcategory subcategory) {
 		log.debug("Add new subcategory with name: {}", subcategory.getName());
 		for(CategoryEditListener listener : categoryEditListeners) listener.onSubcategoryAdd(subcategory);
+	}
+	
+	@Override
+	public void editCategories(List<Category> categories) {
+		log.warn("Unwanted behaviour, add new button shouldn't edit categories");
+	}
+
+	@Override
+	public void editSubcategories(List<Subcategory> subcategories) {
+		log.warn("Unwanted behaviour, add new button shouldn't edit subcategories");
+	}
+	
+	@Override
+	public void deleteCategories(List<Category> categories) {
+		log.warn("Unwanted behaviour, add new button shouldn't delete categories");
+	}
+
+	@Override
+	public void deleteSubcategories(List<Subcategory> subcategories) {
+		log.warn("Unwanted behaviour, add new button shouldn't delete subcategories");
 	}
 
 	@Override
@@ -197,28 +207,18 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 	}
 
 	@Override
-	public void deleteUrls(List<Url> urls) {
-		log.warn("Unwanted behaviour, add new button shouldn't delete urls");
-	}
-
-	@Override
 	public void addUrl(Url url) {
 		log.debug("Add new url: title={} url={}", url.getTitle(), url.getUrl());
 		for(UrlEditListener listener : urlEditListeners) listener.onUrlAdd(url);
 	}
 
 	@Override
-	public void editCategories(List<Category> categories) {
-		log.warn("Unwanted behaviour, add new button shouldn't edit categories");
-	}
-
-	@Override
-	public void editSubcategories(List<Subcategory> subcategories) {
-		log.warn("Unwanted behaviour, add new button shouldn't edit subcategories");
-	}
-
-	@Override
 	public void editUrls(List<Url> urls) {
 		log.warn("Unwanted behaviour, add new button shouldn't edit urls");
+	}
+	
+	@Override
+	public void deleteUrls(List<Url> urls) {
+		log.warn("Unwanted behaviour, add new button shouldn't delete urls");
 	}
 }
