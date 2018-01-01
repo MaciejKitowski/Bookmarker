@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>Bookmarker</groupId>
   <artifactId>Bookmarker</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -64,4 +64,11 @@
 	    <version>1.2.3</version>
 	</dependency>
   </dependencies>
+  <name>Bookmarker</name>
+  <url>https://github.com/MaciejKitowski/Bookmarker</url>
+  <description>Univeristy project on Object-oriented Programming (part-time BSc studies of Computer Science on University of Gdansk - 2017/2018 winter semester)</description>
+  <organization>
+  	<name>Maciej Kitowski</name>
+  	<url>https://www.linkedin.com/in/maciejkitowski/</url>
+  </organization>
 </project>
