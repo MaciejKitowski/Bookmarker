@@ -1,7 +1,8 @@
 # Bookmarker
 Univeristy project on Object-oriented Programming (part-time BSc studies of Computer Science on University of Gdansk - 2017/2018 winter semester)
 
-### Configuration
+## Configuration
+### Project
 #### Resources
 Add to your project classpath reference to ***resources*** directory. <br>
 **Useful pages:**
@@ -23,3 +24,8 @@ Project use maven for dependency management. <br>
 
 > \* - *SLF4J API Module* should be before *Logback Classic Module* <br/>
 > \** - *Logback Classic Module* should be before *Logback Core Module*
+
+### Database
+#### SQLite
+#### MySQL
+#### PostgreSQL
