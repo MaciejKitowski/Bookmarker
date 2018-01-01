@@ -22,7 +22,7 @@ import mvc.observer.url.select.UrlSelectListener;
 import mvc.observer.url.select.UrlSelectSubject;
 import mvc.observer.url.update.UrlUpdateListener;
 
-public final class UrlView extends JPanel implements UrlUpdateListener, UrlSelectSubject {
+public final class UrlView extends JPanel implements UrlSelectSubject, UrlUpdateListener {
 	private static final long serialVersionUID = -4908801645938833417L;
 	private static final Logger log = LoggerFactory.getLogger(UrlView.class);
 	private static final String[] columnNames = {"ID", "Title", "Url", "Description"};
@@ -112,17 +112,6 @@ public final class UrlView extends JPanel implements UrlUpdateListener, UrlSelec
 	}
 	
 	@Override
-	public void onUrlUpdate(List<Url> urls) {
-		if(urls != null) {
-			log.debug("Update url list, received {} values", urls.size());
-			for(Url url : urls) log.debug("{} {} {} {}", url.getID(), url.getTitle(), url.getUrl(), url.getDescription());
-			
-			tableModel.setList(urls);
-		}
-		else tableModel.removeAll();
-	}
-
-	@Override
 	public void addUrlSelectListener(UrlSelectListener listener) {
 		log.debug("Add new listener");
 		urlSelectListeners.add(listener);
@@ -144,5 +133,16 @@ public final class UrlView extends JPanel implements UrlUpdateListener, UrlSelec
 	public void selectNothing() {
 		log.debug("Call listeners that all urls are unselected");
 		for(UrlSelectListener listener : urlSelectListeners) listener.onUnselectAllUrls();
+	}
+	
+	@Override
+	public void onUrlUpdate(List<Url> urls) {
+		if(urls != null) {
+			log.debug("Update url list, received {} values", urls.size());
+			for(Url url : urls) log.debug("{} {} {} {}", url.getID(), url.getTitle(), url.getUrl(), url.getDescription());
+			
+			tableModel.setList(urls);
+		}
+		else tableModel.removeAll();
 	}
 }
