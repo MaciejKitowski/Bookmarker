@@ -14,9 +14,9 @@ import mvc.dao.model.ISubcategoryDAO;
 import mvc.dao.model.ICategoryDAO;
 import mvc.model.Subcategory;
 import mvc.model.Category;
-import mvc.observer.category.CategoryEditListener;
-import mvc.observer.category.CategoryUpdateListener;
-import mvc.observer.category.CategoryUpdateSubject;
+import mvc.observer.category.edit.CategoryEditListener;
+import mvc.observer.category.update.CategoryUpdateListener;
+import mvc.observer.category.update.CategoryUpdateSubject;
 import mvc.observer.toolbar.DatabaseChangeListener;
 
 public final class CategoryController implements CategoryUpdateSubject, DatabaseChangeListener, CategoryEditListener {
@@ -85,36 +85,6 @@ public final class CategoryController implements CategoryUpdateSubject, Database
 	}
 
 	@Override
-	public void onCategoryDelete(List<Category> categories) {
-		log.debug("Delete {} categories", categories.size());
-		
-		for(Category cat : categories) {
-			log.debug("Delete category: ID={} name={}", cat.getID(), cat.getName());
-			
-			if(!mainDao.delete(cat.getID())) {
-				log.warn("Failed to delete category");
-			}
-		}
-		
-		updateCategories();
-	}
-
-	@Override
-	public void onSubcategoryDelete(List<Subcategory> subcategories) {
-		log.debug("Delete {} subcategories", subcategories.size());
-		
-		for(Subcategory cat : subcategories) {
-			log.debug("Delete category: ID={} name={}", cat.getID(), cat.getName());
-			
-			if(!catDao.delete(cat.getID())) {
-				log.warn("Failed to delete category");
-			}
-		}
-		
-		updateCategories();
-	}
-
-	@Override
 	public void onCategoryAdd(Category category) {
 		log.debug("Add new category: name={}", category.getName());
 		
@@ -154,6 +124,36 @@ public final class CategoryController implements CategoryUpdateSubject, Database
 		for(Subcategory cat : subcategories) {
 			if(!catDao.update(cat)) {
 				log.warn("Failed to edit subcategory");
+			}
+		}
+		
+		updateCategories();
+	}
+	
+	@Override
+	public void onCategoryDelete(List<Category> categories) {
+		log.debug("Delete {} categories", categories.size());
+		
+		for(Category cat : categories) {
+			log.debug("Delete category: ID={} name={}", cat.getID(), cat.getName());
+			
+			if(!mainDao.delete(cat.getID())) {
+				log.warn("Failed to delete category");
+			}
+		}
+		
+		updateCategories();
+	}
+
+	@Override
+	public void onSubcategoryDelete(List<Subcategory> subcategories) {
+		log.debug("Delete {} subcategories", subcategories.size());
+		
+		for(Subcategory cat : subcategories) {
+			log.debug("Delete category: ID={} name={}", cat.getID(), cat.getName());
+			
+			if(!catDao.delete(cat.getID())) {
+				log.warn("Failed to delete category");
 			}
 		}
 		

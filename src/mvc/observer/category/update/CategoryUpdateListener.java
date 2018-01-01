@@ -1,4 +1,4 @@
-package mvc.observer.category;
+package mvc.observer.category.update;
 
 import java.util.List;
 import java.util.Map;
