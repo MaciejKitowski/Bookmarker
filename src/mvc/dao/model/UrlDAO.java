@@ -155,7 +155,7 @@ public final class UrlDAO implements IUrlDAO {
 				
 				if(foundDescription != null) url.setDescription(foundDescription);
 				if(foundCatID != 0) {
-					ISubcategoryDAO category = database.getCategory();
+					ISubcategoryDAO category = database.getSubcategory();
 					url.setCategory(category.get(foundCatID));
 				}
 			}
@@ -250,7 +250,7 @@ public final class UrlDAO implements IUrlDAO {
 					
 					if(foundDescription != null) url.setDescription(foundDescription);
 					if(foundCatID != 0) {
-						ISubcategoryDAO category = database.getCategory();
+						ISubcategoryDAO category = database.getSubcategory();
 						url.setCategory(category.get(foundCatID));
 					}
 					

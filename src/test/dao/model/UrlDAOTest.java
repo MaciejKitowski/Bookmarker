@@ -98,7 +98,7 @@ public class UrlDAOTest {
 		log.debug("Insert test");
 		
 		int ID = 3;
-		Subcategory subcategory = DAOFactory.get(databaseType).getCategory().get(ID);
+		Subcategory subcategory = DAOFactory.get(databaseType).getSubcategory().get(ID);
 		Url url = new Url("http://test", "SingleinsertTest", "Single", subcategory);
 		
 		int result = dao.insert(url);
@@ -111,7 +111,7 @@ public class UrlDAOTest {
 		log.debug("Insert with null description value test");
 		
 		int ID = 3;
-		Subcategory subcategory = DAOFactory.get(databaseType).getCategory().get(ID);
+		Subcategory subcategory = DAOFactory.get(databaseType).getSubcategory().get(ID);
 		Url url = new Url("http://test", "SingleinsertNullDescriptionTest", subcategory);
 		
 		int result = dao.insert(url);
@@ -148,7 +148,7 @@ public class UrlDAOTest {
 		String pattern = "MultipleInsertTest_%d";
 		int insertCount = 10;
 		int ID = 4;
-		Subcategory subcategory = DAOFactory.get(databaseType).getCategory().get(ID);
+		Subcategory subcategory = DAOFactory.get(databaseType).getSubcategory().get(ID);
 		
 		for(int i = 0; i < insertCount; ++i) {
 			Url url = new Url("http://test", String.format(pattern, i + 1), "Single", subcategory);
@@ -166,7 +166,7 @@ public class UrlDAOTest {
 		String pattern = "MultipleInsertNullDescriptionTest_%d";
 		int insertCount = 10;
 		int ID = 4;
-		Subcategory subcategory = DAOFactory.get(databaseType).getCategory().get(ID);
+		Subcategory subcategory = DAOFactory.get(databaseType).getSubcategory().get(ID);
 		
 		for(int i = 0; i < insertCount; ++i) {
 			Url url = new Url("http://test", String.format(pattern, i + 1), subcategory);
@@ -225,7 +225,7 @@ public class UrlDAOTest {
 		log.debug("Get with subcategory test");
 		
 		int ID = 4;
-		Subcategory subcategory = DAOFactory.get(databaseType).getCategory().get(ID);
+		Subcategory subcategory = DAOFactory.get(databaseType).getSubcategory().get(ID);
 		
 		List<Url> result = dao.getAllWithSubcategory(subcategory);
 		

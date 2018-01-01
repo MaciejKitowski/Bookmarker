@@ -101,7 +101,7 @@ public class SubcategoryDAOTest {
 		log.debug("Insert test");
 		
 		int mainCategoryID = 4;
-		Category main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
+		Category main = DAOFactory.get(databaseType).getCategory().get(mainCategoryID);
 		Subcategory subcategory = new Subcategory("SingleInsertTest", main);
 		
 		int result = dao.insert(subcategory);
@@ -127,7 +127,7 @@ public class SubcategoryDAOTest {
 		String pattern = "MultipleInsertTest_%d";
 		int insertCount = 20;
 		int mainCategoryID = 4;
-		Category main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
+		Category main = DAOFactory.get(databaseType).getCategory().get(mainCategoryID);
 		
 		for(int i = 0; i < insertCount; ++i) {
 			Subcategory subcategory = new Subcategory(String.format(pattern, i + 1), main);
@@ -170,7 +170,7 @@ public class SubcategoryDAOTest {
 		log.debug("Get with parent test");
 		
 		int mainCategoryID = 4;
-		Category main = DAOFactory.get(databaseType).getMainCategory().get(mainCategoryID);
+		Category main = DAOFactory.get(databaseType).getCategory().get(mainCategoryID);
 		
 		List<Subcategory> result = dao.getWithCategory(main);
 		

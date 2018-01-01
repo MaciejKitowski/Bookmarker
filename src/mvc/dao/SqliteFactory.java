@@ -20,13 +20,13 @@ public final class SqliteFactory extends DAOFactory {
     private static final String URL = "jdbc:sqlite:sqlite.db";
         
     @Override
-	public ICategoryDAO getMainCategory() {
+	public ICategoryDAO getCategory() {
     	log.trace("Get CategoryDAO");
 		return new CategoryDAO(SQLITE);
 	}
     
     @Override
-	public ISubcategoryDAO getCategory() {
+	public ISubcategoryDAO getSubcategory() {
     	log.trace("Get SubcategoryDAO");
 		return new SubcategoryDAO(SQLITE);
 	}

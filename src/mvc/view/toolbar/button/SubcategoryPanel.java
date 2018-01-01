@@ -48,7 +48,7 @@ final class SubcategoryPanel extends JPanel {
 		
 		setLayout(new GridLayout(0, 1));
 		
-		List<Category> categories = DAOFactory.get().getMainCategory().getAll();
+		List<Category> categories = DAOFactory.get().getCategory().getAll();
 		selectCategoryField = new JComboBox<>(categories.toArray(new Category[categories.size()]));
 		
 		if(subcategory != null) {

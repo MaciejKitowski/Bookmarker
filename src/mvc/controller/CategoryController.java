@@ -35,8 +35,8 @@ public final class CategoryController implements CategoryUpdateSubject, Database
 	private void initializeDAO() {
 		log.debug("Initialize dao");
 		
-		mainDao = DAOFactory.get().getMainCategory();
-		catDao = DAOFactory.get().getCategory();
+		mainDao = DAOFactory.get().getCategory();
+		catDao = DAOFactory.get().getSubcategory();
 	}
 			
 	private Map<Category, List<Subcategory>> getCategories() {
