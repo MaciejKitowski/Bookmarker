@@ -181,12 +181,13 @@ public final class CategoryDAO implements ICategoryDAO {
 			statement = connection.createStatement();
 			
 			result = statement.executeQuery(GET_ALL);
+			categories = new ArrayList<>();
+			
 			if(result != null) {
 				while(result.next()) {
 					int foundID = result.getInt(1);
 					String foundName = result.getString(2);
 					
-					categories = new ArrayList<>();
 					categories.add(new Category(foundID, foundName));
 				}
 			}

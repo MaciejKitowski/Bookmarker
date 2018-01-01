@@ -166,6 +166,15 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 		}
 		
+		if(subcategory == null) {
+			log.debug("Try to create table and get again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				subcategory = get(ID);
+			}
+		}
+		
 		return subcategory;
 	}
 	
@@ -173,7 +182,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 	public List<Subcategory> getWithCategory(Category category) {
 		log.debug("Get all categories with parent: ID={} name={}", category.getID(), category.getName());
 
-		List<Subcategory> subcategories = new ArrayList<>();
+		List<Subcategory> subcategories = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -185,6 +194,8 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			statement.setInt(1, category.getID());
 			
 			result = statement.executeQuery();
+			subcategories = new ArrayList<>();
+			
 			if(result != null) {
 				while(result.next()) {
 					int foundID = result.getInt(1);
@@ -208,6 +219,15 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 		}
 		
+		if(subcategories == null) {
+			log.debug("Try to create table and get with category again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				subcategories = getWithCategory(category);
+			}
+		}
+		
 		return subcategories;
 	}
 	
@@ -215,7 +235,7 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 	public List<Subcategory> getAll() {
 		log.debug("Get all categories");
 		
-		List<Subcategory> subcategories = new ArrayList<>();
+		List<Subcategory> subcategories = null;
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet result = null;
@@ -225,6 +245,8 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			statement = connection.createStatement();
 			
 			result = statement.executeQuery(GET_ALL);
+			subcategories = new ArrayList<>();
+			
 			if(result != null) {
 				while(result.next()) {
 					int foundID = result.getInt(1);
@@ -252,6 +274,15 @@ public final class SubcategoryDAO implements ISubcategoryDAO {
 			}
 			catch(Exception ex) {
 				log.error("Close connection failed", ex);
+			}
+		}
+		
+		if(subcategories == null) {
+			log.debug("Try to create table and get all again");
+			
+			if(createTable()) {
+				log.debug("Create dable succeed");
+				subcategories = getAll();
 			}
 		}
 		
