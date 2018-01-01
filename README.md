@@ -1,15 +1,15 @@
 # Bookmarker
 Univeristy project on Object-oriented Programming (part-time BSc studies of Computer Science on University of Gdansk - 2017/2018 winter semester)
 
-## Configuration
-### Project
-#### Resources
+# Configuration
+## Project
+### Resources
 Add to your project classpath reference to ***resources*** directory. <br>
 **Useful pages:**
 * [How do I add a directory to the eclipse classpath?](https://stackoverflow.com/a/25163361)
 * [how to add directory to classpath in an application run profile in intellij idea?](https://stackoverflow.com/a/24843914)
 
-#### Dependencies
+### Dependencies
 Project use maven for dependency management. <br>
 **Used libraries:**
 * JSON In Java *(ver. 20171018)* - [source](https://mvnrepository.com/artifact/org.json/json/20171018)
@@ -25,7 +25,7 @@ Project use maven for dependency management. <br>
 > \* - *SLF4J API Module* should be before *Logback Classic Module* <br/>
 > \** - *Logback Classic Module* should be before *Logback Core Module*
 
-### Database
-#### SQLite
-#### MySQL
-#### PostgreSQL
+## Database
+### SQLite
+### MySQL
+### PostgreSQL
