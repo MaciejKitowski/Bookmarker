@@ -35,7 +35,7 @@ public final class MainFrame extends JFrame {
 		setTitle(windowTitle);
 		setSize(defaultWidth, defaultHeight);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new BorderLayout(5, 5));
+		setLayout(new BorderLayout(0, 0));
 		
 		initializeViews();
 		initializeControllers();
