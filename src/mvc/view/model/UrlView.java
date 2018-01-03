@@ -25,7 +25,6 @@ import mvc.observer.url.update.UrlUpdateListener;
 public final class UrlView extends JPanel implements UrlSelectSubject, UrlUpdateListener {
 	private static final long serialVersionUID = -4908801645938833417L;
 	private static final Logger log = LoggerFactory.getLogger(UrlView.class);
-	private static final String[] columnNames = {"ID", "Title", "Url", "Description"};
 	private static final int rowHeight = 20;
 	
 	private List<UrlSelectListener> urlSelectListeners = new LinkedList<>();
@@ -97,11 +96,11 @@ public final class UrlView extends JPanel implements UrlSelectSubject, UrlUpdate
 	
 	private void setTableColumnsSize() {
 		log.debug("Set table columns size");
-		
-		setColumnWidth(columnNames[0], 30, 60);
-		setColumnWidth(columnNames[1], 100, 300);
-		setColumnWidth(columnNames[2], 100, 300);
-		setColumnWidth(columnNames[3], 10, 200);
+
+		setColumnWidth(tableModel.getColumnName(0), 30, 60);
+		setColumnWidth(tableModel.getColumnName(1), 100, 300);
+		setColumnWidth(tableModel.getColumnName(2), 100, 300);
+		setColumnWidth(tableModel.getColumnName(3), 10, 200);
 	}
 	
 	private void setColumnWidth(String name, int min, int prefered) {
