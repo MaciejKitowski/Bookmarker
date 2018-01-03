@@ -25,7 +25,7 @@ public final class ToolbarPanel extends JToolBar {
 	public ToolbarPanel(int width, int height) {
 		log.info("Initialize toolbar");
 		
-		setBackground(Color.CYAN);
+		//setBackground(Color.CYAN);
 		setPreferredSize(new Dimension(width, height));
 		setBorder(BorderFactory.createEmptyBorder());
 		setFloatable(false);

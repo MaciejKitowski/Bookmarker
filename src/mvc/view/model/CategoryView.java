@@ -43,7 +43,7 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 	public CategoryView(int width, int height) {
 		log.info("Initialize Category view");
 		
-		setBackground(Color.LIGHT_GRAY);
+		//setBackground(Color.LIGHT_GRAY);
 		setPreferredSize(new Dimension(width, height));
 		setBorder(new TitledBorder("Categories"));
 		
@@ -110,8 +110,8 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 		
 		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer)treeList.getCellRenderer();
 		
-		renderer.setBackgroundNonSelectionColor(Color.LIGHT_GRAY);
-		renderer.setBackgroundSelectionColor(Color.WHITE);
+		//renderer.setBackgroundNonSelectionColor(Color.LIGHT_GRAY);
+		//renderer.setBackgroundSelectionColor(Color.WHITE);
 		
 		try {
 			URL nodeClosedIcon = getClass().getResource("/icons/treelist_node_closed.png");
@@ -126,7 +126,7 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 			log.error("Failed to load icons", ex);
 		}
 						
-		treeList.setBackground(Color.LIGHT_GRAY);
+		//treeList.setBackground(Color.LIGHT_GRAY);
 	}
 	
 	private void setTreeList(Map<Category, List<Subcategory>> categories) {

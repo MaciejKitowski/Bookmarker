@@ -35,7 +35,7 @@ public final class UrlView extends JPanel implements UrlSelectSubject, UrlUpdate
 	public UrlView(int width, int height) {
 		log.info("Initialize Url view");
 		
-		setBackground(Color.GREEN);
+		//setBackground(Color.GREEN);
 		setPreferredSize(new Dimension(width, height));
 		setBorder(new TitledBorder("Urls"));
 		setLayout(new BorderLayout(5,5));
@@ -91,7 +91,7 @@ public final class UrlView extends JPanel implements UrlSelectSubject, UrlUpdate
 		table.setRowHeight(rowHeight);
 		table.setAutoCreateRowSorter(true);
 		
-		tableScroll.getViewport().setBackground(Color.GREEN);
+		//tableScroll.getViewport().setBackground(Color.GREEN);
 	}
 	
 	private void setTableColumnsSize() {
