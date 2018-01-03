@@ -17,6 +17,8 @@ public final class ToolbarPanel extends JToolBar {
 	private static final long serialVersionUID = 1071937589387532800L;
 	private static final Logger log = LoggerFactory.getLogger(ToolbarPanel.class);
 	
+	private final Color backgroundColor = new Color(220, 220, 220);
+	
 	private SelectDatabaseButton selectDb = null;
 	private DeleteButton delete = null;
 	private AddNewButton addNew = null;
@@ -25,7 +27,7 @@ public final class ToolbarPanel extends JToolBar {
 	public ToolbarPanel(int width, int height) {
 		log.info("Initialize toolbar");
 		
-		//setBackground(Color.CYAN);
+		setBackground(backgroundColor);
 		setPreferredSize(new Dimension(width, height));
 		setBorder(BorderFactory.createEmptyBorder());
 		setFloatable(false);
