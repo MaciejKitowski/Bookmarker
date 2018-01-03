@@ -88,7 +88,7 @@ public final class UrlView extends JPanel implements UrlSelectSubject, UrlUpdate
 	private void setTableStyle() {
 		log.debug("Set table style");
 		
-		table.setFont(new Font("Arial", Font.PLAIN, 26));
+		table.setFont(new Font("Arial", Font.PLAIN, rowHeight - 5));
 		table.setRowHeight(rowHeight);
 		table.setAutoCreateRowSorter(true);
 		
