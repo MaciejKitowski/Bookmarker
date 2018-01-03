@@ -25,7 +25,9 @@ import mvc.observer.url.update.UrlUpdateListener;
 public final class UrlView extends JPanel implements UrlSelectSubject, UrlUpdateListener {
 	private static final long serialVersionUID = -4908801645938833417L;
 	private static final Logger log = LoggerFactory.getLogger(UrlView.class);
-	private static final int rowHeight = 20;
+	
+	private final int rowHeight = 20;
+	private final Color backgroundColor = new Color(248, 248, 248);
 	
 	private List<UrlSelectListener> urlSelectListeners = new LinkedList<>();
 	private UrlTableModel tableModel = null;
@@ -35,7 +37,7 @@ public final class UrlView extends JPanel implements UrlSelectSubject, UrlUpdate
 	public UrlView(int width, int height) {
 		log.info("Initialize Url view");
 		
-		//setBackground(Color.GREEN);
+		setBackground(backgroundColor);
 		setPreferredSize(new Dimension(width, height));
 		setBorder(new TitledBorder("Urls"));
 		setLayout(new BorderLayout(5,5));
@@ -44,7 +46,7 @@ public final class UrlView extends JPanel implements UrlSelectSubject, UrlUpdate
 		initializeListSelectionListener();
 		setTableStyle();
 		setTableColumnsSize();
-		add(tableScroll, BorderLayout.CENTER);
+		//add(tableScroll, BorderLayout.CENTER);
 	}
 	
 	private void initializeTable() {
