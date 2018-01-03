@@ -20,8 +20,8 @@ public final class MainFrame extends JFrame {
 	private static final Logger log = LoggerFactory.getLogger(MainFrame.class);
 	
 	private final String windowTitle = "Bookmarker";
-	private final int defaultWidth = 800;
-	private final int defaultHeight = 600;
+	private final int windowWidth = 800;
+	private final int windowHeight = 600;
 	
 	private ToolbarPanel toolbarPanel = null;
 	private CategoryView categoryView = null;
@@ -30,10 +30,10 @@ public final class MainFrame extends JFrame {
 	private UrlController urlController = null;
 	
 	public MainFrame() {
-		log.info("Initialize Main Frame with title: {} and size: {}x{}", windowTitle, defaultWidth, defaultHeight);
+		log.info("Initialize Main Frame with title: {} and size: {}x{}", windowTitle, windowWidth, windowHeight);
 		
 		setTitle(windowTitle);
-		setSize(defaultWidth, defaultHeight);
+		setSize(windowWidth, windowHeight);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout(0, 0));
 		
@@ -48,8 +48,8 @@ public final class MainFrame extends JFrame {
 	private void initializeViews() {
 		log.info("Initialize views");
 		
-		categoryView = new CategoryView(150, defaultHeight);
-		urlView = new UrlView(400,  defaultHeight);
+		categoryView = new CategoryView(150, windowHeight);
+		urlView = new UrlView(400,  windowHeight);
 	}
 	
 	private void initializeControllers() {
@@ -72,7 +72,7 @@ public final class MainFrame extends JFrame {
 	private void initializeToolbar() {
 		log.info("Initialize toolbar");
 		
-		toolbarPanel = new ToolbarPanel(defaultWidth, 30);
+		toolbarPanel = new ToolbarPanel(windowWidth, 30);
 		
 		AddNewButton add = toolbarPanel.getAddNewButton();
 		add.addCategoryEditListener(categoryController);
