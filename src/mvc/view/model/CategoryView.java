@@ -33,7 +33,7 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
 	private static final boolean rootVisible = false;
-	private static final int toggleClickCount = 1;
+	private static final int toggleClickCount = 2;
 	
 	private List<CategorySelectListener> listeners = new LinkedList<>();
 	private DefaultMutableTreeNode treeRoot = null;
