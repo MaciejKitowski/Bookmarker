@@ -46,7 +46,7 @@ public final class UrlView extends JPanel implements UrlSelectSubject, UrlUpdate
 		initializeListSelectionListener();
 		setTableStyle();
 		setTableColumnsSize();
-		//add(tableScroll, BorderLayout.CENTER);
+		add(tableScroll, BorderLayout.CENTER);
 	}
 	
 	private void initializeTable() {

@@ -32,8 +32,11 @@ import mvc.observer.category.update.CategoryUpdateListener;
 public final class CategoryView extends JPanel implements CategorySelectSubject, CategoryUpdateListener {
 	private static final long serialVersionUID = 8970054597563459574L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryView.class);
-	private static final boolean rootVisible = false;
-	private static final int toggleClickCount = 2;
+	
+	private final boolean rootVisible = false;
+	private final int toggleClickCount = 2;
+	private final Color backgroundColor = new Color(248, 248, 248);
+	private final Color selectedColor = new Color(230, 230, 230);
 	
 	private List<CategorySelectListener> listeners = new LinkedList<>();
 	private DefaultMutableTreeNode treeRoot = null;
@@ -43,7 +46,7 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 	public CategoryView(int width, int height) {
 		log.info("Initialize Category view");
 		
-		//setBackground(Color.LIGHT_GRAY);
+		setBackground(backgroundColor);
 		setPreferredSize(new Dimension(width, height));
 		setBorder(new TitledBorder("Categories"));
 		
@@ -110,8 +113,8 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 		
 		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer)treeList.getCellRenderer();
 		
-		//renderer.setBackgroundNonSelectionColor(Color.LIGHT_GRAY);
-		//renderer.setBackgroundSelectionColor(Color.WHITE);
+		renderer.setBackgroundNonSelectionColor(backgroundColor);
+		renderer.setBackgroundSelectionColor(selectedColor);
 		
 		try {
 			URL nodeClosedIcon = getClass().getResource("/icons/treelist_node_closed.png");
@@ -126,7 +129,7 @@ public final class CategoryView extends JPanel implements CategorySelectSubject,
 			log.error("Failed to load icons", ex);
 		}
 						
-		//treeList.setBackground(Color.LIGHT_GRAY);
+		treeList.setBackground(backgroundColor);
 	}
 	
 	private void setTreeList(Map<Category, List<Subcategory>> categories) {
