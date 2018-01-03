@@ -23,15 +23,9 @@ public final class MainFrame extends JFrame {
 	private final int defaultWidth = 800;
 	private final int defaultHeight = 600;
 	
-	private BorderLayout layout = null;
-	private final int layoutHorizontalGap = 5;
-	private final int layoutVerticalGap = 5;
-	
 	private ToolbarPanel toolbarPanel = null;
-	
 	private CategoryView categoryView = null;
 	private CategoryController categoryController = null;
-	
 	private UrlView urlView = null;
 	private UrlController urlController = null;
 	
@@ -41,8 +35,8 @@ public final class MainFrame extends JFrame {
 		setTitle(windowTitle);
 		setSize(defaultWidth, defaultHeight);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new BorderLayout(5, 5));
 		
-		initializeLayout();
 		initializeViews();
 		initializeControllers();
 		initializeObservers();
@@ -50,17 +44,7 @@ public final class MainFrame extends JFrame {
 		
 		addViewsToFrame();
 	}
-	
-	private void initializeLayout() {
-		log.debug("Initialize layout");
 		
-		layout = new BorderLayout();
-		layout.setHgap(layoutHorizontalGap);
-		layout.setVgap(layoutVerticalGap);
-		
-		setLayout(layout);
-	}
-	
 	private void initializeViews() {
 		log.info("Initialize views");
 		
