@@ -1,5 +1,6 @@
 package mvc.view.toolbar.button;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -31,12 +32,12 @@ final class UrlPanel extends JPanel {
 	private JLabel titleLabel = new JLabel("Title");
 	private JLabel urlLabel = new JLabel("Url");
 	private JLabel descriptionLabel = new JLabel("Description");
-	private JLabel selectSubcategoryLabel = new JLabel("Subcategory");
+	private JLabel subcategoryLabel = new JLabel("Subcategory");
 	private JTextField idField = new JTextField();
 	private JTextField titleField = new JTextField();
 	private JTextField urlField = new JTextField();
 	private JTextArea descriptionField = new JTextArea(4, 20);
-	private JComboBox<Subcategory> selectSubcategoryField = null;
+	private JComboBox<Subcategory> subcategoryField = null;
 	
 	public UrlPanel() {
 		log.info("Initialize url panel");
@@ -63,79 +64,46 @@ final class UrlPanel extends JPanel {
 		constraints.insets = new Insets(0, 0, 5, 0);
 		
 		List<Subcategory> subcategories = DAOFactory.get().getSubcategory().getAll();
-		selectSubcategoryField = new JComboBox<>(subcategories.toArray(new Subcategory[subcategories.size()]));
-		
-		if(url != null) {
-			idField.setText(String.valueOf(url.getID()));
-			titleField.setText(url.getTitle());
-			urlField.setText(url.getUrl());
-			
-			if(url.getDescription() != null) descriptionField.setText(url.getDescription());
-			
-			Subcategory current = null;
-			for(Subcategory sub : subcategories) {
-				if(url.getCategory().getID() == sub.getID()) {
-					current = sub;
-					break;
-				}
-			}
-			
-			selectSubcategoryField.setSelectedItem(current);
-		}
+		subcategoryField = new JComboBox<>(subcategories.toArray(new Subcategory[subcategories.size()]));
+		if(url != null) setFieldValues(subcategories);
 
-		if(displayID) {
-			constraints.gridx = 0;
-			constraints.gridy = 0;
-			constraints.weightx = 0.05;
-			add(idLabel, constraints);
-			
-			constraints.gridx = 1;
-			constraints.gridy = 0;
-			constraints.weightx = 0.95;
-			add(idField, constraints);
+		if(displayID) addFormItem(0, idLabel, idField);
+		addFormItem(1, titleLabel, titleField);
+		addFormItem(2, urlLabel, urlField);
+		addFormItem(3, descriptionLabel, new JScrollPane(descriptionField));
+		addFormItem(4, subcategoryLabel, subcategoryField);
+	}
+	
+	private void setFieldValues(List<Subcategory> subcategories) {
+		log.debug("Set default values");
+		
+		idField.setText(String.valueOf(url.getID()));
+		titleField.setText(url.getTitle());
+		urlField.setText(url.getUrl());
+		
+		if(url.getDescription() != null) descriptionField.setText(url.getDescription());
+		
+		Subcategory current = null;
+		for(Subcategory sub : subcategories) {
+			if(url.getCategory().getID() == sub.getID()) {
+				current = sub;
+				break;
+			}
 		}
 		
+		subcategoryField.setSelectedItem(current);
+	}
+	
+	private void addFormItem(int posY, JLabel label, Component component) {
 		constraints.gridx = 0;
-		constraints.gridy = 1;
+		constraints.gridy = posY;
 		constraints.weightx = 0.05;
-		add(titleLabel, constraints);
+		add(label, constraints);
 		
 		constraints.gridx = 1;
-		constraints.gridy = 1;
+		constraints.gridy = posY;
 		constraints.weightx = 0.95;
-		add(titleField, constraints);
-		
-		
-		constraints.gridx = 0;
-		constraints.gridy = 2;
-		constraints.weightx = 0.05;
-		add(urlLabel, constraints);
-		
-		constraints.gridx = 1;
-		constraints.gridy = 2;
-		constraints.weightx = 0.95;
-		add(urlField, constraints);
-		
-		
-		constraints.gridx = 0;
-		constraints.gridy = 3;
-		constraints.weightx = 0.05;
-		add(descriptionLabel, constraints);
-		
-		constraints.gridx = 1;
-		constraints.gridy = 3;
-		constraints.weightx = 0.95;
-		add(new JScrollPane(descriptionField), constraints);
-		
-		constraints.gridx = 0;
-		constraints.gridy = 4;
-		constraints.weightx = 0.05;
-		add(selectSubcategoryLabel, constraints);
-		
-		constraints.gridx = 1;
-		constraints.gridy = 4;
-		constraints.weightx = 0.95;
-		add(selectSubcategoryField, constraints);
+		add(component, constraints);
 	}
 	
 	public boolean isDescriptionEmpty() {
@@ -155,6 +123,6 @@ final class UrlPanel extends JPanel {
 	}
 	
 	public Subcategory getSubcategory() {
-		return (Subcategory) selectSubcategoryField.getSelectedItem();
+		return (Subcategory) subcategoryField.getSelectedItem();
 	}
 }
