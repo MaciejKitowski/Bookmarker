@@ -1,5 +1,6 @@
 package mvc.view.toolbar.button;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -26,10 +27,10 @@ final class SubcategoryPanel extends JPanel {
 	private GridBagConstraints constraints = new GridBagConstraints();
 	private JLabel idLabel = new JLabel("ID");
 	private JLabel nameLabel = new JLabel("Name");
-	private JLabel selectCategoryLabel = new JLabel("Category");
+	private JLabel categoryLabel = new JLabel("Category");
 	private JTextField idField = new JTextField();
 	private JTextField nameField = new JTextField();
-	private JComboBox<Category> selectCategoryField = null;
+	private JComboBox<Category> categoryField = null;
 
 	public SubcategoryPanel() {
 		log.info("Initialize subcategory panel");
@@ -56,54 +57,41 @@ final class SubcategoryPanel extends JPanel {
 		constraints.insets = new Insets(0, 0, 5, 0);
 		
 		List<Category> categories = DAOFactory.get().getCategory().getAll();
-		selectCategoryField = new JComboBox<>(categories.toArray(new Category[categories.size()]));
+		categoryField = new JComboBox<>(categories.toArray(new Category[categories.size()]));
+		if(subcategory != null) setFieldValues(categories);
 		
-		if(subcategory != null) {
-			idField.setText(String.valueOf(subcategory.getID()));
-			nameField.setText(subcategory.getName());
-			
-			Category current = null;
-			for(Category cat : categories) {
-				if(subcategory.getParent().getID() == cat.getID()) {
-					current = cat;
-					break;
-				}
+		if(displayID) addFormItem(0, idLabel, idField);
+		addFormItem(1, categoryLabel, categoryField);
+		addFormItem(2, nameLabel, nameField);
+	}
+	
+	private void setFieldValues(List<Category> categories) {
+		log.debug("Set default values");
+		
+		idField.setText(String.valueOf(subcategory.getID()));
+		nameField.setText(subcategory.getName());
+		
+		Category current = null;
+		for(Category cat : categories) {
+			if(subcategory.getParent().getID() == cat.getID()) {
+				current = cat;
+				break;
 			}
-			
-			selectCategoryField.setSelectedItem(current);
 		}
 		
-		if(displayID) {
-			constraints.gridx = 0;
-			constraints.gridy = 0;
-			constraints.weightx = 0.05;
-			add(idLabel, constraints);
-			
-			constraints.gridx = 1;
-			constraints.gridy = 0;
-			constraints.weightx = 0.95;
-			add(idField, constraints);
-		}
-		
+		categoryField.setSelectedItem(current);
+	}
+	
+	private void addFormItem(int posY, JLabel label, Component component) {
 		constraints.gridx = 0;
-		constraints.gridy = 1;
+		constraints.gridy = posY;
 		constraints.weightx = 0.05;
-		add(selectCategoryLabel, constraints);
+		add(label, constraints);
 		
 		constraints.gridx = 1;
-		constraints.gridy = 1;
+		constraints.gridy = posY;
 		constraints.weightx = 0.95;
-		add(selectCategoryField, constraints);
-		
-		constraints.gridx = 0;
-		constraints.gridy = 2;
-		constraints.weightx = 0.05;
-		add(nameLabel, constraints);
-		
-		constraints.gridx = 1;
-		constraints.gridy = 2;
-		constraints.weightx = 0.95;
-		add(nameField, constraints);
+		add(component, constraints);
 	}
 	
 	public String getName() {
@@ -111,6 +99,6 @@ final class SubcategoryPanel extends JPanel {
 	}
 	
 	public Category getCategory() {
-		return (Category) selectCategoryField.getSelectedItem();
+		return (Category) categoryField.getSelectedItem();
 	}
 }
