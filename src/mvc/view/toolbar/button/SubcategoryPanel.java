@@ -1,6 +1,8 @@
 package mvc.view.toolbar.button;
 
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -21,9 +23,10 @@ final class SubcategoryPanel extends JPanel {
 	
 	private boolean displayID = false;
 	private Subcategory subcategory = null;
+	private GridBagConstraints constraints = new GridBagConstraints();
 	private JLabel idLabel = new JLabel("ID");
 	private JLabel nameLabel = new JLabel("Name");
-	private JLabel selectCategoryLabel = new JLabel("Select category");
+	private JLabel selectCategoryLabel = new JLabel("Category");
 	private JTextField idField = new JTextField();
 	private JTextField nameField = new JTextField();
 	private JComboBox<Category> selectCategoryField = null;
@@ -32,6 +35,7 @@ final class SubcategoryPanel extends JPanel {
 		log.info("Initialize subcategory panel");
 		
 		displayID = false;
+		idField.setEnabled(false);
 		initializePanel();
 	}
 	
@@ -39,6 +43,7 @@ final class SubcategoryPanel extends JPanel {
 		log.info("Initialize subcategory panel with values");
 		
 		displayID = true;
+		idField.setEnabled(false);
 		this.subcategory = subcategory;
 		initializePanel();
 	}
@@ -46,7 +51,9 @@ final class SubcategoryPanel extends JPanel {
 	private void initializePanel() {
 		log.debug("Initialize panel");
 		
-		setLayout(new GridLayout(0, 1));
+		setLayout(new GridBagLayout());
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.insets = new Insets(0, 0, 5, 0);
 		
 		List<Category> categories = DAOFactory.get().getCategory().getAll();
 		selectCategoryField = new JComboBox<>(categories.toArray(new Category[categories.size()]));
@@ -67,15 +74,36 @@ final class SubcategoryPanel extends JPanel {
 		}
 		
 		if(displayID) {
-			idField.setEnabled(false);
-			add(idLabel);
-			add(idField);
+			constraints.gridx = 0;
+			constraints.gridy = 0;
+			constraints.weightx = 0.05;
+			add(idLabel, constraints);
+			
+			constraints.gridx = 1;
+			constraints.gridy = 0;
+			constraints.weightx = 0.95;
+			add(idField, constraints);
 		}
 		
-		add(selectCategoryLabel);
-		add(selectCategoryField);
-		add(nameLabel);
-		add(nameField);
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.weightx = 0.05;
+		add(selectCategoryLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+		constraints.weightx = 0.95;
+		add(selectCategoryField, constraints);
+		
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.weightx = 0.05;
+		add(nameLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 2;
+		constraints.weightx = 0.95;
+		add(nameField, constraints);
 	}
 	
 	public String getName() {

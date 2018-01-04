@@ -1,6 +1,8 @@
 package mvc.view.toolbar.button;
 
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,6 +19,7 @@ final class CategoryPanel extends JPanel {
 	
 	private boolean displayID = false;
 	private Category category = null;
+	private GridBagConstraints constraints = new GridBagConstraints();
 	private JLabel idLabel = new JLabel("ID");
 	private JLabel nameLabel = new JLabel("Name");
 	private JTextField idField = new JTextField();
@@ -26,6 +29,7 @@ final class CategoryPanel extends JPanel {
 		log.info("Initialize category panel");
 		
 		displayID = false;
+		idField.setEnabled(false);
 		initializePanel();
 	}
 	
@@ -34,13 +38,16 @@ final class CategoryPanel extends JPanel {
 		
 		displayID = true;
 		this.category = category;
+		idField.setEnabled(false);
 		initializePanel();
 	}
 	
 	private void initializePanel() {
 		log.debug("Initialize panel");
 		
-		setLayout(new GridLayout(0, 1));
+		setLayout(new GridBagLayout());
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.insets = new Insets(0, 0, 5, 0);
 		
 		if(category != null) {
 			idField.setText(String.valueOf(category.getID()));
@@ -48,13 +55,26 @@ final class CategoryPanel extends JPanel {
 		}
 		
 		if(displayID) {
-			idField.setEnabled(false);
-			add(idLabel);
-			add(idField);
+			constraints.gridx = 0;
+			constraints.gridy = 0;
+			constraints.weightx = 0.05;
+			add(idLabel, constraints);
+			
+			constraints.gridx = 1;
+			constraints.gridy = 0;
+			constraints.weightx = 0.95;
+			add(idField, constraints);
 		}
 		
-		add(nameLabel);
-		add(nameField);
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.weightx = 0.05;
+		add(nameLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+		constraints.weightx = 0.95;
+		add(nameField, constraints);
 	}
 	
 	public String getName() {
