@@ -1,5 +1,6 @@
 package mvc.view.toolbar.button;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -54,27 +55,20 @@ final class CategoryPanel extends JPanel {
 			nameField.setText(category.getName());
 		}
 		
-		if(displayID) {
-			constraints.gridx = 0;
-			constraints.gridy = 0;
-			constraints.weightx = 0.05;
-			add(idLabel, constraints);
-			
-			constraints.gridx = 1;
-			constraints.gridy = 0;
-			constraints.weightx = 0.95;
-			add(idField, constraints);
-		}
-		
+		if(displayID) addFormItem(0, idLabel, idField);
+		addFormItem(1, nameLabel, nameField);
+	}
+	
+	private void addFormItem(int posY, JLabel label, Component component) {
 		constraints.gridx = 0;
-		constraints.gridy = 1;
+		constraints.gridy = posY;
 		constraints.weightx = 0.05;
-		add(nameLabel, constraints);
+		add(label, constraints);
 		
 		constraints.gridx = 1;
-		constraints.gridy = 1;
+		constraints.gridy = posY;
 		constraints.weightx = 0.95;
-		add(nameField, constraints);
+		add(component, constraints);
 	}
 	
 	public String getName() {
