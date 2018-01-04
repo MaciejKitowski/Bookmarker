@@ -22,6 +22,9 @@ import mvc.observer.category.edit.CategoryEditListener;
 import mvc.observer.category.edit.CategoryEditSubject;
 import mvc.observer.url.edit.UrlEditListener;
 import mvc.observer.url.edit.UrlEditSubject;
+import mvc.view.toolbar.panel.CategoryPanel;
+import mvc.view.toolbar.panel.SubcategoryPanel;
+import mvc.view.toolbar.panel.UrlPanel;
 
 public final class AddNewButton extends JButton implements ActionListener, CategoryEditSubject, UrlEditSubject {
 	private static final long serialVersionUID = 3821107696744652502L;

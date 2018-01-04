@@ -1,4 +1,4 @@
-package mvc.view.toolbar.button;
+package mvc.view.toolbar.panel;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import mvc.model.Category;
 
-final class CategoryPanel extends JPanel {
+public final class CategoryPanel extends JPanel {
 	private static final long serialVersionUID = -4079172705587516541L;
 	private static final Logger log = LoggerFactory.getLogger(CategoryPanel.class);
 	

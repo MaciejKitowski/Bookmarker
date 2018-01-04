@@ -1,4 +1,4 @@
-package mvc.view.toolbar.button;
+package mvc.view.toolbar.panel;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -18,7 +18,7 @@ import mvc.dao.DAOFactory;
 import mvc.model.Category;
 import mvc.model.Subcategory;
 
-final class SubcategoryPanel extends JPanel {
+public final class SubcategoryPanel extends JPanel {
 	private static final long serialVersionUID = 1294392808012937642L;
 	private static final Logger log = LoggerFactory.getLogger(SubcategoryPanel.class);
 	

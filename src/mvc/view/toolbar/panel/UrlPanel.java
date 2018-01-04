@@ -1,4 +1,4 @@
-package mvc.view.toolbar.button;
+package mvc.view.toolbar.panel;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -21,7 +21,7 @@ import mvc.model.Subcategory;
 import mvc.model.Url;
 
 //TODO Group subcategories using unselectable categories
-final class UrlPanel extends JPanel {
+public final class UrlPanel extends JPanel {
 	private static final long serialVersionUID = -7033793384872165623L;
 	private static final Logger log = LoggerFactory.getLogger(UrlPanel.class);
 	
