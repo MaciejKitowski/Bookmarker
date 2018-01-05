@@ -106,6 +106,13 @@ public final class UrlPanel extends JPanel {
 		add(component, constraints);
 	}
 	
+	public boolean isTitleOrUrlEmpty() {
+		String title = titleField.getText();
+		String url = urlField.getText();
+		
+		return title == null || url == null || title.trim().isEmpty() || url.trim().isEmpty();
+	}
+	
 	public boolean isDescriptionEmpty() {
 		return descriptionField.getText() == null || descriptionField.getText().trim().isEmpty();
 	}

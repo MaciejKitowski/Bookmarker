@@ -71,6 +71,10 @@ public final class CategoryPanel extends JPanel {
 		add(component, constraints);
 	}
 	
+	public boolean isNameEmpty() {
+		return nameField.getText() == null || nameField.getText().trim().isEmpty();
+	}
+	
 	public String getName() {
 		return nameField.getText();
 	}
