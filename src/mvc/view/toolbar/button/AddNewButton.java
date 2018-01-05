@@ -127,8 +127,13 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 		int result = JOptionPane.showConfirmDialog(this, panel, "Add new subcategory", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
 		if(result == JOptionPane.OK_OPTION) {
-			log.debug("Add new subcategory with name: {}", panel.getName());
-			addSubcategory(new Subcategory(panel.getName(), panel.getCategory()));
+			if(!panel.isNameEmpty()) {
+				log.debug("Add new subcategory with name: {}", panel.getName());
+				addSubcategory(new Subcategory(panel.getName(), panel.getCategory()));
+			}
+			else {
+				log.warn("Add new subcategory aborted, empty name value");
+			}			
 		}
 		else {
 			log.debug("Add new subcategory canceled");
