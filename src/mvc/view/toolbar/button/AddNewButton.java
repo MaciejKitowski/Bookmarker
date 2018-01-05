@@ -147,10 +147,15 @@ public final class AddNewButton extends JButton implements ActionListener, Categ
 		int result = JOptionPane.showConfirmDialog(this, panel, "Add new url", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
 		if(result == JOptionPane.OK_OPTION) {
-			log.debug("Add new url: title={} url={} subcategory: name={}", panel.getUrl(), panel.getSubcategory().getName());
-			
-			if(!panel.isDescriptionEmpty()) addUrl(new Url(panel.getUrl(), panel.getTitle(), panel.getDescription(), panel.getSubcategory())); 
-			else addUrl(new Url(panel.getUrl(), panel.getTitle(), panel.getSubcategory()));
+			if(!panel.isTitleOrUrlEmpty()) {
+				log.debug("Add new url: title={} url={} subcategory: name={}", panel.getUrl(), panel.getSubcategory().getName());
+				
+				if(!panel.isDescriptionEmpty()) addUrl(new Url(panel.getUrl(), panel.getTitle(), panel.getDescription(), panel.getSubcategory())); 
+				else addUrl(new Url(panel.getUrl(), panel.getTitle(), panel.getSubcategory()));
+			}
+			else {
+				log.warn("Add new url aborted, empty title/url value");
+			}
 		}
 		else {
 			log.debug("Add new url canceled");
