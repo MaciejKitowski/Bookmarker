@@ -55,3 +55,15 @@ SQLite database don't need any configuration.
 * [PostgreSQL - CREATE Database](https://www.tutorialspoint.com/postgresql/postgresql_create_database.htm)
 * [Create a user with the command line](https://www.ntchosting.com/encyclopedia/databases/postgresql/create-user/#Create_a_user_with_the_command_line)
 * [Add privileges to a user](https://www.ntchosting.com/encyclopedia/databases/postgresql/create-user/#Add_privileges_to_a_user)
+
+# Screenshots
+<div align="center">
+        <img width="30%" src="screenshots/1.png" alt="List screen"</img>
+        <img width="30%" src="screenshots/2.png" alt="List screen"></img> 
+        <img width="30%" src="screenshots/3.png" alt="List screen"></img>
+        <img width="30%" src="screenshots/4.png" alt="List screen"></img>
+        <img width="30%" src="screenshots/5.png" alt="List screen"></img>
+        <img width="30%" src="screenshots/6.png" alt="List screen"></img>
+        <img width="30%" src="screenshots/7.png" alt="List screen"></img>
+        <img width="30%" src="screenshots/8.png" alt="List screen"></img>
+</div>
