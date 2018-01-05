@@ -103,8 +103,12 @@ public final class EditButton extends JButton implements ActionListener, Categor
 			int result = JOptionPane.showConfirmDialog(this, panel, "Edit category", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			
 			if(result == JOptionPane.OK_OPTION) {
-				if(!panel.isNameEmpty()) category.setName(panel.getName());
-				else log.warn("Edit category aborted, empty name value");
+				if(!panel.isNameEmpty()) {
+					category.setName(panel.getName());
+				}
+				else {
+					log.warn("Edit category aborted, empty name value");
+				}
 			}
 			else {
 				log.debug("Edit category canceled");
@@ -125,10 +129,13 @@ public final class EditButton extends JButton implements ActionListener, Categor
 			int result = JOptionPane.showConfirmDialog(this, panel, "Edit subcategory", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			
 			if(result == JOptionPane.OK_OPTION) {
-				log.debug("Edit subcategories");
-				
-				subcategory.setName(panel.getName());
-				subcategory.setParent(panel.getCategory());
+				if(!panel.isNameEmpty()) {
+					subcategory.setName(panel.getName());
+					subcategory.setParent(panel.getCategory());
+				}
+				else {
+					log.warn("Edit subcategory aborted, empty name value");
+				}
 			}
 			else {
 				log.debug("Edit subcategory canceled");
