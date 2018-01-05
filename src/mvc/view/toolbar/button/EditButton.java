@@ -168,7 +168,7 @@ public final class EditButton extends JButton implements ActionListener, Categor
 			int result = JOptionPane.showConfirmDialog(this, panel, "Edit url", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			
 			if(result == JOptionPane.OK_OPTION) {
-				if(panel.isTitleOrUrlEmpty()) {
+				if(!panel.isTitleOrUrlEmpty()) {
 					url.setTitle(panel.getTitle());
 					url.setUrl(panel.getUrl());
 					
